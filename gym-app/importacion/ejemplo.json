@@ -1,85 +1,177 @@
 {
   "formato": "evasof-plan",
-  "version": 1,
+  "version": 2,
   "rutina": {
-    "nombre": "Fase 2 - Hipertrofia",
+    "nombre": "Rutina noviembre",
     "fecha_inicio": null,
     "notas_generales": null,
     "dias": [
       {
         "id": "D1",
-        "nombre": "Día 1 - Tren inferior",
+        "nombre": "Día 1 - Espalda y bíceps",
         "dia_semana": null,
-        "tipo_dia_dieta": "TD1",
+        "tipo_dia_dieta": null,
         "ejercicios": [
           {
             "orden": 1,
-            "nombre": "Sentadilla libre",
+            "nombre": "Jalón en supinación",
+            "alternativas": [],
             "grupos_musculares": [
-              "cuadriceps",
-              "gluteo"
+              "espalda",
+              "biceps"
             ],
-            "series": 4,
-            "series_calentamiento": 2,
-            "tipo_reps": "reps",
-            "reps_min": 6,
-            "reps_max": 8,
-            "series_detalle": null,
-            "rir": 2,
-            "rpe": null,
-            "tempo": "3-1-1-0",
-            "descanso_seg": 150,
-            "peso_indicado": null,
+            "bloques": [
+              {
+                "series": 2,
+                "tipo": "normal",
+                "reps_min": 15,
+                "reps_max": 15,
+                "secuencia": null,
+                "descanso_intra_seg": null,
+                "rir": null,
+                "peso_indicado": null,
+                "notas": null
+              },
+              {
+                "series": 2,
+                "tipo": "normal",
+                "reps_min": 10,
+                "reps_max": 10,
+                "secuencia": null,
+                "descanso_intra_seg": null,
+                "rir": null,
+                "peso_indicado": null,
+                "notas": null
+              },
+              {
+                "series": 3,
+                "tipo": "rm",
+                "reps_min": 8,
+                "reps_max": 8,
+                "secuencia": null,
+                "descanso_intra_seg": null,
+                "rir": null,
+                "peso_indicado": null,
+                "notas": null
+              }
+            ],
+            "tempo": null,
+            "descanso_seg": 90,
             "unidad": null,
             "grupo": null,
-            "tecnica": null,
-            "notas": "Pausa de 1 s abajo"
+            "notas": null
           },
           {
             "orden": 2,
-            "nombre": "Prensa 45°",
+            "nombre": "Jalón en V",
+            "alternativas": [],
             "grupos_musculares": [
-              "cuadriceps"
+              "espalda"
             ],
-            "series": 3,
-            "series_calentamiento": null,
-            "tipo_reps": "reps",
-            "reps_min": null,
-            "reps_max": null,
-            "series_detalle": [
+            "bloques": [
               {
-                "serie": 1,
+                "series": 2,
+                "tipo": "normal",
                 "reps_min": 12,
                 "reps_max": 12,
+                "secuencia": null,
+                "descanso_intra_seg": null,
                 "rir": null,
                 "peso_indicado": null,
                 "notas": null
-              },
-              {
-                "serie": 2,
-                "reps_min": 10,
-                "reps_max": 10,
-                "rir": null,
-                "peso_indicado": null,
-                "notas": null
-              },
-              {
-                "serie": 3,
-                "reps_min": 8,
-                "reps_max": 8,
-                "rir": 0,
-                "peso_indicado": null,
-                "notas": "Drop set al final"
               }
             ],
-            "rir": null,
-            "rpe": null,
             "tempo": null,
-            "descanso_seg": 90,
-            "peso_indicado": null,
+            "descanso_seg": null,
+            "unidad": null,
+            "grupo": "A",
+            "notas": "Biserie con pullover"
+          },
+          {
+            "orden": 3,
+            "nombre": "Pullover",
+            "alternativas": [],
+            "grupos_musculares": [
+              "espalda"
+            ],
+            "bloques": [
+              {
+                "series": 2,
+                "tipo": "dropset",
+                "reps_min": null,
+                "reps_max": null,
+                "secuencia": [
+                  10,
+                  12,
+                  15
+                ],
+                "descanso_intra_seg": null,
+                "rir": null,
+                "peso_indicado": null,
+                "notas": null
+              }
+            ],
+            "tempo": null,
+            "descanso_seg": null,
+            "unidad": null,
+            "grupo": "A",
+            "notas": null
+          }
+        ],
+        "cardio": []
+      },
+      {
+        "id": "D2",
+        "nombre": "Día 2 - Hombro",
+        "dia_semana": null,
+        "tipo_dia_dieta": null,
+        "ejercicios": [
+          {
+            "orden": 1,
+            "nombre": "Press militar",
+            "alternativas": [
+              "Press militar en Hammer",
+              "Press militar con mancuernas"
+            ],
+            "grupos_musculares": [
+              "hombro",
+              "triceps"
+            ],
+            "bloques": [
+              {
+                "series": 2,
+                "tipo": "normal",
+                "reps_min": 15,
+                "reps_max": 15,
+                "secuencia": null,
+                "descanso_intra_seg": null,
+                "rir": null,
+                "peso_indicado": null,
+                "notas": null
+              },
+              {
+                "series": 3,
+                "tipo": "cluster",
+                "reps_min": null,
+                "reps_max": null,
+                "secuencia": [
+                  8,
+                  8,
+                  8,
+                  8,
+                  8,
+                  8
+                ],
+                "descanso_intra_seg": 10,
+                "rir": null,
+                "peso_indicado": null,
+                "notas": "Reducir 40% de la RM"
+              }
+            ],
+            "tempo": null,
+            "descanso_seg": null,
             "unidad": "lb",
             "grupo": null,
-            "tecnica": "dropset",
             "notas": null
           }
         ],
@@ -101,21 +193,16 @@
     ]
   },
   "dieta": {
-    "nombre": "Dieta fase 2",
+    "nombre": "Dieta noviembre",
     "fecha_inicio": null,
     "agua_litros": 3,
     "notas_generales": null,
     "tipos_dia": [
       {
         "id": "TD1",
-        "nombre": "Tren inferior",
+        "nombre": "Todos los días",
         "es_descanso": false,
-        "macros_objetivo": {
-          "kcal": 2400,
-          "proteina_g": 180,
-          "carbohidratos_g": 280,
-          "grasa_g": 65
-        },
+        "macros_objetivo": null,
         "comidas": [
           {
             "orden": 1,
@@ -160,6 +247,6 @@
     ]
   },
   "dudas": [
-    "Comida 4: no se lee la cantidad de arroz (¿150 o 180 g?)"
+    "Día 2, Pec fly: decía 'PECLFY', se corrigió a 'Pec fly'"
   ]
 }

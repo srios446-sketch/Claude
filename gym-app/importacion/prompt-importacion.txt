@@ -1,27 +1,49 @@
 Convierte el plan de mi coach (archivo adjunto: PDF o imagen) al formato JSON de mi app de gym. Puede traer rutina, dieta o ambas.
 
 REGLAS
-1. Responde SOLO con un bloque de código ```json. No escribas nada antes ni después.
+1. Responde SOLO con un bloque de código ```json. No escribas nada antes ni después. Si la respuesta se corta por larga, cuando te escriba "continúa" sigue exactamente donde te quedaste.
 2. No inventes datos. Si algo no aparece en el documento, usa null. Única excepción: "grupos_musculares", que sí debes deducir por el nombre del ejercicio.
-3. Si algo es ilegible, ambiguo o no cabe en el formato, anótalo en "dudas" (en español, breve) y continúa.
-4. Copia los nombres de ejercicios y alimentos como los escribe el coach (solo corrige ortografía evidente).
+3. Si algo es ilegible, ambiguo o no cabe en el formato, anótalo en "dudas" (breve, diciendo día y ejercicio) y usa tu mejor interpretación.
+4. Nombres de ejercicios y alimentos con mayúscula inicial, el resto en minúsculas y con acentos ("Jalón en supinación"). Corrige errores de dedo evidentes (PECLFY → Pec fly) y anota cada corrección en "dudas". Si el mismo ejercicio aparece en varios días, escríbelo exactamente igual en todos.
 5. Números con punto decimal (82.5) y sin unidades dentro del número. Horas en formato 24 h "HH:MM". Fechas "AAAA-MM-DD".
 6. En los campos con valores permitidos (lista de abajo) usa exactamente uno de esos valores.
 7. Si el documento solo trae rutina, "dieta" es null. Si solo trae dieta, "rutina" es null.
 8. Los ids de los días de rutina son "D1", "D2"…; los de los tipos de día de dieta son "TD1", "TD2"…
 
 CÓMO LEER LA RUTINA
-- "4x8-10" → series 4, reps_min 8, reps_max 10. "3x12" → reps_min 12, reps_max 12.
-- "Al fallo" → tipo_reps "fallo" con reps_min y reps_max null. "30 seg" o 30'' → tipo_reps "segundos", reps_min y reps_max 30. "AMRAP" → tipo_reps "amrap".
-- Si cada serie lleva reps o cargas distintas (pirámide "12-10-8-6", top set + back-off), llena "series_detalle" con una entrada por serie. Si todas son iguales, "series_detalle" es null.
-- Las series de calentamiento o aproximación van en "series_calentamiento"; no se suman a "series".
-- Superseries, biseries o triseries: pon la misma letra en "grupo" ("A", "B"…) a los ejercicios que van juntos y tecnica "superserie".
-- Otras técnicas (drop set, rest-pause, myo-reps, parciales, pausa, cluster) van en "tecnica", con la explicación en "notas".
-- Descanso en segundos: "2 min" → 120, "1:30" → 90.
-- RIR o RPE: copia el número. Si es un rango ("RIR 1-2"), usa el primer número y escribe el rango en "notas".
-- Peso: solo si el coach lo indica ("peso_indicado"), con su "unidad". Si no dice la unidad, "unidad" es null.
+Cada ejercicio se describe con "bloques". Un bloque es un grupo de series iguales, en el mismo orden en que las escribe el coach.
+- "4X8-10" → un bloque: series 4, tipo "normal", reps_min 8, reps_max 10.
+- "2X15, 2X10, 3X8RM" → tres bloques:
+  - series 2, tipo "normal", reps 15-15
+  - series 2, tipo "normal", reps 10-10
+  - series 3, tipo "rm", reps 8-8
+  (RM = series pesadas, con el máximo peso posible para esas reps).
+- "Al fallo" → tipo "fallo", con reps_min y reps_max null. "AMRAP" → tipo "amrap". "30 seg" → tipo "segundos", reps_min y reps_max 30.
+- DROP SET "2X10-12-15" → UN bloque: series 2, tipo "dropset", secuencia [10, 12, 15], reps_min y reps_max null. Son 2 series; en cada una se baja el peso sin descansar y se hacen 10, luego 12, luego 15 reps.
+- CLUSTER SET "3X8-8-8-8-8-8" → UN bloque: series 3, tipo "cluster", secuencia [8, 8, 8, 8, 8, 8]. El descanso entre mini-series (ej. 10 s) va en "descanso_intra_seg".
+  - Va dentro del MISMO ejercicio, como un bloque más, nunca como ejercicio nuevo.
+  - Indicaciones de carga como "reducir 40% de la RM" van en "notas" del bloque.
+- Rest-pause y myo-reps → tipo "rest_pause" o "myo_reps", con "secuencia" si la indican.
+- Series de calentamiento o aproximación → bloque con tipo "calentamiento".
+- Biseries, triseries o superseries: pon la misma letra en "grupo" ("A", "B"…) a cada ejercicio que va junto.
+  - "CU" significa "cada uno": cada ejercicio del grupo lleva esas series.
+  - Si una técnica (ej. un drop set) aparece después de la biserie sin decir a qué ejercicio aplica, ponla como bloque del primer ejercicio del grupo y anótalo en "dudas".
+- Variantes separadas por "/" u "o" ("PRESS MILITAR / HAMMER / MANCUERNAS") son UN solo ejercicio. La primera va en "nombre" y las demás en "alternativas", con nombre completo ("Press militar en Hammer", "Press militar con mancuernas").
+- RIR o RPE: número en el bloque. Si es un rango ("RIR 1-2"), usa el primer número y escribe el rango en "notas".
+- Descanso entre series: en "descanso_seg" del ejercicio, en segundos ("2 min" → 120, "1:30" → 90).
+- Peso: solo si el coach lo indica, en "peso_indicado" del bloque. La "unidad" del ejercicio es kg o lb; si no la dice, null.
 - El cardio va dentro del día en "cardio". "meta_tipo" depende de lo que pida el coach: tiempo (minutos), calorias (kcal) o distancia (km).
-- Si los días tienen día de la semana fijo, ponlo en "dia_semana". Si son rotativos (Día A, B, C…), usa null.
+- Si los días tienen día de la semana fijo, ponlo en "dia_semana". Si son rotativos (Día 1, Día 2…), usa null.
+
+ABREVIATURAS COMUNES
+- RM: repetición máxima
+- CU: cada uno
+- BI: biserie
+- TRI: triserie
+- SS: superserie
+- DS: drop set
+- AMRAP: máximas repeticiones posibles
+- "4X10": 4 series de 10 repeticiones
 
 CÓMO LEER LA DIETA
 - Cada variante con menú distinto (entreno o descanso, tren superior o inferior, alto o bajo en carbos, etc.) es un elemento de "tipos_dia". Si la dieta es igual todos los días, usa un solo tipo llamado "Todos los días".
@@ -32,11 +54,10 @@ CÓMO LEER LA DIETA
 - Los suplementos van en "suplementos" de la dieta. Si solo aplican ciertos días, pon sus ids en "solo_tipos_dia". Si aplican todos los días, usa null.
 
 VALORES PERMITIDOS
+- bloque.tipo: normal | rm | fallo | amrap | segundos | dropset | cluster | rest_pause | myo_reps | calentamiento
 - dia_semana: lunes | martes | miercoles | jueves | viernes | sabado | domingo | null
-- tipo_reps: reps | segundos | fallo | amrap
 - grupos_musculares: pecho | espalda | hombro | trapecio | biceps | triceps | antebrazo | abdomen | lumbar | cuadriceps | femoral | gluteo | aductores | abductores | pantorrilla | cuerpo_completo
 - unidad (peso): kg | lb | null
-- tecnica: superserie | dropset | rest_pause | myo_reps | parciales | pausa | cluster | otra | null
 - cardio.momento: antes | despues | separado | null
 - cardio.meta_tipo: tiempo | calorias | distancia
 - cardio.velocidad_unidad: km/h | mph | null
@@ -46,60 +67,84 @@ FORMATO EXACTO (los valores son solo de ejemplo, no los copies)
 ```json
 {
   "formato": "evasof-plan",
-  "version": 1,
+  "version": 2,
   "rutina": {
-    "nombre": "Fase 2 - Hipertrofia",
+    "nombre": "Rutina noviembre",
     "fecha_inicio": null,
     "notas_generales": null,
     "dias": [
       {
         "id": "D1",
-        "nombre": "Día 1 - Tren inferior",
+        "nombre": "Día 1 - Espalda y bíceps",
         "dia_semana": null,
-        "tipo_dia_dieta": "TD1",
+        "tipo_dia_dieta": null,
         "ejercicios": [
           {
             "orden": 1,
-            "nombre": "Sentadilla libre",
-            "grupos_musculares": ["cuadriceps", "gluteo"],
-            "series": 4,
-            "series_calentamiento": 2,
-            "tipo_reps": "reps",
-            "reps_min": 6,
-            "reps_max": 8,
-            "series_detalle": null,
-            "rir": 2,
-            "rpe": null,
-            "tempo": "3-1-1-0",
-            "descanso_seg": 150,
-            "peso_indicado": null,
+            "nombre": "Jalón en supinación",
+            "alternativas": [],
+            "grupos_musculares": ["espalda", "biceps"],
+            "bloques": [
+              { "series": 2, "tipo": "normal", "reps_min": 15, "reps_max": 15, "secuencia": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null },
+              { "series": 2, "tipo": "normal", "reps_min": 10, "reps_max": 10, "secuencia": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null },
+              { "series": 3, "tipo": "rm", "reps_min": 8, "reps_max": 8, "secuencia": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null }
+            ],
+            "tempo": null,
+            "descanso_seg": 90,
             "unidad": null,
             "grupo": null,
-            "tecnica": null,
-            "notas": "Pausa de 1 s abajo"
+            "notas": null
           },
           {
             "orden": 2,
-            "nombre": "Prensa 45°",
-            "grupos_musculares": ["cuadriceps"],
-            "series": 3,
-            "series_calentamiento": null,
-            "tipo_reps": "reps",
-            "reps_min": null,
-            "reps_max": null,
-            "series_detalle": [
-              { "serie": 1, "reps_min": 12, "reps_max": 12, "rir": null, "peso_indicado": null, "notas": null },
-              { "serie": 2, "reps_min": 10, "reps_max": 10, "rir": null, "peso_indicado": null, "notas": null },
-              { "serie": 3, "reps_min": 8, "reps_max": 8, "rir": 0, "peso_indicado": null, "notas": "Drop set al final" }
+            "nombre": "Jalón en V",
+            "alternativas": [],
+            "grupos_musculares": ["espalda"],
+            "bloques": [
+              { "series": 2, "tipo": "normal", "reps_min": 12, "reps_max": 12, "secuencia": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null }
             ],
-            "rir": null,
-            "rpe": null,
             "tempo": null,
-            "descanso_seg": 90,
-            "peso_indicado": null,
+            "descanso_seg": null,
+            "unidad": null,
+            "grupo": "A",
+            "notas": "Biserie con pullover"
+          },
+          {
+            "orden": 3,
+            "nombre": "Pullover",
+            "alternativas": [],
+            "grupos_musculares": ["espalda"],
+            "bloques": [
+              { "series": 2, "tipo": "dropset", "reps_min": null, "reps_max": null, "secuencia": [10, 12, 15], "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null }
+            ],
+            "tempo": null,
+            "descanso_seg": null,
+            "unidad": null,
+            "grupo": "A",
+            "notas": null
+          }
+        ],
+        "cardio": []
+      },
+      {
+        "id": "D2",
+        "nombre": "Día 2 - Hombro",
+        "dia_semana": null,
+        "tipo_dia_dieta": null,
+        "ejercicios": [
+          {
+            "orden": 1,
+            "nombre": "Press militar",
+            "alternativas": ["Press militar en Hammer", "Press militar con mancuernas"],
+            "grupos_musculares": ["hombro", "triceps"],
+            "bloques": [
+              { "series": 2, "tipo": "normal", "reps_min": 15, "reps_max": 15, "secuencia": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null },
+              { "series": 3, "tipo": "cluster", "reps_min": null, "reps_max": null, "secuencia": [8, 8, 8, 8, 8, 8], "descanso_intra_seg": 10, "rir": null, "peso_indicado": null, "notas": "Reducir 40% de la RM" }
+            ],
+            "tempo": null,
+            "descanso_seg": null,
             "unidad": "lb",
             "grupo": null,
-            "tecnica": "dropset",
             "notas": null
           }
         ],
@@ -121,16 +166,16 @@ FORMATO EXACTO (los valores son solo de ejemplo, no los copies)
     ]
   },
   "dieta": {
-    "nombre": "Dieta fase 2",
+    "nombre": "Dieta noviembre",
     "fecha_inicio": null,
     "agua_litros": 3,
     "notas_generales": null,
     "tipos_dia": [
       {
         "id": "TD1",
-        "nombre": "Tren inferior",
+        "nombre": "Todos los días",
         "es_descanso": false,
-        "macros_objetivo": { "kcal": 2400, "proteina_g": 180, "carbohidratos_g": 280, "grasa_g": 65 },
+        "macros_objetivo": null,
         "comidas": [
           {
             "orden": 1,
@@ -150,7 +195,7 @@ FORMATO EXACTO (los valores son solo de ejemplo, no los copies)
     ]
   },
   "dudas": [
-    "Comida 4: no se lee la cantidad de arroz (¿150 o 180 g?)"
+    "Día 2, Pec fly: decía 'PECLFY', se corrigió a 'Pec fly'"
   ]
 }
 ```
