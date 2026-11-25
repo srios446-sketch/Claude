@@ -1,0 +1,619 @@
+{
+  "formato": "evasof-plan",
+  "version": 2,
+  "rutina": null,
+  "dieta": {
+    "nombre": "Dieta de ejemplo",
+    "fecha_inicio": null,
+    "agua_litros": 3,
+    "notas_generales": "Verduras libres. Sal moderada.",
+    "tipos_dia": [
+      {
+        "id": "TD1",
+        "nombre": "Tren superior",
+        "es_descanso": false,
+        "macros_objetivo": {
+          "kcal": 2100,
+          "proteina_g": 170,
+          "carbohidratos_g": 210,
+          "grasa_g": 60
+        },
+        "comidas": [
+          {
+            "orden": 1,
+            "nombre": "Comida 1",
+            "hora": "07:30",
+            "alimentos": [
+              {
+                "nombre": "Huevo entero",
+                "cantidad": 3,
+                "unidad": "pieza",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Claras de huevo",
+                "cantidad": 150,
+                "unidad": "ml",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Avena",
+                "cantidad": 60,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Crema de arroz",
+                    "cantidad": 60,
+                    "unidad": "g"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Fresas",
+                "cantidad": 100,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 2,
+            "nombre": "Comida 2",
+            "hora": "10:30",
+            "alimentos": [
+              {
+                "nombre": "Pechuga de pollo",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Pescado blanco",
+                    "cantidad": 180,
+                    "unidad": "g"
+                  },
+                  {
+                    "nombre": "Atún en agua",
+                    "cantidad": 1,
+                    "unidad": "pieza"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Arroz blanco cocido",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Papa cocida",
+                    "cantidad": 200,
+                    "unidad": "g"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Verduras",
+                "cantidad": null,
+                "unidad": "al_gusto",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 3,
+            "nombre": "Comida 3",
+            "hora": "14:00",
+            "alimentos": [
+              {
+                "nombre": "Carne de res magra",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Tortilla de maíz",
+                "cantidad": 3,
+                "unidad": "pieza",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Aguacate",
+                "cantidad": 50,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Ensalada",
+                "cantidad": null,
+                "unidad": "al_gusto",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 4,
+            "nombre": "Comida 4 · Pre-entreno",
+            "hora": "17:30",
+            "alimentos": [
+              {
+                "nombre": "Proteína whey",
+                "cantidad": 1,
+                "unidad": "scoop",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Crema de arroz",
+                "cantidad": 50,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Plátano",
+                "cantidad": 1,
+                "unidad": "pieza",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 5,
+            "nombre": "Comida 5",
+            "hora": "21:00",
+            "alimentos": [
+              {
+                "nombre": "Salmón",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Pechuga de pollo",
+                    "cantidad": 150,
+                    "unidad": "g"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Camote cocido",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Aceite de oliva",
+                "cantidad": 1,
+                "unidad": "cda",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          }
+        ]
+      },
+      {
+        "id": "TD2",
+        "nombre": "Tren inferior",
+        "es_descanso": false,
+        "macros_objetivo": {
+          "kcal": 2300,
+          "proteina_g": 170,
+          "carbohidratos_g": 260,
+          "grasa_g": 60
+        },
+        "comidas": [
+          {
+            "orden": 1,
+            "nombre": "Comida 1",
+            "hora": "07:30",
+            "alimentos": [
+              {
+                "nombre": "Huevo entero",
+                "cantidad": 3,
+                "unidad": "pieza",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Claras de huevo",
+                "cantidad": 150,
+                "unidad": "ml",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Avena",
+                "cantidad": 60,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Crema de arroz",
+                    "cantidad": 60,
+                    "unidad": "g"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Fresas",
+                "cantidad": 100,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 2,
+            "nombre": "Comida 2",
+            "hora": "10:30",
+            "alimentos": [
+              {
+                "nombre": "Pechuga de pollo",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Pescado blanco",
+                    "cantidad": 180,
+                    "unidad": "g"
+                  },
+                  {
+                    "nombre": "Atún en agua",
+                    "cantidad": 1,
+                    "unidad": "pieza"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Arroz blanco cocido",
+                "cantidad": 200,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Papa cocida",
+                    "cantidad": 200,
+                    "unidad": "g"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Verduras",
+                "cantidad": null,
+                "unidad": "al_gusto",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 3,
+            "nombre": "Comida 3",
+            "hora": "14:00",
+            "alimentos": [
+              {
+                "nombre": "Carne de res magra",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Tortilla de maíz",
+                "cantidad": 3,
+                "unidad": "pieza",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Aguacate",
+                "cantidad": 50,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Ensalada",
+                "cantidad": null,
+                "unidad": "al_gusto",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 4,
+            "nombre": "Comida 4 · Pre-entreno",
+            "hora": "17:30",
+            "alimentos": [
+              {
+                "nombre": "Proteína whey",
+                "cantidad": 1,
+                "unidad": "scoop",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Crema de arroz",
+                "cantidad": 70,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Plátano",
+                "cantidad": 1,
+                "unidad": "pieza",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 5,
+            "nombre": "Comida 5",
+            "hora": "21:00",
+            "alimentos": [
+              {
+                "nombre": "Salmón",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Pechuga de pollo",
+                    "cantidad": 150,
+                    "unidad": "g"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Camote cocido",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Aceite de oliva",
+                "cantidad": 1,
+                "unidad": "cda",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          }
+        ]
+      },
+      {
+        "id": "TD3",
+        "nombre": "Descanso",
+        "es_descanso": true,
+        "macros_objetivo": {
+          "kcal": 1800,
+          "proteina_g": 170,
+          "carbohidratos_g": 130,
+          "grasa_g": 60
+        },
+        "comidas": [
+          {
+            "orden": 1,
+            "nombre": "Comida 1",
+            "hora": "07:30",
+            "alimentos": [
+              {
+                "nombre": "Huevo entero",
+                "cantidad": 3,
+                "unidad": "pieza",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Claras de huevo",
+                "cantidad": 150,
+                "unidad": "ml",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Avena",
+                "cantidad": 60,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Crema de arroz",
+                    "cantidad": 60,
+                    "unidad": "g"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Fresas",
+                "cantidad": 100,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 2,
+            "nombre": "Comida 2",
+            "hora": "10:30",
+            "alimentos": [
+              {
+                "nombre": "Pechuga de pollo",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Pescado blanco",
+                    "cantidad": 180,
+                    "unidad": "g"
+                  },
+                  {
+                    "nombre": "Atún en agua",
+                    "cantidad": 1,
+                    "unidad": "pieza"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Arroz blanco cocido",
+                "cantidad": 80,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Papa cocida",
+                    "cantidad": 200,
+                    "unidad": "g"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Verduras",
+                "cantidad": null,
+                "unidad": "al_gusto",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 3,
+            "nombre": "Comida 3",
+            "hora": "14:00",
+            "alimentos": [
+              {
+                "nombre": "Carne de res magra",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Tortilla de maíz",
+                "cantidad": 3,
+                "unidad": "pieza",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Aguacate",
+                "cantidad": 50,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Ensalada",
+                "cantidad": null,
+                "unidad": "al_gusto",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          },
+          {
+            "orden": 4,
+            "nombre": "Comida 4",
+            "hora": "21:00",
+            "alimentos": [
+              {
+                "nombre": "Salmón",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Pechuga de pollo",
+                    "cantidad": 150,
+                    "unidad": "g"
+                  }
+                ],
+                "notas": null
+              },
+              {
+                "nombre": "Camote cocido",
+                "cantidad": 150,
+                "unidad": "g",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Aceite de oliva",
+                "cantidad": 1,
+                "unidad": "cda",
+                "opciones": [],
+                "notas": null
+              }
+            ],
+            "notas": null
+          }
+        ]
+      }
+    ],
+    "suplementos": [
+      {
+        "nombre": "Creatina",
+        "dosis": "5 g",
+        "momento": "Con la comida 1",
+        "hora": null,
+        "solo_tipos_dia": null,
+        "notas": null
+      },
+      {
+        "nombre": "Omega 3",
+        "dosis": "2 cápsulas",
+        "momento": "Con la comida 3",
+        "hora": null,
+        "solo_tipos_dia": null,
+        "notas": null
+      },
+      {
+        "nombre": "Cafeína",
+        "dosis": "200 mg",
+        "momento": "Antes de entrenar",
+        "hora": null,
+        "solo_tipos_dia": [
+          "TD1",
+          "TD2"
+        ],
+        "notas": null
+      }
+    ]
+  },
+  "dudas": [
+    "Comida 3: no queda claro si el aguacate es diario o solo en días de entreno."
+  ]
+}

@@ -6,6 +6,8 @@ import { BarraTemporizador } from './componentes/Temporizador';
 import { ProveedorTemporizador } from './lib/temporizador';
 import { Importar } from './pantallas/Importar';
 import { Entreno } from './pantallas/entreno/Entreno';
+import { Dieta } from './pantallas/Dieta';
+import { ListaSuper } from './pantallas/ListaSuper';
 
 function Pendiente({ titulo }: { titulo: string }) {
   return (
@@ -29,7 +31,8 @@ export default function App() {
       <div className="mx-auto min-h-dvh max-w-xl pb-44">
         <Routes>
           <Route path="/" element={<Entreno />} />
-          <Route path="/dieta" element={<Pendiente titulo="Dieta" />} />
+          <Route path="/dieta" element={<Dieta />} />
+          <Route path="/dieta/super" element={<ListaSuper />} />
           <Route path="/progreso" element={<Pendiente titulo="Progreso" />} />
           <Route path="/importar" element={<Importar />} />
           <Route path="/perfil" element={<Pendiente titulo="Perfil" />} />
