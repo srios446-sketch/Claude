@@ -139,12 +139,19 @@ Por ahora el nombre, el logo y los colores (EvaSof Training) son **tentativos**.
 
 ## 11. Estado (25-nov-2026)
 
-**Hecho:**
-- Versión local completa y funcionando sin internet: Entreno, Dieta, Progreso con check-in en PDF/imagen, Importar y Perfil con respaldo.
-- Probada con una rutina real de 6 días y una dieta de ejemplo.
+**Hecho (v1.0):**
+- App completa publicada en https://evasof-training.netlify.app.
+- Funciona sin internet y se sincroniza con Supabase.
+- Login con usuario y contraseña. Lo elegimos en lugar de Google porque el login de Google falla en apps instaladas en el iPhone.
+- Invitaciones con código y panel de admin.
+- Avisos push de descanso, comidas y agua.
+- Botón de Spotify y check-in en PDF.
 
-**Pendiente:**
-- Cuentas con Google, códigos de invitación y sincronización en la nube (Supabase).
-- Publicar en Netlify.
-- Notificaciones push de comidas, suplementos y agua.
-- Importación con API (Opus 5.5) como opción.
+**Por confirmar en un iPhone real:**
+- Que lleguen las notificaciones push con la app instalada en la pantalla de inicio (iOS 16.4 o más reciente).
+- Que el botón abra la app de Spotify.
+
+**Opcional después:**
+- Importación con la API de Claude.
+- Mini reproductor de Spotify (Premium, máximo 5 personas).
+- Notificación de suplementos.

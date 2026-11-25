@@ -1,6 +1,10 @@
 # EvaSof Training
 
-App web instalable (PWA) para seguir rutina, dieta y progreso del gym. Funciona sin internet: todos los datos se guardan en el dispositivo (IndexedDB). La sincronización en la nube con cuentas de Google llegará después con Supabase.
+App web instalable (PWA) para seguir rutina, dieta y progreso del gym.
+
+- **En producción:** https://evasof-training.netlify.app
+- Funciona sin internet: todo se guarda primero en el celular (IndexedDB) y se respalda solo en Supabase.
+- Cada persona entra con usuario y contraseña. Solo se crean cuentas con un código de invitación.
 
 - Especificación: [`ESPECIFICACION.md`](ESPECIFICACION.md)
 - Sistema de diseño: [`design-system/evasof-training/MASTER.md`](design-system/evasof-training/MASTER.md) (colores en `tokens.css`)
@@ -15,6 +19,36 @@ App web instalable (PWA) para seguir rutina, dieta y progreso del gym. Funciona 
 | **Progreso** | Peso con promedio de 7 días, adherencia, medidas, 1RM estimado por ejercicio, récords, series por grupo contra rangos, y check-in semanal exportable a PDF o imagen |
 | **Importar** | Copiar el prompt, pegar la respuesta de la IA, validar con errores en español, vista previa, coincidencias con el catálogo y guardar (archiva el plan anterior) |
 | **Perfil** | Unidades, meta, campos opcionales, descanso e incrementos, rangos de series, historial de planes, catálogo (renombrar y unir) y respaldo |
+
+## Nube (Supabase)
+
+Proyecto: `evasof-training` (ref `xgjlkxlxrkemhngtazdj`, región us-west-2).
+
+| Pieza | Dónde | Qué hace |
+|---|---|---|
+| Esquema | `supabase/migraciones/001_inicial.sql` | `perfiles`, `codigos_invitacion`, `registros` (datos sincronizados como JSON por tabla/id), `suscripciones_push`, `notificaciones`, con RLS: cada quien ve solo lo suyo |
+| Cron | `supabase/migraciones/002_cron.sql` | Cada 5 s revisa si hay avisos pendientes y, solo entonces, llama a `enviar-notificaciones` |
+| `registrar` | `supabase/functions/registrar` | Crea la cuenta (usuario + contraseña) con un código de invitación. El registro público está apagado |
+| `admin` | `supabase/functions/admin` | Crear/borrar códigos, ver personas y restablecer contraseñas (solo admins) |
+| `enviar-notificaciones` | `supabase/functions/enviar-notificaciones` | Web Push con VAPID (descanso, comidas y agua) |
+
+- **Secretos:** VAPID privada, `CRON_SECRET` y `SITIO_URL` viven en los secretos de funciones de Supabase. `url_enviar` y `cron_secret` viven en Vault. Nunca en el repositorio.
+- **Valores públicos:** van en `.env.production` (URL, clave publicable y VAPID pública).
+- **Sincronización** (`src/nube/sync.ts`):
+  - Compara cada fila local con el hash de su último estado subido. Sube cambios y borrados.
+  - Baja lo nuevo del servidor desde un cursor.
+  - Si una fila cambió en los dos lados, gana la local.
+  - Corre al abrir la app, unos segundos después de cada cambio, al salir de la app, al volver la señal y cada minuto.
+- **Cuentas:** por dentro, Supabase usa un correo ficticio `usuario@usuarios.evasof.app` que nunca recibe nada.
+- **Cerrar sesión:** borra los datos del celular; siguen en la nube.
+
+Desplegar cambios del servidor:
+
+```bash
+SUPABASE_ACCESS_TOKEN=… npx supabase@3.4.0 functions deploy <función> --remote=xgjlkxlxrkemhngtazdj --use-api [--no-verify-jwt] --yes
+```
+
+(`registrar` y `enviar-notificaciones` usan `--no-verify-jwt`; `admin` no.)
 
 ## Desarrollo
 
@@ -40,11 +74,10 @@ EVASOF_RUTINA=/ruta/a/rutina.json npm test
 
 ## Publicar (Netlify)
 
-- Directorio base: `gym-app`
-- Comando de build: `npm run build`
-- Directorio a publicar: `gym-app/dist`
-
-`public/_redirects` ya manda todas las rutas a `index.html`.
+- Sitio: `evasof-training` (https://evasof-training.netlify.app).
+- Configuración: `netlify.toml`. Compila con `npm run build`, publica `dist` y marca sin caché el service worker y el `index.html`.
+- Para publicar, se sube la carpeta `gym-app` y Netlify compila con `.env.production`.
+- La protección con login de equipo de Netlify solo aplica a las versiones de prueba. La de producción es pública.
 
 ## Estructura
 
