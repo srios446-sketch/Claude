@@ -10,6 +10,10 @@ import { activarPlan, borrarTodo, descargarRespaldo, restaurarRespaldo, unirEjer
 import { fechaCorta } from '../lib/fechas';
 import { claveNombre } from '../lib/texto';
 import { enlaceSpotify } from '../lib/spotify';
+import { nubeConfigurada } from '../nube/config';
+import { Cuenta } from './perfil/Cuenta';
+import { Admin } from './perfil/Admin';
+import { Avisos } from './perfil/Avisos';
 import { GRUPOS, NOMBRE_GRUPO, type Grupo } from '../lib/plan';
 
 function Seccion({ titulo, children }: { titulo: string; children: ReactNode }) {
@@ -54,6 +58,8 @@ export function Perfil() {
       <Encabezado titulo="Perfil" subtitulo={perfil.nombre || BRAND.nombre} />
       <div className="space-y-3.5 px-4">
         {mensaje && <Mensaje tono={mensaje.tono} titulo={mensaje.texto} />}
+        <Cuenta />
+        <Admin />
         <Seccion titulo="Tú">
           <label className="block"><span className="etiqueta">Tu nombre (sale en el check-in)</span>
             <input className="campo" value={nombre ?? perfil.nombre} onChange={(e) => setNombre(e.target.value)} onBlur={() => nombre != null && p({ nombre: nombre.trim() })} placeholder="Ej. Eva" /></label>
@@ -96,6 +102,8 @@ export function Perfil() {
               onBlur={(e) => { const n = aNum(e.target.value); if (n) p({ metaAguaL: n }); }} /></label>
         </Seccion>
 
+        <Avisos perfil={perfil} />
+
         <Seccion titulo="Música">
           <label className="block"><span className="etiqueta">Playlist del gym (opcional)</span>
             <input className="campo" inputMode="url" placeholder="Pega el link de Spotify (Compartir → Copiar enlace)" defaultValue={perfil.spotifyUrl} key={`s${perfil.spotifyUrl}`}
@@ -110,17 +118,19 @@ export function Perfil() {
         <Catalogo />
 
         <Seccion titulo="Tus datos">
-          <p className="text-sm text-tenue">Por ahora todo se guarda solo en este dispositivo. Haz un respaldo de vez en cuando (o antes de cambiar de celular).</p>
+          <p className="text-sm text-tenue">{nubeConfigurada
+            ? 'Tus datos se guardan en este celular y se respaldan solos en tu cuenta. El archivo de respaldo es una copia extra.'
+            : 'Por ahora todo se guarda solo en este dispositivo. Haz un respaldo de vez en cuando (o antes de cambiar de celular).'}</p>
           <button className="btn btn-azul w-full !text-base" onClick={descargarRespaldo}><Download size={18} aria-hidden /> Exportar respaldo</button>
           <button className="btn btn-suave w-full !text-base" onClick={() => archivo.current?.click()}><Upload size={18} aria-hidden /> Restaurar respaldo</button>
           <input ref={archivo} type="file" accept="application/json,.json" className="hidden" onChange={(e) => restaurar(e.target.files?.[0])} />
           <button className="btn w-full !text-base text-peligro" onClick={async () => {
-            if (confirm('¿Borrar TODOS tus datos de este dispositivo? No se puede deshacer.') && confirm('¿Seguro? Te recomendamos exportar un respaldo antes.')) {
+            if (confirm(nubeConfigurada ? '¿Borrar TODOS tus datos? También se borran de tu cuenta en la nube. No se puede deshacer.' : '¿Borrar TODOS tus datos de este dispositivo? No se puede deshacer.') && confirm('¿Seguro? Te recomendamos exportar un respaldo antes.')) {
               await borrarTodo(); setMensaje({ tono: 'ok', texto: 'Se borraron todos los datos.' });
             }
           }}><Trash2 size={18} aria-hidden /> Borrar todos los datos</button>
         </Seccion>
-        <p className="pb-2 text-center text-xs text-tenue">{BRAND.nombre} · versión 0.1</p>
+        <p className="pb-2 text-center text-xs text-tenue">{BRAND.nombre} · versión 1.0</p>
       </div>
     </>
   );

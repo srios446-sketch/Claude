@@ -10,6 +10,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.ts',
       registerType: 'autoUpdate',
       includeAssets: ['icons/favicon-32.png', 'icons/apple-touch-icon.png', 'brand/logo.png'],
       manifest: {
@@ -29,10 +32,9 @@ export default defineConfig({
           { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
-      workbox: {
+      injectManifest: {
         globPatterns: ['**/*.{js,css,html,png,svg,woff2,txt}'],
         globIgnores: ['**/*cyrillic*', '**/*greek*', '**/*vietnamese*', 'icons/icon-512.png', 'icons/maskable-512.png'],
-        navigateFallback: '/index.html',
       },
     }),
   ],

@@ -1,6 +1,7 @@
 // Temporizador de descanso global. Guarda la hora de fin (no un contador), así sigue
 // siendo correcto si la pantalla se bloquea o la app se recarga.
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { cancelarDescanso, programarDescanso } from '../nube/avisos';
 
 interface EstadoTemporizador { fin: number; total: number; etiqueta: string }
 interface Ctx {
@@ -64,15 +65,16 @@ export function ProveedorTemporizador({ children }: { children: ReactNode }) {
   const iniciar = useCallback((segundos: number, etiqueta: string) => {
     const v = { fin: Date.now() + segundos * 1000, total: segundos, etiqueta };
     avisado.current = false; setAhora(Date.now()); setActivo(v); escribir(v);
+    programarDescanso(v.fin, etiqueta);
   }, []);
   const ajustar = useCallback((delta: number) => {
     setActivo((a) => {
       if (!a) return a;
       const v = { ...a, fin: Math.max(Date.now() + 1000, a.fin + delta * 1000), total: Math.max(1, a.total + delta) };
-      escribir(v); return v;
+      escribir(v); programarDescanso(v.fin, a.etiqueta); return v;
     });
   }, []);
-  const detener = useCallback(() => { setActivo(null); escribir(null); }, []);
+  const detener = useCallback(() => { setActivo(null); escribir(null); cancelarDescanso(); }, []);
 
   const valor = useMemo(() => ({ activo, restante, iniciar, ajustar, detener }), [activo, restante, iniciar, ajustar, detener]);
   return <Contexto.Provider value={valor}>{children}</Contexto.Provider>;

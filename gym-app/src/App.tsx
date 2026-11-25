@@ -4,6 +4,12 @@ import { NavInferior } from './componentes/NavInferior';
 import { Encabezado } from './componentes/Encabezado';
 import { BarraTemporizador } from './componentes/Temporizador';
 import { ProveedorTemporizador } from './lib/temporizador';
+import { nubeConfigurada } from './nube/config';
+import { hayUsuarioEnDispositivo, iniciarNube } from './nube/servicio';
+import { iniciarAvisos } from './nube/avisos';
+import { useNube } from './nube/useNube';
+import { Bienvenida } from './pantallas/Bienvenida';
+import { AvisoSesion } from './componentes/AvisoSesion';
 import { Entreno } from './pantallas/entreno/Entreno';
 import { Dieta } from './pantallas/Dieta';
 
@@ -30,10 +36,16 @@ function AlInicioAlNavegar() {
 }
 
 export default function App() {
+  const nube = useNube();
+  useEffect(() => { iniciarNube(); }, []);
+  useEffect(() => (nube.sesion ? iniciarAvisos() : undefined), [nube.sesion]);
+  if (nubeConfigurada && nube.cargando) return <div className="min-h-dvh bg-fondo" aria-busy="true" />;
+  if (nubeConfigurada && !nube.sesion && !hayUsuarioEnDispositivo()) return <Bienvenida />;
   return (
     <ProveedorTemporizador>
       <AlInicioAlNavegar />
       <div className="mx-auto min-h-dvh max-w-xl pb-44">
+        <AvisoSesion />
         <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Entreno />} />
@@ -43,6 +55,7 @@ export default function App() {
           <Route path="/progreso/registrar" element={<Registrar />} />
           <Route path="/importar" element={<Importar />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/entrar" element={<Bienvenida volver />} />
           <Route path="*" element={<Pendiente titulo="No encontrado" />} />
         </Routes>
         </Suspense>

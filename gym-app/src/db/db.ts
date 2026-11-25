@@ -16,6 +16,7 @@ export interface Perfil {
   objetivo: 'bajar' | 'subir' | 'mantener';
   metaAguaL: number;
   spotifyUrl: string;           // playlist del gym (opcional)
+  avisos: { descanso: boolean; comidas: boolean; agua: boolean };
 }
 
 /** Ejercicio del catálogo personal: todas las rutinas apuntan aquí para que el historial no se parta. */
@@ -132,6 +133,10 @@ export interface CheckIn {
   actualizado: number;
 }
 
+/** Hash del último estado sincronizado de cada fila (clave "tabla|id"). */
+export interface EstadoSync { k: string; h: string }
+export interface Meta { k: string; v: unknown }
+
 class BaseLocal extends Dexie {
   perfil!: EntityTable<Perfil, 'id'>;
   ejercicios!: EntityTable<EjercicioCatalogo, 'id'>;
@@ -143,6 +148,8 @@ class BaseLocal extends Dexie {
   registroDieta!: EntityTable<RegistroDieta, 'fecha'>;
   metricas!: EntityTable<Metrica, 'id'>;
   checkins!: EntityTable<CheckIn, 'semana'>;
+  syncEstado!: EntityTable<EstadoSync, 'k'>;
+  meta!: EntityTable<Meta, 'k'>;
 
   constructor(nombre = 'evasof') {
     super(nombre);
@@ -158,6 +165,7 @@ class BaseLocal extends Dexie {
       metricas: 'id, fecha',
       checkins: 'semana',
     });
+    this.version(2).stores({ syncEstado: 'k', meta: 'k' });
   }
 }
 
@@ -187,6 +195,7 @@ export const PERFIL_DEFECTO: Perfil = {
   objetivo: 'bajar',
   metaAguaL: 3,
   spotifyUrl: '',
+  avisos: { descanso: true, comidas: true, agua: true },
 };
 
 export async function obtenerPerfil(): Promise<Perfil> {
