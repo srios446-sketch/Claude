@@ -7,7 +7,7 @@ import { activarPush, estadoPush, probarAviso, reprogramarAvisos, type EstadoPus
 import { useNube } from '../../nube/useNube';
 
 const TIPOS: { k: keyof Perfil['avisos']; t: string; d: string }[] = [
-  { k: 'descanso', t: 'Fin del descanso', d: 'Aunque estés en Spotify u otra app' },
+  { k: 'descanso', t: 'Fin del descanso', d: 'Aunque estés en otra app' },
   { k: 'comidas', t: 'Comidas', d: 'A la hora de cada comida (si no la has palomeado)' },
   { k: 'agua', t: 'Agua', d: '10, 13, 16 y 19 h, solo si no llevas tu meta' },
 ];

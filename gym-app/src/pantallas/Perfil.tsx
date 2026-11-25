@@ -9,7 +9,6 @@ import { usePerfil } from '../db/hooks';
 import { activarPlan, borrarTodo, descargarRespaldo, restaurarRespaldo, unirEjercicios } from '../db/respaldo';
 import { fechaCorta } from '../lib/fechas';
 import { claveNombre } from '../lib/texto';
-import { enlaceSpotify } from '../lib/spotify';
 import { nubeConfigurada } from '../nube/config';
 import { Cuenta } from './perfil/Cuenta';
 import { Admin } from './perfil/Admin';
@@ -103,15 +102,6 @@ export function Perfil() {
         </Seccion>
 
         <Avisos perfil={perfil} />
-
-        <Seccion titulo="Música">
-          <label className="block"><span className="etiqueta">Playlist del gym (opcional)</span>
-            <input className="campo" inputMode="url" placeholder="Pega el link de Spotify (Compartir → Copiar enlace)" defaultValue={perfil.spotifyUrl} key={`s${perfil.spotifyUrl}`}
-              aria-invalid={!!perfil.spotifyUrl && !enlaceSpotify(perfil.spotifyUrl)}
-              onBlur={(e) => p({ spotifyUrl: e.target.value.trim() })} /></label>
-          {perfil.spotifyUrl && !enlaceSpotify(perfil.spotifyUrl) && <p className="text-sm text-peligro">Ese link no parece de Spotify. Cópialo desde Spotify con Compartir → Copiar enlace.</p>}
-          <p className="text-xs text-tenue">En Entreno, el botón de música abre esta playlist en Spotify. Para pausar o cambiar de canción sin salir de la app, desliza hacia abajo desde la esquina superior derecha del iPhone (Centro de control).</p>
-        </Seccion>
 
         <RangosSeries perfil={perfil} />
         <MisPlanes />

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { CheckCircle2, Clock, FileUp, Music, Play, SlidersHorizontal, Trophy, UtensilsCrossed } from 'lucide-react';
+import { CheckCircle2, Clock, FileUp, Play, SlidersHorizontal, Trophy, UtensilsCrossed } from 'lucide-react';
 import { Encabezado } from '../../componentes/Encabezado';
 import { Mensaje, Vacio } from '../../componentes/ui';
 import { db, actualizarPerfil, type DiaPlan, type EjercicioPlan, type Perfil, type RutinaGuardada, type Sesion } from '../../db/db';
@@ -11,7 +11,6 @@ import { siguienteDia } from '../../lib/entreno';
 import { fechaCorta, fechaLarga, hoyISO } from '../../lib/fechas';
 import { describirBloque, seriesEfectivas } from '../../lib/plan';
 import { useTemporizador } from '../../lib/temporizador';
-import { abrirSpotify, enlaceSpotify } from '../../lib/spotify';
 import { deKg, fmt } from '../../lib/unidades';
 import { TarjetaEjercicio } from './TarjetaEjercicio';
 import { TarjetaCardio } from './TarjetaCardio';
@@ -156,9 +155,6 @@ function SesionEnCurso({ sesion, rutina, perfil }: { sesion: Sesion; rutina: Rut
             <span className="chip bg-white/10 text-tinta"><Clock size={15} aria-hidden /> {minutos} min</span>
             {tipoDieta && <span className="chip bg-azul text-sobre-azul"><UtensilsCrossed size={15} aria-hidden /> Dieta: {tipoDieta.nombre}</span>}
           </div>
-          <button className="btn btn-suave mt-3 w-full !bg-white/10 !text-base" onClick={() => abrirSpotify(perfil.spotifyUrl)}>
-            <Music size={18} aria-hidden /> {enlaceSpotify(perfil.spotifyUrl) ? 'Abrir mi playlist' : 'Abrir Spotify'}
-          </button>
           {rutina.notasGenerales && <p className="mt-3 text-xs text-tenue">{rutina.notasGenerales}</p>}
         </section>
 

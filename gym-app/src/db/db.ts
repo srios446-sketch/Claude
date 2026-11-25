@@ -15,7 +15,6 @@ export interface Perfil {
   rangosSeries: Partial<Record<Grupo, [number, number]>>;
   objetivo: 'bajar' | 'subir' | 'mantener';
   metaAguaL: number;
-  spotifyUrl: string;           // playlist del gym (opcional)
   avisos: { descanso: boolean; comidas: boolean; agua: boolean };
 }
 
@@ -194,7 +193,6 @@ export const PERFIL_DEFECTO: Perfil = {
   rangosSeries: {},
   objetivo: 'bajar',
   metaAguaL: 3,
-  spotifyUrl: '',
   avisos: { descanso: true, comidas: true, agua: true },
 };
 

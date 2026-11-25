@@ -145,13 +145,11 @@ Por ahora el nombre, el logo y los colores (EvaSof Training) son **tentativos**.
 - Login con usuario y contraseña. Lo elegimos en lugar de Google porque el login de Google falla en apps instaladas en el iPhone.
 - Invitaciones con código y panel de admin.
 - Avisos push de descanso, comidas y agua.
-- Botón de Spotify y check-in en PDF.
+- Check-in en PDF.
 
 **Por confirmar en un iPhone real:**
 - Que lleguen las notificaciones push con la app instalada en la pantalla de inicio (iOS 16.4 o más reciente).
-- Que el botón abra la app de Spotify.
 
 **Opcional después:**
 - Importación con la API de Claude.
-- Mini reproductor de Spotify (Premium, máximo 5 personas).
 - Notificación de suplementos.
