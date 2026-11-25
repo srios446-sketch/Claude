@@ -14,9 +14,13 @@ export function resumenPeso(metricas: Metrica[]): ResumenPeso {
   return { diarios, promedio: promedioMovil(diarios) };
 }
 
-export function useAdherencia(desde: string, hasta = hoyISO()): { entrenos: Adherencia; comidas: Adherencia | null } | undefined {
+export function useAdherencia(desdeRango: string, hasta = hoyISO()): { entrenos: Adherencia; comidas: Adherencia | null } | undefined {
   return useLiveQuery(async () => {
     const rutina = await db.rutinas.where('activa').equals(1).first();
+    // No contar semanas antes de que empezaras a usar la app
+    const inicios = (await db.rutinas.toArray()).map((r) => r.fechaInicio).concat((await db.dietas.toArray()).map((d) => d.fechaInicioUso));
+    const primera = inicios.length ? inicios.sort()[0] : hasta;
+    const desde = primera > desdeRango ? primera : desdeRango;
     const sesiones = await db.sesiones.where('fecha').between(desde, hasta, true, true).filter((s) => s.fin !== null).toArray();
     const fechas = [...new Set(sesiones.map((s) => s.fecha))];
     const entrenos = adherenciaEntrenos(fechas, Math.min(7, rutina?.dias.length ?? 4), desde, hasta);
@@ -24,7 +28,7 @@ export function useAdherencia(desde: string, hasta = hoyISO()): { entrenos: Adhe
     if (!dietas.length) return { entrenos, comidas: null };
     const registros = await db.registroDieta.where('fecha').between(desde, hasta, true, true).toArray();
     return { entrenos, comidas: adherenciaComidas(diasDieta(dietas, registros, desde, hasta), desde, hasta) };
-  }, [desde, hasta]);
+  }, [desdeRango, hasta]);
 }
 
 /** Para cada día con dieta vigente: comidas palomeadas y comidas del tipo de día. */

@@ -27,6 +27,7 @@ export function Registrar() {
     const pesoKg = aNum(peso) != null ? aKg(aNum(peso)!, u) : null;
     if (pesoKg == null && aNum(grasa) == null && !Object.keys(medidasCm).length) return;
     // Un registro por día: si ya hay uno, se completa
+    await db.transaction('rw', db.metricas, async () => {
     const previo = await db.metricas.where('fecha').equals(fecha).first();
     await db.metricas.put({
       id: previo?.id ?? nuevoId(), fecha,
@@ -34,6 +35,7 @@ export function Registrar() {
       grasaPct: aNum(grasa) ?? previo?.grasaPct ?? null,
       medidasCm: { ...previo?.medidasCm, ...medidasCm },
     });
+    }); // la transacción explícita se resuelve cuando ya quedó guardado
     navegar('/progreso');
   }
 
