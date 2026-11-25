@@ -8,6 +8,8 @@ import { Importar } from './pantallas/Importar';
 import { Entreno } from './pantallas/entreno/Entreno';
 import { Dieta } from './pantallas/Dieta';
 import { ListaSuper } from './pantallas/ListaSuper';
+import { Progreso } from './pantallas/progreso/Progreso';
+import { Registrar } from './pantallas/progreso/Registrar';
 
 function Pendiente({ titulo }: { titulo: string }) {
   return (
@@ -33,7 +35,8 @@ export default function App() {
           <Route path="/" element={<Entreno />} />
           <Route path="/dieta" element={<Dieta />} />
           <Route path="/dieta/super" element={<ListaSuper />} />
-          <Route path="/progreso" element={<Pendiente titulo="Progreso" />} />
+          <Route path="/progreso" element={<Progreso />} />
+          <Route path="/progreso/registrar" element={<Registrar />} />
           <Route path="/importar" element={<Importar />} />
           <Route path="/perfil" element={<Pendiente titulo="Perfil" />} />
         </Routes>
