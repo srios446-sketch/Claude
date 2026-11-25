@@ -1,31 +1,56 @@
-/* Design Tokens - Auto-generated */
-/* Do not edit directly - modify tokens.json instead */
+/* EvaSof Training — Design Tokens
+ * Colores de marca tomados del logo (assets/logo-evasof.jpg).
+ * Contraste WCAG verificado sobre --color-background (#1F2937) y --color-card (#313742).
+ * Mantener sincronizado con tokens.json.
+ */
 
-/* === PRIMITIVES === */
+/* === PRIMITIVAS (marca) === */
 :root {
-
+  --evasof-orange: #F8490C;      /* naranja del fondo del logo */
+  --evasof-orange-light: #FF7A40;/* naranja para texto pequeño sobre fondo oscuro */
+  --evasof-blue: #016BDA;        /* azul real del logo */
+  --evasof-blue-light: #7FB9E6;  /* azul claro del borde del logo */
+  --evasof-navy: #112E54;        /* azul marino (sombras/camiseta del logo) */
+  --evasof-camo: #8A9A5B;        /* verde camuflaje aclarado (decorativo/gráficas) */
 }
 
-/* === SEMANTIC === */
+/* === SEMÁNTICOS === */
 :root {
-  --color-primary: #F97316;
-  --color-on-primary: #0F172A;
-  --color-secondary: #FB923C;
-  --color-on-secondary: #0F172A;
-  --color-accent: #22C55E;
-  --color-on-accent: #0F172A;
+  --color-primary: var(--evasof-orange);          /* botón principal, temporizador, activo */
+  --color-on-primary: #0F172A;                    /* 5.06:1 AA */
+  --color-primary-text: var(--evasof-orange-light); /* 5.67:1 fondo, 4.62:1 tarjeta */
+
+  --color-secondary: var(--evasof-blue);          /* botones secundarios, selección */
+  --color-on-secondary: #FFFFFF;                  /* 5.10:1 AA */
+
+  --color-accent: var(--evasof-blue-light);       /* links, info, datos de la vez pasada */
+  --color-on-accent: #0F172A;                     /* 8.49:1 AAA */
+
+  --color-success: #22C55E;                       /* serie completada, PR, comida palomeada */
+  --color-on-success: #0F172A;                    /* 7.83:1 AAA */
+
+  --color-destructive: #F43F5E;                   /* borrar/eliminar (rosa-rojo, distinto del naranja) */
+  --color-on-destructive: #0F172A;                /* 4.86:1 AA */
+
   --color-background: #1F2937;
-  --color-foreground: #F8FAFC;
+  --color-foreground: #F8FAFC;                    /* 14.03:1 AAA */
   --color-card: #313742;
-  --color-card-foreground: #F8FAFC;
+  --color-card-foreground: #F8FAFC;               /* 11.43:1 AAA */
   --color-muted: #37414F;
-  --color-muted-foreground: #CBD5E1;
-  --color-border: #374151;
-  --color-destructive: #EF4444;
-  --color-on-destructive: #000000;
-  --color-ring: #F97316;
+  --color-muted-foreground: #CBD5E1;              /* 6.96:1 AA */
+  --color-border: #4B5563;
+  --color-ring: var(--evasof-orange-light);
+  --color-brand-surface: var(--evasof-navy);      /* encabezados/hero con marca */
+
+  /* Gráficas (no depender solo del color: usar también etiquetas/forma) */
+  --chart-1: var(--evasof-orange);
+  --chart-2: var(--evasof-blue-light);
+  --chart-3: #22C55E;
+  --chart-4: var(--evasof-camo);
+
   --font-heading: "Barlow Condensed", sans-serif;
   --font-body: Barlow, sans-serif;
+
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
@@ -33,9 +58,9 @@
   --space-xl: 32px;
   --space-2xl: 48px;
   --space-3xl: 64px;
-}
 
-/* === COMPONENTS === */
-:root {
-
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --touch-min: 48px;
 }
