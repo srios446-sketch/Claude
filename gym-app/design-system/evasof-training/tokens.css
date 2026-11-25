@@ -47,6 +47,9 @@
   --chart-2: var(--evasof-blue-light);
   --chart-3: #22C55E;
   --chart-4: var(--evasof-camo);
+  --chart-deemph: #8592A6;   /* puntos/sparklines de contexto (3.79:1 en tarjeta) */
+  --chart-grid: #414A58;     /* líneas de cuadrícula */
+  --color-warning: #F59E0B;  /* aviso (siempre con ícono y texto) */
 
   --font-heading: "Barlow Condensed", sans-serif;
   --font-body: Barlow, sans-serif;

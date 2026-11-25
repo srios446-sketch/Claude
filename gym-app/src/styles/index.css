@@ -1,0 +1,65 @@
+@import "tailwindcss";
+@import "../../design-system/evasof-training/tokens.css";
+@import "@fontsource/barlow/400.css";
+@import "@fontsource/barlow/500.css";
+@import "@fontsource/barlow/600.css";
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
+
+/* Nombres de utilidades en español, mapeados a los tokens de marca (tokens.css). */
+@theme inline {
+  --color-marca: var(--color-primary);
+  --color-sobre-marca: var(--color-on-primary);
+  --color-marca-texto: var(--color-primary-text);
+  --color-azul: var(--color-secondary);
+  --color-sobre-azul: var(--color-on-secondary);
+  --color-acento: var(--color-accent);
+  --color-ok: var(--color-success);
+  --color-sobre-ok: var(--color-on-success);
+  --color-peligro: var(--color-destructive);
+  --color-sobre-peligro: var(--color-on-destructive);
+  --color-aviso: var(--color-warning);
+  --color-fondo: var(--color-background);
+  --color-tinta: var(--color-foreground);
+  --color-tarjeta: var(--color-card);
+  --color-atenuado: var(--color-muted);
+  --color-tenue: var(--color-muted-foreground);
+  --color-borde: var(--color-border);
+  --color-marino: var(--color-brand-surface);
+  --color-nav: #18212E;
+  --font-sans: Barlow, system-ui, sans-serif;
+  --font-titulo: "Barlow Condensed", Barlow, system-ui, sans-serif;
+}
+
+@layer base {
+  html { background: var(--color-background); color-scheme: dark; }
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body), system-ui, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+  button, [role="button"], a, label, select { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--color-ring); outline-offset: 2px; }
+  input, select, textarea { font-size: 16px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@layer components {
+  .num { font-variant-numeric: tabular-nums; }
+  .tarjeta { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 14px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--touch-min); padding: 0 18px; border-radius: var(--radius-md); font-family: var(--font-heading); font-weight: 700; font-size: 18px; letter-spacing: .03em; text-transform: uppercase; transition: filter 150ms ease, transform 150ms ease; }
+  .btn:active { transform: scale(.98); filter: brightness(.95); }
+  .btn:disabled { opacity: .5; pointer-events: none; }
+  .btn-marca { background: var(--color-primary); color: var(--color-on-primary); }
+  .btn-azul { background: var(--color-secondary); color: var(--color-on-secondary); }
+  .btn-fantasma { background: transparent; color: var(--color-primary-text); border: 2px solid var(--color-primary); }
+  .btn-suave { background: var(--color-muted); color: var(--color-foreground); }
+  .campo { width: 100%; min-height: var(--touch-min); background: var(--color-muted); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0 12px; color: var(--color-foreground); }
+  .etiqueta { display: block; font-size: 14px; font-weight: 600; color: var(--color-muted-foreground); margin-bottom: 6px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 999px; font-size: 13px; font-weight: 600; }
+  .titulo { font-family: var(--font-heading); font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
+}
