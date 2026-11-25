@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { NavInferior } from './componentes/NavInferior';
 import { Encabezado } from './componentes/Encabezado';
+import { Importar } from './pantallas/Importar';
 
 function Pendiente({ titulo }: { titulo: string }) {
   return (
@@ -18,7 +19,7 @@ export default function App() {
         <Route path="/" element={<Pendiente titulo="Entreno" />} />
         <Route path="/dieta" element={<Pendiente titulo="Dieta" />} />
         <Route path="/progreso" element={<Pendiente titulo="Progreso" />} />
-        <Route path="/importar" element={<Pendiente titulo="Importar" />} />
+        <Route path="/importar" element={<Importar />} />
         <Route path="/perfil" element={<Pendiente titulo="Perfil" />} />
       </Routes>
       <NavInferior />
