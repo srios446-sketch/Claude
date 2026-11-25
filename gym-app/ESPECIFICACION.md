@@ -1,4 +1,4 @@
-# App de progreso del gym: especificación (v1)
+# EvaSof Training: especificación (v1)
 
 Resumen de lo que se definió en la ronda de preguntas (25-nov-2026).
 
@@ -6,6 +6,7 @@ Resumen de lo que se definió en la ronda de preguntas (25-nov-2026).
 
 | Tema | Decisión |
 |---|---|
+| Nombre | **EvaSof Training** |
 | Plataforma | PWA (web instalable en iPhone, Android y computadora) |
 | Usuarios | Tú + amigos/familia, cada quien con su propio plan (el coach no entra a la app) |
 | Acceso | Registro solo con **código de invitación** que tú generas |
@@ -124,6 +125,5 @@ En los dos casos:
 
 ## 9. Pendientes por definir
 
-- Nombre de la app.
 - Incremento de peso por defecto (2.5 kg / 5 lb), configurable por ejercicio.
 - Lista de grupos musculares para el volumen semanal (se puede asignar al importar).
