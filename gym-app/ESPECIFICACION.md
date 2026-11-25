@@ -6,7 +6,7 @@ Resumen de lo que se definió en la ronda de preguntas (25-nov-2026).
 
 | Tema | Decisión |
 |---|---|
-| Nombre | **EvaSof Training** |
+| Nombre | **EvaSof Training** (tentativo: nombre, logo y colores pueden cambiar) |
 | Plataforma | PWA (web instalable en iPhone, Android y computadora) |
 | Usuarios | Tú + amigos/familia, cada quien con su propio plan (el coach no entra a la app) |
 | Acceso | Registro solo con **código de invitación** que tú generas |
@@ -127,3 +127,12 @@ En los dos casos:
 
 - Incremento de peso por defecto (2.5 kg / 5 lb), configurable por ejercicio.
 - Lista de grupos musculares para el volumen semanal (se puede asignar al importar).
+
+## 10. Marca intercambiable
+
+Por ahora el nombre, el logo y los colores (EvaSof Training) son **tentativos**. Para cambiarlos sin tocar el resto del código:
+
+- **Un solo archivo de marca** (`src/config/brand.ts`) con el nombre, el nombre corto, la ruta del logo y los colores principales.
+- **Colores solo por variables** (`tokens.css`). Los componentes nunca usan hex sueltos, así que cambiar la paleta es cambiar ese archivo.
+- **Íconos de la PWA** (192, 512 y maskable) y favicon generados con un script a partir de un solo logo fuente.
+- **Manifest de la PWA** (nombre en la pantalla de inicio, color de tema) generado desde `brand.ts`.
