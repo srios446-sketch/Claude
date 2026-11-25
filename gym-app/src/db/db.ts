@@ -15,6 +15,7 @@ export interface Perfil {
   rangosSeries: Partial<Record<Grupo, [number, number]>>;
   objetivo: 'bajar' | 'subir' | 'mantener';
   metaAguaL: number;
+  spotifyUrl: string;           // playlist del gym (opcional)
 }
 
 /** Ejercicio del catálogo personal: todas las rutinas apuntan aquí para que el historial no se parta. */
@@ -185,6 +186,7 @@ export const PERFIL_DEFECTO: Perfil = {
   rangosSeries: {},
   objetivo: 'bajar',
   metaAguaL: 3,
+  spotifyUrl: '',
 };
 
 export async function obtenerPerfil(): Promise<Perfil> {
