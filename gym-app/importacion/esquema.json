@@ -165,6 +165,13 @@
                                 },
                                 "minItems": 2
                               },
+                              "caidas": {
+                                "type": [
+                                  "integer",
+                                  "null"
+                                ],
+                                "minimum": 1
+                              },
                               "descanso_intra_seg": {
                                 "type": [
                                   "integer",
@@ -238,32 +245,6 @@
                                   "properties": {
                                     "tipo": {
                                       "enum": [
-                                        "fallo",
-                                        "amrap"
-                                      ]
-                                    }
-                                  }
-                                },
-                                "then": {
-                                  "properties": {
-                                    "reps_min": {
-                                      "type": "null"
-                                    },
-                                    "reps_max": {
-                                      "type": "null"
-                                    },
-                                    "secuencia": {
-                                      "type": "null"
-                                    }
-                                  }
-                                }
-                              },
-                              {
-                                "if": {
-                                  "properties": {
-                                    "tipo": {
-                                      "enum": [
-                                        "dropset",
                                         "cluster"
                                       ]
                                     }
@@ -271,12 +252,6 @@
                                 },
                                 "then": {
                                   "properties": {
-                                    "reps_min": {
-                                      "type": "null"
-                                    },
-                                    "reps_max": {
-                                      "type": "null"
-                                    },
                                     "secuencia": {
                                       "type": "array"
                                     }

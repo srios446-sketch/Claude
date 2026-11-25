@@ -21,6 +21,7 @@
 - Cada `tipo_dia_dieta` de la rutina y cada id en `solo_tipos_dia` deben existir en `dieta.tipos_dia`.
 - Los ids `D#` y `TD#` no se repiten, y `orden` es consecutivo dentro de cada día y cada comida.
 - `reps_min` ≤ `reps_max` en cada bloque.
+- **Corrección automática de biseries:** los ejercicios de un mismo `grupo` deben ir seguidos. Si la IA repite una letra para dos biseries distintas del mismo día (pasó con "A" en dos días de una rutina real), la app vuelve a poner las letras A, B, C… en orden y lo muestra en la vista previa.
 - Avisos (no bloquean el guardado):
   - Un mismo ejercicio escrito distinto en varios días (ej. "Elevation con disco" y "Elevación con disco"). La app propone unificarlos.
   - Un ejercicio con un solo bloque de tipo `cluster` o `dropset` y un nombre que termina en "- cluster set" o "- drop set". Probablemente la IA lo separó del ejercicio anterior; la app propone unirlos.

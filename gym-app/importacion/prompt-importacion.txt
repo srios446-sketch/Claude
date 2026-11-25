@@ -18,14 +18,17 @@ Cada ejercicio se describe con "bloques". Un bloque es un grupo de series iguale
   - series 2, tipo "normal", reps 10-10
   - series 3, tipo "rm", reps 8-8
   (RM = series pesadas, con el máximo peso posible para esas reps).
-- "Al fallo" → tipo "fallo", con reps_min y reps_max null. "AMRAP" → tipo "amrap". "30 seg" → tipo "segundos", reps_min y reps_max 30.
-- DROP SET "2X10-12-15" → UN bloque: series 2, tipo "dropset", secuencia [10, 12, 15], reps_min y reps_max null. Son 2 series; en cada una se baja el peso sin descansar y se hacen 10, luego 12, luego 15 reps.
+- "Al fallo" → tipo "fallo", con reps_min y reps_max null. Si da un rango de referencia ("al fallo, 30-35 reps"), ponlo en reps_min y reps_max. "AMRAP" → tipo "amrap". "30 seg" → tipo "segundos", reps_min y reps_max 30.
+- DROP SET "2X10-12-15" → UN bloque: series 2, tipo "dropset", secuencia [10, 12, 15], caidas 2, reps_min y reps_max null. Son 2 series; en cada una se baja el peso 2 veces sin descansar y se hacen 10, luego 12, luego 15 reps.
+  - "Drop set doble" o "triple" sin reps → caidas 2 o 3, secuencia null. "Drop set" sin más detalle → caidas null, secuencia null. Lo demás ("bajar 20-30%", "al fallo en cada caída") va en "notas" del bloque.
 - CLUSTER SET "3X8-8-8-8-8-8" → UN bloque: series 3, tipo "cluster", secuencia [8, 8, 8, 8, 8, 8]. El descanso entre mini-series (ej. 10 s) va en "descanso_intra_seg".
   - Va dentro del MISMO ejercicio, como un bloque más, nunca como ejercicio nuevo.
   - Indicaciones de carga como "reducir 40% de la RM" van en "notas" del bloque.
 - Rest-pause y myo-reps → tipo "rest_pause" o "myo_reps", con "secuencia" si la indican.
 - Series de calentamiento o aproximación → bloque con tipo "calentamiento".
-- Biseries, triseries o superseries: pon la misma letra en "grupo" ("A", "B"…) a cada ejercicio que va junto.
+- Indicaciones solo para la última serie o las últimas N ("drop set en la última serie", "rest-pause en las últimas 2"): sepáralas en su propio bloque SIN cambiar el total de series. Ej. "3x12, rest-pause en la última" → 2 series normal + 1 serie rest_pause (total 3).
+- Biseries, triseries o superseries: pon la misma letra en "grupo" a los ejercicios que van juntos.
+  - Cada grupo del día lleva su propia letra, en orden: el primero "A", el segundo "B", el tercero "C". Nunca repitas una letra para dos grupos distintos del mismo día.
   - "CU" significa "cada uno": cada ejercicio del grupo lleva esas series.
   - Si una técnica (ej. un drop set) aparece después de la biserie sin decir a qué ejercicio aplica, ponla como bloque del primer ejercicio del grupo y anótalo en "dudas".
 - Variantes separadas por "/" u "o" ("PRESS MILITAR / HAMMER / MANCUERNAS") son UN solo ejercicio. La primera va en "nombre" y las demás en "alternativas", con nombre completo ("Press militar en Hammer", "Press militar con mancuernas").
@@ -85,9 +88,9 @@ FORMATO EXACTO (los valores son solo de ejemplo, no los copies)
             "alternativas": [],
             "grupos_musculares": ["espalda", "biceps"],
             "bloques": [
-              { "series": 2, "tipo": "normal", "reps_min": 15, "reps_max": 15, "secuencia": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null },
-              { "series": 2, "tipo": "normal", "reps_min": 10, "reps_max": 10, "secuencia": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null },
-              { "series": 3, "tipo": "rm", "reps_min": 8, "reps_max": 8, "secuencia": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null }
+              { "series": 2, "tipo": "normal", "reps_min": 15, "reps_max": 15, "secuencia": null, "caidas": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null },
+              { "series": 2, "tipo": "normal", "reps_min": 10, "reps_max": 10, "secuencia": null, "caidas": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null },
+              { "series": 3, "tipo": "rm", "reps_min": 8, "reps_max": 8, "secuencia": null, "caidas": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null }
             ],
             "tempo": null,
             "descanso_seg": 90,
@@ -101,7 +104,7 @@ FORMATO EXACTO (los valores son solo de ejemplo, no los copies)
             "alternativas": [],
             "grupos_musculares": ["espalda"],
             "bloques": [
-              { "series": 2, "tipo": "normal", "reps_min": 12, "reps_max": 12, "secuencia": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null }
+              { "series": 2, "tipo": "normal", "reps_min": 12, "reps_max": 12, "secuencia": null, "caidas": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null }
             ],
             "tempo": null,
             "descanso_seg": null,
@@ -115,7 +118,7 @@ FORMATO EXACTO (los valores son solo de ejemplo, no los copies)
             "alternativas": [],
             "grupos_musculares": ["espalda"],
             "bloques": [
-              { "series": 2, "tipo": "dropset", "reps_min": null, "reps_max": null, "secuencia": [10, 12, 15], "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null }
+              { "series": 2, "tipo": "dropset", "reps_min": null, "reps_max": null, "secuencia": [10, 12, 15], "caidas": 2, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null }
             ],
             "tempo": null,
             "descanso_seg": null,
@@ -138,8 +141,8 @@ FORMATO EXACTO (los valores son solo de ejemplo, no los copies)
             "alternativas": ["Press militar en Hammer", "Press militar con mancuernas"],
             "grupos_musculares": ["hombro", "triceps"],
             "bloques": [
-              { "series": 2, "tipo": "normal", "reps_min": 15, "reps_max": 15, "secuencia": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null },
-              { "series": 3, "tipo": "cluster", "reps_min": null, "reps_max": null, "secuencia": [8, 8, 8, 8, 8, 8], "descanso_intra_seg": 10, "rir": null, "peso_indicado": null, "notas": "Reducir 40% de la RM" }
+              { "series": 2, "tipo": "normal", "reps_min": 15, "reps_max": 15, "secuencia": null, "caidas": null, "descanso_intra_seg": null, "rir": null, "peso_indicado": null, "notas": null },
+              { "series": 3, "tipo": "cluster", "reps_min": null, "reps_max": null, "secuencia": [8, 8, 8, 8, 8, 8], "caidas": null, "descanso_intra_seg": 10, "rir": null, "peso_indicado": null, "notas": "Reducir 40% de la RM" }
             ],
             "tempo": null,
             "descanso_seg": null,
