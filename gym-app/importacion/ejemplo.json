@@ -1,0 +1,165 @@
+{
+  "formato": "evasof-plan",
+  "version": 1,
+  "rutina": {
+    "nombre": "Fase 2 - Hipertrofia",
+    "fecha_inicio": null,
+    "notas_generales": null,
+    "dias": [
+      {
+        "id": "D1",
+        "nombre": "Día 1 - Tren inferior",
+        "dia_semana": null,
+        "tipo_dia_dieta": "TD1",
+        "ejercicios": [
+          {
+            "orden": 1,
+            "nombre": "Sentadilla libre",
+            "grupos_musculares": [
+              "cuadriceps",
+              "gluteo"
+            ],
+            "series": 4,
+            "series_calentamiento": 2,
+            "tipo_reps": "reps",
+            "reps_min": 6,
+            "reps_max": 8,
+            "series_detalle": null,
+            "rir": 2,
+            "rpe": null,
+            "tempo": "3-1-1-0",
+            "descanso_seg": 150,
+            "peso_indicado": null,
+            "unidad": null,
+            "grupo": null,
+            "tecnica": null,
+            "notas": "Pausa de 1 s abajo"
+          },
+          {
+            "orden": 2,
+            "nombre": "Prensa 45°",
+            "grupos_musculares": [
+              "cuadriceps"
+            ],
+            "series": 3,
+            "series_calentamiento": null,
+            "tipo_reps": "reps",
+            "reps_min": null,
+            "reps_max": null,
+            "series_detalle": [
+              {
+                "serie": 1,
+                "reps_min": 12,
+                "reps_max": 12,
+                "rir": null,
+                "peso_indicado": null,
+                "notas": null
+              },
+              {
+                "serie": 2,
+                "reps_min": 10,
+                "reps_max": 10,
+                "rir": null,
+                "peso_indicado": null,
+                "notas": null
+              },
+              {
+                "serie": 3,
+                "reps_min": 8,
+                "reps_max": 8,
+                "rir": 0,
+                "peso_indicado": null,
+                "notas": "Drop set al final"
+              }
+            ],
+            "rir": null,
+            "rpe": null,
+            "tempo": null,
+            "descanso_seg": 90,
+            "peso_indicado": null,
+            "unidad": "lb",
+            "grupo": null,
+            "tecnica": "dropset",
+            "notas": null
+          }
+        ],
+        "cardio": [
+          {
+            "maquina": "Caminadora",
+            "momento": "despues",
+            "meta_tipo": "tiempo",
+            "meta_valor": 20,
+            "inclinacion_pct": 12,
+            "velocidad": 5,
+            "velocidad_unidad": "km/h",
+            "nivel": null,
+            "fc_objetivo": null,
+            "notas": null
+          }
+        ]
+      }
+    ]
+  },
+  "dieta": {
+    "nombre": "Dieta fase 2",
+    "fecha_inicio": null,
+    "agua_litros": 3,
+    "notas_generales": null,
+    "tipos_dia": [
+      {
+        "id": "TD1",
+        "nombre": "Tren inferior",
+        "es_descanso": false,
+        "macros_objetivo": {
+          "kcal": 2400,
+          "proteina_g": 180,
+          "carbohidratos_g": 280,
+          "grasa_g": 65
+        },
+        "comidas": [
+          {
+            "orden": 1,
+            "nombre": "Comida 1",
+            "hora": "07:30",
+            "alimentos": [
+              {
+                "nombre": "Huevo entero",
+                "cantidad": 3,
+                "unidad": "pieza",
+                "opciones": [],
+                "notas": null
+              },
+              {
+                "nombre": "Avena",
+                "cantidad": 80,
+                "unidad": "g",
+                "opciones": [
+                  {
+                    "nombre": "Crema de arroz",
+                    "cantidad": 80,
+                    "unidad": "g"
+                  }
+                ],
+                "notas": null
+              }
+            ],
+            "notas": null
+          }
+        ]
+      }
+    ],
+    "suplementos": [
+      {
+        "nombre": "Creatina",
+        "dosis": "5 g",
+        "momento": "Con la comida 1",
+        "hora": null,
+        "solo_tipos_dia": null,
+        "notas": null
+      }
+    ]
+  },
+  "dudas": [
+    "Comida 4: no se lee la cantidad de arroz (¿150 o 180 g?)"
+  ]
+}

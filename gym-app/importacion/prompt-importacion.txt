@@ -1,0 +1,156 @@
+Convierte el plan de mi coach (archivo adjunto: PDF o imagen) al formato JSON de mi app de gym. Puede traer rutina, dieta o ambas.
+
+REGLAS
+1. Responde SOLO con un bloque de código ```json. No escribas nada antes ni después.
+2. No inventes datos. Si algo no aparece en el documento, usa null. Única excepción: "grupos_musculares", que sí debes deducir por el nombre del ejercicio.
+3. Si algo es ilegible, ambiguo o no cabe en el formato, anótalo en "dudas" (en español, breve) y continúa.
+4. Copia los nombres de ejercicios y alimentos como los escribe el coach (solo corrige ortografía evidente).
+5. Números con punto decimal (82.5) y sin unidades dentro del número. Horas en formato 24 h "HH:MM". Fechas "AAAA-MM-DD".
+6. En los campos con valores permitidos (lista de abajo) usa exactamente uno de esos valores.
+7. Si el documento solo trae rutina, "dieta" es null. Si solo trae dieta, "rutina" es null.
+8. Los ids de los días de rutina son "D1", "D2"…; los de los tipos de día de dieta son "TD1", "TD2"…
+
+CÓMO LEER LA RUTINA
+- "4x8-10" → series 4, reps_min 8, reps_max 10. "3x12" → reps_min 12, reps_max 12.
+- "Al fallo" → tipo_reps "fallo" con reps_min y reps_max null. "30 seg" o 30'' → tipo_reps "segundos", reps_min y reps_max 30. "AMRAP" → tipo_reps "amrap".
+- Si cada serie lleva reps o cargas distintas (pirámide "12-10-8-6", top set + back-off), llena "series_detalle" con una entrada por serie. Si todas son iguales, "series_detalle" es null.
+- Las series de calentamiento o aproximación van en "series_calentamiento"; no se suman a "series".
+- Superseries, biseries o triseries: pon la misma letra en "grupo" ("A", "B"…) a los ejercicios que van juntos y tecnica "superserie".
+- Otras técnicas (drop set, rest-pause, myo-reps, parciales, pausa, cluster) van en "tecnica", con la explicación en "notas".
+- Descanso en segundos: "2 min" → 120, "1:30" → 90.
+- RIR o RPE: copia el número. Si es un rango ("RIR 1-2"), usa el primer número y escribe el rango en "notas".
+- Peso: solo si el coach lo indica ("peso_indicado"), con su "unidad". Si no dice la unidad, "unidad" es null.
+- El cardio va dentro del día en "cardio". "meta_tipo" depende de lo que pida el coach: tiempo (minutos), calorias (kcal) o distancia (km).
+- Si los días tienen día de la semana fijo, ponlo en "dia_semana". Si son rotativos (Día A, B, C…), usa null.
+
+CÓMO LEER LA DIETA
+- Cada variante con menú distinto (entreno o descanso, tren superior o inferior, alto o bajo en carbos, etc.) es un elemento de "tipos_dia". Si la dieta es igual todos los días, usa un solo tipo llamado "Todos los días".
+- Si queda claro qué menú corresponde a qué día de entreno (ej. "día de pierna"), pon en ese día de la rutina "tipo_dia_dieta" con el id del tipo de día. Si no queda claro, usa null.
+- Alimentos: cantidad numérica más unidad. "1/2 taza" → cantidad 0.5, unidad "taza". "Al gusto" o "libre" → cantidad null, unidad "al_gusto".
+- Alternativas ("pollo o pescado o res"): la primera va como alimento y las demás en "opciones".
+- Si el coach da macros o calorías del día, ponlos en "macros_objetivo". Si no, usa null.
+- Los suplementos van en "suplementos" de la dieta. Si solo aplican ciertos días, pon sus ids en "solo_tipos_dia". Si aplican todos los días, usa null.
+
+VALORES PERMITIDOS
+- dia_semana: lunes | martes | miercoles | jueves | viernes | sabado | domingo | null
+- tipo_reps: reps | segundos | fallo | amrap
+- grupos_musculares: pecho | espalda | hombro | trapecio | biceps | triceps | antebrazo | abdomen | lumbar | cuadriceps | femoral | gluteo | aductores | abductores | pantorrilla | cuerpo_completo
+- unidad (peso): kg | lb | null
+- tecnica: superserie | dropset | rest_pause | myo_reps | parciales | pausa | cluster | otra | null
+- cardio.momento: antes | despues | separado | null
+- cardio.meta_tipo: tiempo | calorias | distancia
+- cardio.velocidad_unidad: km/h | mph | null
+- alimento.unidad: g | ml | pieza | taza | cda | cdita | scoop | rebanada | porcion | al_gusto
+
+FORMATO EXACTO (los valores son solo de ejemplo, no los copies)
+```json
+{
+  "formato": "evasof-plan",
+  "version": 1,
+  "rutina": {
+    "nombre": "Fase 2 - Hipertrofia",
+    "fecha_inicio": null,
+    "notas_generales": null,
+    "dias": [
+      {
+        "id": "D1",
+        "nombre": "Día 1 - Tren inferior",
+        "dia_semana": null,
+        "tipo_dia_dieta": "TD1",
+        "ejercicios": [
+          {
+            "orden": 1,
+            "nombre": "Sentadilla libre",
+            "grupos_musculares": ["cuadriceps", "gluteo"],
+            "series": 4,
+            "series_calentamiento": 2,
+            "tipo_reps": "reps",
+            "reps_min": 6,
+            "reps_max": 8,
+            "series_detalle": null,
+            "rir": 2,
+            "rpe": null,
+            "tempo": "3-1-1-0",
+            "descanso_seg": 150,
+            "peso_indicado": null,
+            "unidad": null,
+            "grupo": null,
+            "tecnica": null,
+            "notas": "Pausa de 1 s abajo"
+          },
+          {
+            "orden": 2,
+            "nombre": "Prensa 45°",
+            "grupos_musculares": ["cuadriceps"],
+            "series": 3,
+            "series_calentamiento": null,
+            "tipo_reps": "reps",
+            "reps_min": null,
+            "reps_max": null,
+            "series_detalle": [
+              { "serie": 1, "reps_min": 12, "reps_max": 12, "rir": null, "peso_indicado": null, "notas": null },
+              { "serie": 2, "reps_min": 10, "reps_max": 10, "rir": null, "peso_indicado": null, "notas": null },
+              { "serie": 3, "reps_min": 8, "reps_max": 8, "rir": 0, "peso_indicado": null, "notas": "Drop set al final" }
+            ],
+            "rir": null,
+            "rpe": null,
+            "tempo": null,
+            "descanso_seg": 90,
+            "peso_indicado": null,
+            "unidad": "lb",
+            "grupo": null,
+            "tecnica": "dropset",
+            "notas": null
+          }
+        ],
+        "cardio": [
+          {
+            "maquina": "Caminadora",
+            "momento": "despues",
+            "meta_tipo": "tiempo",
+            "meta_valor": 20,
+            "inclinacion_pct": 12,
+            "velocidad": 5,
+            "velocidad_unidad": "km/h",
+            "nivel": null,
+            "fc_objetivo": null,
+            "notas": null
+          }
+        ]
+      }
+    ]
+  },
+  "dieta": {
+    "nombre": "Dieta fase 2",
+    "fecha_inicio": null,
+    "agua_litros": 3,
+    "notas_generales": null,
+    "tipos_dia": [
+      {
+        "id": "TD1",
+        "nombre": "Tren inferior",
+        "es_descanso": false,
+        "macros_objetivo": { "kcal": 2400, "proteina_g": 180, "carbohidratos_g": 280, "grasa_g": 65 },
+        "comidas": [
+          {
+            "orden": 1,
+            "nombre": "Comida 1",
+            "hora": "07:30",
+            "alimentos": [
+              { "nombre": "Huevo entero", "cantidad": 3, "unidad": "pieza", "opciones": [], "notas": null },
+              { "nombre": "Avena", "cantidad": 80, "unidad": "g", "opciones": [ { "nombre": "Crema de arroz", "cantidad": 80, "unidad": "g" } ], "notas": null }
+            ],
+            "notas": null
+          }
+        ]
+      }
+    ],
+    "suplementos": [
+      { "nombre": "Creatina", "dosis": "5 g", "momento": "Con la comida 1", "hora": null, "solo_tipos_dia": null, "notas": null }
+    ]
+  },
+  "dudas": [
+    "Comida 4: no se lee la cantidad de arroz (¿150 o 180 g?)"
+  ]
+}
+```
