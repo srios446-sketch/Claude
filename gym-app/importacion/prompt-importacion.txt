@@ -4,7 +4,7 @@ REGLAS
 1. Responde SOLO con un bloque de código ```json. No escribas nada antes ni después. Si la respuesta se corta por larga, cuando te escriba "continúa" sigue exactamente donde te quedaste.
 2. No inventes datos. Si algo no aparece en el documento, usa null. Única excepción: "grupos_musculares", que sí debes deducir por el nombre del ejercicio.
 3. Si algo es ilegible, ambiguo o no cabe en el formato, anótalo en "dudas" (breve, diciendo día y ejercicio) y usa tu mejor interpretación.
-4. Nombres de ejercicios y alimentos con mayúscula inicial, el resto en minúsculas y con acentos ("Jalón en supinación"). Corrige errores de dedo evidentes (PECLFY → Pec fly) y anota cada corrección en "dudas". Si el mismo ejercicio aparece en varios días, escríbelo exactamente igual en todos.
+4. Nombres de ejercicios y alimentos con mayúscula inicial, el resto en minúsculas y con acentos ("Jalón en supinación"). Corrige errores de dedo evidentes (PECLFY → Pec fly) y anota cada corrección en "dudas". Si el mismo ejercicio aparece en varios días, escríbelo exactamente igual en todos. No cambies el nombre que usa el coach por un sinónimo (ej. "Costureras" se queda así); si ayuda, pon el nombre más común en "alternativas".
 5. Números con punto decimal (82.5) y sin unidades dentro del número. Horas en formato 24 h "HH:MM". Fechas "AAAA-MM-DD".
 6. En los campos con valores permitidos (lista de abajo) usa exactamente uno de esos valores.
 7. Si el documento solo trae rutina, "dieta" es null. Si solo trae dieta, "rutina" es null.
@@ -27,13 +27,13 @@ Cada ejercicio se describe con "bloques". Un bloque es un grupo de series iguale
 - Rest-pause y myo-reps → tipo "rest_pause" o "myo_reps", con "secuencia" si la indican.
 - Series de calentamiento o aproximación → bloque con tipo "calentamiento".
 - Indicaciones solo para la última serie o las últimas N ("drop set en la última serie", "rest-pause en las últimas 2"): sepáralas en su propio bloque SIN cambiar el total de series. Ej. "3x12, rest-pause en la última" → 2 series normal + 1 serie rest_pause (total 3).
-- Biseries, triseries o superseries: pon la misma letra en "grupo" a los ejercicios que van juntos.
+- Biseries, triseries, superseries o ejercicios que el coach indica hacer "junto con" otro: pon la misma letra en "grupo" a los ejercicios que van juntos.
   - Cada grupo del día lleva su propia letra, en orden: el primero "A", el segundo "B", el tercero "C". Nunca repitas una letra para dos grupos distintos del mismo día.
   - "CU" significa "cada uno": cada ejercicio del grupo lleva esas series.
   - Si una técnica (ej. un drop set) aparece después de la biserie sin decir a qué ejercicio aplica, ponla como bloque del primer ejercicio del grupo y anótalo en "dudas".
 - Variantes separadas por "/" u "o" ("PRESS MILITAR / HAMMER / MANCUERNAS") son UN solo ejercicio. La primera va en "nombre" y las demás en "alternativas", con nombre completo ("Press militar en Hammer", "Press militar con mancuernas").
 - RIR o RPE: número en el bloque. Si es un rango ("RIR 1-2"), usa el primer número y escribe el rango en "notas".
-- Descanso entre series: en "descanso_seg" del ejercicio, en segundos ("2 min" → 120, "1:30" → 90).
+- Descanso entre series: en "descanso_seg" del ejercicio, en segundos ("2 min" → 120, "1:30" → 90). Si es un rango ("2-3 min"), usa el punto medio (150) y escribe el rango en "notas". En una biserie, el descanso que va después de completar la ronda se pone en el último ejercicio del grupo.
 - Peso: solo si el coach lo indica, en "peso_indicado" del bloque. La "unidad" del ejercicio es kg o lb; si no la dice, null.
 - El cardio va dentro del día en "cardio". "meta_tipo" depende de lo que pida el coach: tiempo (minutos), calorias (kcal) o distancia (km).
 - Si los días tienen día de la semana fijo, ponlo en "dia_semana". Si son rotativos (Día 1, Día 2…), usa null.

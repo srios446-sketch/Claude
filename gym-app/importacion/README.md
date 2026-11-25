@@ -28,6 +28,21 @@
 - Antes de validar, se quitan las comillas de bloque (```` ```json ````) y el texto que la IA ponga alrededor. Si el JSON viene partido en dos respuestas ("continúa"), se pueden pegar las dos partes juntas.
 - Si no viene la unidad de peso de un ejercicio, se usa la unidad preferida del usuario.
 
+## Catálogo de ejercicios (para no partir el progreso)
+
+Cada importación puede escribir un mismo ejercicio un poco distinto, por ejemplo "Elevaciones laterales en polea baja unilateral" en una y "Elevaciones laterales en polea baja" en otra. Si la app los tratara como ejercicios distintos, tu historial de pesos y PRs quedaría partido. Por eso:
+
+- La app guarda un **catálogo de ejercicios por usuario**. Cada ejercicio de la rutina apunta a uno del catálogo.
+- Al importar, cada nombre se compara con el catálogo (sin mayúsculas, acentos ni palabras de relleno, y por similitud). En la vista previa se ve así:
+  - **Coincidencia exacta:** se liga solo.
+  - **Parecido:** "¿Es el mismo que *Elevaciones laterales en polea baja*?" → Sí / No, es nuevo.
+  - **Nuevo:** se crea en el catálogo.
+- Las `alternativas` también se ligan al catálogo, así un "Sustituir ejercicio" en el gym queda registrado contra el ejercicio correcto.
+
+## Descanso en biseries
+
+En un `grupo`, el temporizador no corre entre ejercicios del grupo. Arranca al terminar la ronda completa, con el `descanso_seg` más alto de los ejercicios del grupo.
+
 ## Conteo de series (volumen semanal)
 
 Series efectivas de un ejercicio = la suma de `series` de sus bloques, sin contar los de tipo `calentamiento`. Un drop set o un cluster cuenta como 1 serie por cada `series` del bloque.
