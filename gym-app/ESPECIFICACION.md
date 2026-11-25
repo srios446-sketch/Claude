@@ -55,7 +55,13 @@ En los dos casos:
 ## 4. Dieta
 
 - **Formato:** menú fijo por comida con gramos exactos. Son 4 o 5 comidas, con horario casi siempre fijo.
-- **Variantes por día:** día de entreno vs. descanso, días altos/bajos en carbos.
+- **Variantes por día (tipos de día libres):**
+  - Cada usuario define sus propios tipos de día según lo que mande su coach. Ej: "Tren superior", "Tren inferior", "Descanso", "Alto en carbos".
+  - Cada tipo de día tiene su propio menú (comidas, gramos, horarios y suplementos).
+  - Cada día de la rutina se **vincula** a un tipo de día de dieta (ej. "Día 2 – Pierna" → "Tren inferior").
+  - Al abrir la dieta de hoy, la app muestra **automáticamente** el menú que toca según el entreno del día. Si hoy no hay entreno, muestra el de descanso.
+  - Se puede **cambiar a mano** si ese día cambiaste de entreno o no fuiste al gym.
+  - Al importar el PDF, la IA detecta las variantes (ej. "Día de pierna", "Día de torso") y propone el vínculo con los días de la rutina.
 - **Registro:** palomear cada comida para medir adherencia.
 - **Extras:**
   - Lista del súper generada desde la dieta (por semana, sumando los gramos).
@@ -102,15 +108,16 @@ En los dos casos:
 - `perfiles`: usuario, nombre, unidades preferidas, ajustes de campos opcionales.
 - `codigos_invitacion`: código, creado por, usado por, fecha.
 - `rutinas`: versión, fecha de inicio y fin, activa (sí/no), origen (importada o manual).
-  - `dias_rutina` → `ejercicios_plan`: series, rango de reps, descanso, tempo, RIR objetivo, notas, unidad, incremento.
+  - `dias_rutina` (con `tipo_dia_dieta` vinculado) → `ejercicios_plan`: series, rango de reps, descanso, tempo, RIR objetivo, notas, unidad, incremento.
   - `cardio_plan`: máquina, tipo de meta (tiempo/calorías), parámetros.
 - `sesiones`: fecha, día de rutina, notas.
   - `series_registradas`: peso, reps, RPE/RIR, tempo, descanso, sustituido por.
   - `cardio_registrado`.
 - `dietas`: versión, fechas, activa.
-  - `tipos_dia`: entreno, descanso, alto o bajo en carbos.
-  - `comidas`: número, hora, alimentos con gramos y opciones.
-  - `suplementos`: nombre, dosis, horario.
+  - `tipos_dia`: nombre libre (ej. tren superior, tren inferior, descanso), "es de descanso" (sí/no).
+    - `comidas`: número, hora, alimentos con gramos y opciones.
+    - `suplementos`: nombre, dosis, horario.
+- `dieta_del_dia`: fecha y tipo de día usado (automático o cambiado a mano).
 - `registro_comidas`, `registro_suplementos`, `registro_agua`.
 - `metricas_corporales`: fecha, peso, medidas, % de grasa.
 - `checkins`: semana, respuestas del 1 al 10, notas, PDF generado.
