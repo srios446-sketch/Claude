@@ -26,14 +26,14 @@ export const BloqueSchema = z
   .strict()
   .superRefine((b, ctx) => {
     if (['normal', 'rm', 'segundos'].includes(b.tipo)) {
-      if (b.reps_min == null) ctx.addIssue({ code: 'custom', path: ['reps_min'], message: `un bloque "${b.tipo}" necesita reps_min` });
-      if (b.reps_max == null) ctx.addIssue({ code: 'custom', path: ['reps_max'], message: `un bloque "${b.tipo}" necesita reps_max` });
+      if (b.reps_min == null) ctx.addIssue({ code: 'custom', path: ['reps_min'], message: b.tipo === 'segundos' ? 'faltan los segundos mínimos' : 'faltan las reps mínimas' });
+      if (b.reps_max == null) ctx.addIssue({ code: 'custom', path: ['reps_max'], message: b.tipo === 'segundos' ? 'faltan los segundos máximos' : 'faltan las reps máximas' });
       if (b.secuencia != null) ctx.addIssue({ code: 'custom', path: ['secuencia'], message: `un bloque "${b.tipo}" no lleva secuencia` });
     }
     if (b.tipo === 'cluster' && b.secuencia == null)
-      ctx.addIssue({ code: 'custom', path: ['secuencia'], message: 'un cluster necesita su secuencia (ej. [8, 8, 8])' });
+      ctx.addIssue({ code: 'custom', path: ['secuencia'], message: 'escribe las mini-series del cluster (ej. 8-8-8)' });
     if (b.reps_min != null && b.reps_max != null && b.reps_min > b.reps_max)
-      ctx.addIssue({ code: 'custom', path: ['reps_min'], message: 'reps_min es mayor que reps_max' });
+      ctx.addIssue({ code: 'custom', path: ['reps_min'], message: 'las reps mínimas son más que las máximas' });
   });
 export type Bloque = z.infer<typeof BloqueSchema>;
 

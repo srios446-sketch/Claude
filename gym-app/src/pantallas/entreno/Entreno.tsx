@@ -89,7 +89,9 @@ function InicioEntreno({ rutina, perfil }: { rutina: RutinaGuardada; perfil: Per
             ))}
           </ol>
         </section>
-        <p className="pb-2 text-center text-xs text-tenue">Rutina «{rutina.nombre}» · importada el {fechaCorta(rutina.importada.slice(0, 10))}</p>
+        <p className="pb-2 text-center text-xs text-tenue">
+          Rutina «{rutina.nombre}» · desde el {fechaCorta(rutina.importada.slice(0, 10))} · <Link to="/plan/rutina/editar" className="font-semibold text-acento">Editar rutina</Link>
+        </p>
       </div>
     </>
   );

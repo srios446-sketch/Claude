@@ -66,6 +66,22 @@ export function rutaLegible(raw: unknown, ruta: PropertyKey[]): string {
   return partes.join(' › ') || 'plan';
 }
 
+const QUE_FALTA: Record<string, string> = {
+  nombre: 'el nombre', grupos_musculares: 'al menos un grupo muscular', bloques: 'al menos un bloque de series',
+  comidas: 'al menos una comida', dias: 'al menos un día', tipos_dia: 'al menos un tipo de día', maquina: 'la máquina',
+  secuencia: 'la secuencia', alimentos: 'al menos un alimento',
+};
+const capital = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+
+/** Mensaje entendible: "Rutina › D1 › ejercicio 2: falta el nombre". */
+export function mensajeAmable(raw: unknown, iss: { path: PropertyKey[]; code?: string; origin?: string; message: string }): string {
+  const ultimo = String(iss.path[iss.path.length - 1] ?? '');
+  if (iss.code === 'too_small' && (iss.origin === 'string' || iss.origin === 'array') && QUE_FALTA[ultimo]) {
+    return `${capital(rutaLegible(raw, iss.path.slice(0, -1)))}: falta ${QUE_FALTA[ultimo]}`;
+  }
+  return `${capital(rutaLegible(raw, iss.path))}: ${iss.message}`;
+}
+
 /** Cada tramo seguido de ejercicios con la misma letra es un grupo; se re-letra A, B, C… por día. */
 export function reletrarGrupos(dia: Dia): string[] {
   const cambios: string[] = [];
@@ -181,7 +197,7 @@ export function leerPlan(texto: string): Lectura {
   if (!res.success) {
     const vistos = new Set<string>();
     for (const iss of res.error.issues) {
-      const linea = `${rutaLegible(raw, iss.path)}: ${iss.message}`;
+      const linea = mensajeAmable(raw, iss);
       if (!vistos.has(linea)) { vistos.add(linea); r.errores.push(linea); }
       if (r.errores.length >= 12) { r.errores.push('…y más errores. Revisa que la IA haya usado el formato del prompt.'); break; }
     }

@@ -177,6 +177,7 @@ function DietaDeHoy({ dieta, perfil }: { dieta: DietaGuardada; perfil: Perfil })
             </ul>
           </section>
         </div>
+        <p className="text-center text-xs text-tenue">Dieta «{dieta.nombre}» · <Link to="/plan/dieta/editar" className="font-semibold text-acento">Editar dieta</Link></p>
         {dieta.notas_generales && (
           <section>
             <TituloSeccion>Notas del coach</TituloSeccion>

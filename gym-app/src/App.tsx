@@ -18,6 +18,8 @@ const Importar = lazy(() => import('./pantallas/Importar').then((m) => ({ defaul
 const ListaSuper = lazy(() => import('./pantallas/ListaSuper').then((m) => ({ default: m.ListaSuper })));
 const Progreso = lazy(() => import('./pantallas/progreso/Progreso').then((m) => ({ default: m.Progreso })));
 const Registrar = lazy(() => import('./pantallas/progreso/Registrar').then((m) => ({ default: m.Registrar })));
+const EditorRutina = lazy(() => import('./pantallas/planes/EditorRutina').then((m) => ({ default: m.EditorRutina })));
+const EditorDieta = lazy(() => import('./pantallas/planes/EditorDieta').then((m) => ({ default: m.EditorDieta })));
 const Perfil = lazy(() => import('./pantallas/Perfil').then((m) => ({ default: m.Perfil })));
 
 function Pendiente({ titulo }: { titulo: string }) {
@@ -54,6 +56,10 @@ export default function App() {
           <Route path="/progreso" element={<Progreso />} />
           <Route path="/progreso/registrar" element={<Registrar />} />
           <Route path="/importar" element={<Importar />} />
+          <Route path="/plan/rutina/nueva" element={<EditorRutina key="rn" modo="nueva" />} />
+          <Route path="/plan/rutina/editar" element={<EditorRutina key="re" modo="editar" />} />
+          <Route path="/plan/dieta/nueva" element={<EditorDieta key="dn" modo="nueva" />} />
+          <Route path="/plan/dieta/editar" element={<EditorDieta key="de" modo="editar" />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/entrar" element={<Bienvenida volver />} />
           <Route path="*" element={<Pendiente titulo="No encontrado" />} />

@@ -1,14 +1,16 @@
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Check, ChevronDown, ClipboardCopy, ClipboardPaste, ExternalLink, Link2, Save } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Check, ChevronDown, ClipboardCopy, ClipboardPaste, Dumbbell, ExternalLink, Link2, Pencil, Plus, Save, UtensilsCrossed } from 'lucide-react';
 import PROMPT from '../../importacion/prompt-importacion.txt?raw';
 import { Encabezado } from '../componentes/Encabezado';
 import { Lista, Mensaje, TituloSeccion } from '../componentes/ui';
+import { ConfirmarCoincidencias } from '../componentes/ConfirmarCoincidencias';
 import { detectarSeparados, leerPlan, unirConAnterior, type Lectura } from '../lib/importar';
 import { describirBloque, seriesEfectivas, type Plan } from '../lib/plan';
 import { buscarCoincidencias, decisionesPorDefecto, guardarPlan, type Coincidencia, type Decisiones } from '../db/catalogo';
+import { useDietaActiva, useRutinaActiva } from '../db/hooks';
 
-export function Importar() {
+function ConIA() {
   const navegar = useNavigate();
   const [texto, setTexto] = useState('');
   const [lectura, setLectura] = useState<Lectura | null>(null);
@@ -60,7 +62,6 @@ export function Importar() {
 
   return (
     <>
-      <Encabezado titulo="Importar plan" subtitulo="Rutina o dieta que te mandó tu coach" />
       <div className="space-y-4 px-4">
         <section className="tarjeta space-y-3">
           <Paso n={1} titulo="Copia el prompt">
@@ -154,30 +155,7 @@ export function Importar() {
               </Mensaje>
             )}
 
-            {parecidas.length > 0 && (
-              <section className="tarjeta">
-                <TituloSeccion>¿Son el mismo ejercicio?</TituloSeccion>
-                <p className="mb-3 text-sm text-tenue">Si es el mismo, tu historial de pesos y récords sigue junto.</p>
-                <ul className="space-y-3">
-                  {parecidas.map((c) => {
-                    const mismo = decisiones[c.clave] !== 'nuevo';
-                    return (
-                      <li key={c.clave} className="rounded-xl bg-atenuado p-3">
-                        <p className="text-sm">
-                          <b>{c.nombre}</b> <span className="text-tenue">se parece a</span> <b>{c.candidato!.nombre}</b>
-                        </p>
-                        <div className="mt-2 flex gap-2" role="radiogroup" aria-label={`¿${c.nombre} es ${c.candidato!.nombre}?`}>
-                          <button role="radio" aria-checked={mismo} className={`btn flex-1 !min-h-10 !text-sm ${mismo ? 'btn-azul' : 'btn-suave'}`}
-                            onClick={() => setDecisiones((d) => ({ ...d, [c.clave]: c.candidato!.id }))}>Es el mismo</button>
-                          <button role="radio" aria-checked={!mismo} className={`btn flex-1 !min-h-10 !text-sm ${!mismo ? 'btn-azul' : 'btn-suave'}`}
-                            onClick={() => setDecisiones((d) => ({ ...d, [c.clave]: 'nuevo' }))}>Es nuevo</button>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
-            )}
+            <ConfirmarCoincidencias parecidas={parecidas} decisiones={decisiones} onCambio={setDecisiones} />
 
             <VistaPlan plan={plan} />
 
@@ -194,6 +172,50 @@ export function Importar() {
         )}
       </div>
     </>
+  );
+}
+
+export function Importar() {
+  const [modo, setModo] = useState<'ia' | 'mano'>(() => { try { return (sessionStorage.getItem('evasof.importar.modo') as 'ia' | 'mano') || 'ia'; } catch { return 'ia'; } });
+  const elegir = (m: 'ia' | 'mano') => { setModo(m); try { sessionStorage.setItem('evasof.importar.modo', m); } catch { /* */ } };
+  return (
+    <>
+      <Encabezado titulo="Planes" subtitulo="Rutina y dieta: importar con IA o capturar a mano" />
+      <div className="mb-4 px-4">
+        <div className="flex rounded-xl bg-tarjeta p-1" role="tablist" aria-label="Cómo cargar">
+          {([['ia', 'Con IA'], ['mano', 'A mano']] as const).map(([m, t]) => (
+            <button key={m} role="tab" aria-selected={modo === m} onClick={() => elegir(m)}
+              className={`titulo min-h-11 flex-1 rounded-[9px] text-base ${modo === m ? 'bg-marca text-sobre-marca' : 'text-tenue'}`}>{t}</button>
+          ))}
+        </div>
+      </div>
+      {modo === 'ia' ? <ConIA /> : <AMano />}
+    </>
+  );
+}
+
+function AMano() {
+  const rutina = useRutinaActiva();
+  const dieta = useDietaActiva();
+  const tarjeta = (tipo: 'rutina' | 'dieta', actual: { nombre: string } | null | undefined, Icono: typeof Dumbbell) => (
+    <section className="tarjeta space-y-3" aria-label={tipo === 'rutina' ? 'Rutina' : 'Dieta'}>
+      <div className="flex items-center gap-3">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-azul/20 text-acento"><Icono size={22} aria-hidden /></span>
+        <div className="min-w-0">
+          <h2 className="titulo text-xl">{tipo === 'rutina' ? 'Rutina' : 'Dieta'}</h2>
+          <p className="truncate text-sm text-tenue">{actual ? `Actual: ${actual.nombre}` : 'Aún no tienes'}</p>
+        </div>
+      </div>
+      {actual && <Link to={`/plan/${tipo}/editar`} className="btn btn-azul w-full !text-base"><Pencil size={18} aria-hidden /> Editar {tipo === 'rutina' ? 'la rutina' : 'la dieta'} actual</Link>}
+      <Link to={`/plan/${tipo}/nueva`} className={`btn w-full !text-base ${actual ? 'btn-suave' : 'btn-marca'}`}><Plus size={18} aria-hidden /> {tipo === 'rutina' ? 'Crear rutina nueva' : 'Crear dieta nueva'}</Link>
+      {actual && <p className="text-xs text-tenue">Editar guarda los cambios en la misma {tipo}. Crear una nueva manda la actual al historial (Perfil → Mis planes).</p>}
+    </section>
+  );
+  return (
+    <div className="space-y-4 px-4">
+      {tarjeta('rutina', rutina, Dumbbell)}
+      {tarjeta('dieta', dieta, UtensilsCrossed)}
+    </div>
   );
 }
 

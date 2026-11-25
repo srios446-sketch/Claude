@@ -146,6 +146,7 @@ Por ahora el nombre, el logo y los colores (EvaSof Training) son **tentativos**.
 - Invitaciones con código y panel de admin.
 - Avisos push de descanso, comidas y agua.
 - Check-in en PDF.
+- Captura y edición manual de rutina y dieta (Planes → A mano, o "Editar" desde Entreno y Dieta).
 
 **Por confirmar en un iPhone real:**
 - Que lleguen las notificaciones push con la app instalada en la pantalla de inicio (iOS 16.4 o más reciente).
