@@ -10,6 +10,7 @@ export interface Perfil {
   unidadPeso: UnidadPeso;
   unidadMedida: 'cm' | 'in';
   campos: { rir: boolean; tempo: boolean; descanso: boolean };
+  descansoDefectoSeg: number;
   incremento: { kg: number; lb: number };
   rangosSeries: Partial<Record<Grupo, [number, number]>>;
   objetivo: 'bajar' | 'subir' | 'mantener';
@@ -179,6 +180,7 @@ export const PERFIL_DEFECTO: Perfil = {
   unidadPeso: 'kg',
   unidadMedida: 'cm',
   campos: { rir: false, tempo: false, descanso: false },
+  descansoDefectoSeg: 90,
   incremento: { kg: 2.5, lb: 5 },
   rangosSeries: {},
   objetivo: 'bajar',
@@ -186,5 +188,10 @@ export const PERFIL_DEFECTO: Perfil = {
 };
 
 export async function obtenerPerfil(): Promise<Perfil> {
-  return (await db.perfil.get('yo')) ?? PERFIL_DEFECTO;
+  return { ...PERFIL_DEFECTO, ...(await db.perfil.get('yo')) };
+}
+
+export async function actualizarPerfil(cambios: Partial<Omit<Perfil, 'id'>>) {
+  const actual = await obtenerPerfil();
+  await db.perfil.put({ ...actual, ...cambios, id: 'yo' });
 }
