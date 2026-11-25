@@ -10,12 +10,13 @@ import { Dieta } from './pantallas/Dieta';
 import { ListaSuper } from './pantallas/ListaSuper';
 import { Progreso } from './pantallas/progreso/Progreso';
 import { Registrar } from './pantallas/progreso/Registrar';
+import { Perfil } from './pantallas/Perfil';
 
 function Pendiente({ titulo }: { titulo: string }) {
   return (
     <>
       <Encabezado titulo={titulo} />
-      <div className="px-4"><div className="tarjeta text-tenue">En construcción.</div></div>
+      <div className="px-4"><div className="tarjeta text-tenue">Esta página no existe.</div></div>
     </>
   );
 }
@@ -38,7 +39,8 @@ export default function App() {
           <Route path="/progreso" element={<Progreso />} />
           <Route path="/progreso/registrar" element={<Registrar />} />
           <Route path="/importar" element={<Importar />} />
-          <Route path="/perfil" element={<Pendiente titulo="Perfil" />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="*" element={<Pendiente titulo="No encontrado" />} />
         </Routes>
         <BarraTemporizador />
         <NavInferior />
