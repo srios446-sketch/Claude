@@ -1,9 +1,11 @@
 // Lectura del JSON que devuelve la IA: limpiar, parsear, validar y corregir.
 import { z } from 'zod';
-import { PlanSchema, type Plan, type Dia } from './plan';
+import { es } from 'zod/locales';
+import { PlanSchema } from './esquema';
+import type { Plan, Dia } from './plan';
 import { claveNombre } from './texto';
 
-z.config(z.locales.es());
+z.config(es());
 
 export interface Lectura {
   plan: Plan | null;

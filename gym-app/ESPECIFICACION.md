@@ -136,3 +136,15 @@ Por ahora el nombre, el logo y los colores (EvaSof Training) son **tentativos**.
 - **Colores solo por variables** (`tokens.css`). Los componentes nunca usan hex sueltos, así que cambiar la paleta es cambiar ese archivo.
 - **Íconos de la PWA** (192, 512 y maskable) y favicon generados con un script a partir de un solo logo fuente.
 - **Manifest de la PWA** (nombre en la pantalla de inicio, color de tema) generado desde `brand.ts`.
+
+## 11. Estado (25-nov-2026)
+
+**Hecho:**
+- Versión local completa y funcionando sin internet: Entreno, Dieta, Progreso con check-in en PDF/imagen, Importar y Perfil con respaldo.
+- Probada con una rutina real de 6 días y una dieta de ejemplo.
+
+**Pendiente:**
+- Cuentas con Google, códigos de invitación y sincronización en la nube (Supabase).
+- Publicar en Netlify.
+- Notificaciones push de comidas, suplementos y agua.
+- Importación con API (Opus 5.5) como opción.
