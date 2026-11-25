@@ -61,6 +61,19 @@ describe('leerPlan', () => {
   });
 });
 
+describe('normalizarAlias', () => {
+  it('acepta macros con nombres alternativos', () => {
+    const plan = JSON.parse(readFileSync(new URL('../../importacion/ejemplo-dieta.json', import.meta.url), 'utf8'));
+    plan.dieta.tipos_dia[0].macros_objetivo = { proteina_g: 137, carbohidratos_g: 158, grasas_g: 25, calorias_kcal: 1405 };
+    plan.dieta.tipos_dia[1].macros_objetivo = { proteina_g: 120 };
+    const r = leerPlan(JSON.stringify(plan));
+    expect(r.errores).toEqual([]);
+    expect(r.plan!.dieta!.tipos_dia[0].macros_objetivo).toEqual({ proteina_g: 137, carbohidratos_g: 158, grasa_g: 25, kcal: 1405 });
+    expect(r.plan!.dieta!.tipos_dia[1].macros_objetivo).toEqual({ proteina_g: 120, carbohidratos_g: null, grasa_g: null, kcal: null });
+    expect(r.correcciones.some((c) => c.includes('macros'))).toBe(true);
+  });
+});
+
 // Prueba opcional con una rutina real (no se sube al repositorio): EVASOF_RUTINA=/ruta/al.json npm test
 const real = process.env.EVASOF_RUTINA;
 describe.runIf(real && existsSync(real))('rutina real', () => {

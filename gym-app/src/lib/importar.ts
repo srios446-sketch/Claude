@@ -131,6 +131,34 @@ export function unirConAnterior(plan: Plan, diaId: string, orden: number): Plan 
   return copia;
 }
 
+// Nombres alternativos que a veces usa la IA en los macros → nombre correcto del formato.
+const ALIAS_MACROS: Record<string, string> = {
+  kcal: 'kcal', calorias: 'kcal', calorias_kcal: 'kcal', kcal_totales: 'kcal', energia_kcal: 'kcal',
+  proteina_g: 'proteina_g', proteinas_g: 'proteina_g', proteina: 'proteina_g', proteinas: 'proteina_g',
+  carbohidratos_g: 'carbohidratos_g', carbohidratos: 'carbohidratos_g', carbos_g: 'carbohidratos_g', hidratos_g: 'carbohidratos_g',
+  grasa_g: 'grasa_g', grasas_g: 'grasa_g', grasa: 'grasa_g', grasas: 'grasa_g', lipidos_g: 'grasa_g',
+};
+
+/** Corrige en el JSON crudo variantes de nombres que no cambian el significado. */
+export function normalizarAlias(raw: any): string[] {
+  const cambios: string[] = [];
+  for (const t of raw?.dieta?.tipos_dia ?? []) {
+    const m = t?.macros_objetivo;
+    if (!m || typeof m !== 'object') continue;
+    const nuevo: Record<string, unknown> = {};
+    let renombrados = 0;
+    for (const [k, v] of Object.entries(m)) {
+      const destino = ALIAS_MACROS[k.toLowerCase()];
+      if (destino && !(destino in nuevo)) { nuevo[destino] = v; if (destino !== k) renombrados++; }
+      else if (!destino) nuevo[k] = v;
+    }
+    for (const k of ['kcal', 'proteina_g', 'carbohidratos_g', 'grasa_g']) if (!(k in nuevo)) nuevo[k] = null;
+    if (renombrados) cambios.push(`«${t.nombre ?? t.id}»: se ajustaron los nombres de los macros (ej. "grasas_g" → "grasa_g").`);
+    t.macros_objetivo = nuevo;
+  }
+  return cambios;
+}
+
 export function leerPlan(texto: string): Lectura {
   const r: Lectura = { plan: null, errores: [], avisos: [], correcciones: [] };
   const limpio = limpiarTexto(texto);
@@ -148,6 +176,7 @@ export function leerPlan(texto: string): Lectura {
     return r;
   }
 
+  r.correcciones.push(...normalizarAlias(raw));
   const res = PlanSchema.safeParse(raw);
   if (!res.success) {
     const vistos = new Set<string>();
