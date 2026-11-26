@@ -5,6 +5,7 @@ import { AlertTriangle } from 'lucide-react';
 const C = {
   linea: 'var(--chart-1)', contexto: 'var(--chart-deemph)', grid: 'var(--chart-grid)', tarjeta: 'var(--color-card)',
   acento: 'var(--color-accent)', atenuado: 'var(--color-muted)', borde: 'var(--color-border)', aviso: 'var(--color-warning)',
+  record: 'var(--color-record)',
 };
 
 export function escalaBonita(min: number, max: number, n = 4): { min: number; max: number; paso: number } {
@@ -54,12 +55,12 @@ export function GraficaLinea({
       ))}
       {linea.length > 1 && <path d={ruta} fill="none" stroke={C.linea} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />}
       {linea.filter((p) => p.marcado && p !== fin).map((p, i) => (
-        <circle key={`m${i}`} cx={x(p.x)} cy={y(p.y)} r={4} fill={C.linea} stroke={C.tarjeta} strokeWidth={2} />
+        <circle key={`m${i}`} cx={x(p.x)} cy={y(p.y)} r={4.5} fill={C.record} stroke={C.tarjeta} strokeWidth={2} />
       ))}
       {fin && (
         <>
-          <circle cx={x(fin.x)} cy={y(fin.y)} r={5} fill={C.linea} stroke={C.tarjeta} strokeWidth={2} />
-          <text x={x(fin.x) + 9} y={y(fin.y) + 4} className="num fill-tinta text-[12px] font-semibold">{etiquetaFinal}</text>
+          <circle cx={x(fin.x)} cy={y(fin.y)} r={5} fill={fin.marcado ? C.record : C.linea} stroke={C.tarjeta} strokeWidth={2} />
+          <text x={x(fin.x) + 9} y={y(fin.y) + 4} className={`num text-[12px] font-semibold ${fin.marcado ? 'fill-oro' : 'fill-tinta'}`}>{etiquetaFinal}</text>
         </>
       )}
       {linea.map((p, i) => (

@@ -12,7 +12,7 @@ import { diasEntre, fechaCorta, hoyISO, inicioSemana, sumarDias } from '../../li
 import { desdeRango, MEDIDAS, NOMBRE_RANGO, progresoFuerza, sentidoCambio, type Rango } from '../../lib/progreso';
 import { GRUPOS, NOMBRE_GRUPO } from '../../lib/plan';
 import { deKg, fmt } from '../../lib/unidades';
-import { resumenPeso, useAdherencia, useMetricas } from './datos';
+import { recordsDelPeriodo, resumenPeso, seriesDeLaSemana, useAdherencia, useMetricas, useSeries, type RecordPeriodo } from './datos';
 import { CheckInSemanal } from './CheckIn';
 
 export function Progreso() {
@@ -31,10 +31,10 @@ export function Progreso() {
         accion={<Link to="/progreso/registrar" className="grid h-11 w-11 place-items-center rounded-xl bg-marca text-sobre-marca" aria-label="Registrar peso y medidas"><Plus size={22} aria-hidden /></Link>}
       />
       <div className="space-y-3.5 px-4">
-        <div className="flex rounded-xl bg-tarjeta p-1" role="tablist" aria-label="Vista">
+        <div className="flex rounded-2xl bg-tarjeta p-1 shadow-[var(--shadow-1)]" role="tablist" aria-label="Vista">
           {(['general', 'fuerza'] as const).map((t) => (
             <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}
-              className={`titulo min-h-11 flex-1 rounded-[9px] text-base ${tab === t ? 'bg-marca text-sobre-marca' : 'text-tenue'}`}>{t === 'general' ? 'General' : 'Fuerza'}</button>
+              className={`titulo min-h-11 flex-1 rounded-xl text-base transition-colors ${tab === t ? 'bg-marca text-sobre-marca shadow-[0_4px_14px_rgba(248,73,12,.3)]' : 'text-tenue'}`}>{t === 'general' ? 'General' : 'Fuerza'}</button>
           ))}
         </div>
         <div className="flex gap-2" role="radiogroup" aria-label="Periodo">
@@ -44,7 +44,7 @@ export function Progreso() {
           ))}
         </div>
         {tab === 'general'
-          ? <General desde={desde} hoy={hoy} perfil={perfil} />
+          ? <General desde={desde} hoy={hoy} perfil={perfil} alVerFuerza={() => setTab('fuerza')} />
           : <Fuerza desde={desde} hoy={hoy} perfil={perfil} />}
       </div>
     </>
@@ -73,10 +73,16 @@ function Delta({ valor, sentido, sufijo }: { valor: number; sentido: -1 | 0 | 1;
   );
 }
 
-function General({ desde, hoy, perfil }: { desde: string; hoy: string; perfil: Perfil }) {
+// Progreso en "bento": una tarjeta grande arriba y mosaicos de distintos tamaños en una cuadrícula de 2 columnas.
+function General({ desde, hoy, perfil, alVerFuerza }: { desde: string; hoy: string; perfil: Perfil; alVerFuerza: () => void }) {
   const metricas = useMetricas();
   const adherencia = useAdherencia(desde, hoy);
+  const series = useSeries();
+  const catalogo = useCatalogo();
   const [tabla, setTabla] = useState(false);
+  const lunes = inicioSemana(hoy);
+  const records = useMemo(() => recordsDelPeriodo(series ?? [], desde), [series, desde]);
+  const seriesSemana = useMemo(() => ({ actual: seriesDeLaSemana(series ?? [], lunes), anterior: seriesDeLaSemana(series ?? [], sumarDias(lunes, -7)) }), [series, lunes]);
   const u = perfil.unidadPeso;
   const { diarios, promedio } = useMemo(() => resumenPeso(metricas ?? []), [metricas]);
   const enRango = promedio.filter((p) => p.fecha >= desde);
@@ -90,9 +96,21 @@ function General({ desde, hoy, perfil }: { desde: string; hoy: string; perfil: P
   const previaMed = ultimaMed ? [...conMedidas].reverse().find((m) => diasEntre(m.fecha, ultimaMed.fecha) >= 21) ?? conMedidas[0] : undefined;
 
   if (metricas === undefined) return null;
+  const medidas = !ultimaMed ? [] : [
+    ...MEDIDAS.filter((m) => ultimaMed.medidasCm?.[m.clave] != null).map((m) => {
+      const v = ultimaMed.medidasCm[m.clave]!; const antes = previaMed?.medidasCm?.[m.clave];
+      const d = antes != null && previaMed !== ultimaMed ? v - antes : null;
+      const enIn = perfil.unidadMedida === 'in';
+      return { clave: m.clave, nombre: m.nombre, valor: fmt(enIn ? v / 2.54 : v), unidad: enIn ? 'in' : 'cm', delta: d == null ? null : enIn ? d / 2.54 : d, sentido: d == null ? 0 as const : sentidoCambio(m.clave, d, perfil.objetivo) };
+    }),
+    ...(ultimaMed.grasaPct != null ? [(() => {
+      const d = previaMed?.grasaPct != null && previaMed !== ultimaMed ? ultimaMed.grasaPct! - previaMed.grasaPct : null;
+      return { clave: 'grasa', nombre: '% grasa', valor: fmt(ultimaMed.grasaPct!), unidad: '%', delta: d, sentido: d == null ? 0 as const : sentidoCambio('grasa', d, perfil.objetivo) };
+    })()] : []),
+  ];
   return (
-    <>
-      <section className="tarjeta" aria-label="Peso corporal">
+    <div className="grid grid-cols-2 gap-3">
+      <section className="tarjeta col-span-2" aria-label="Peso corporal">
         <div className="flex items-baseline gap-2"><h2 className="titulo text-xl">Peso corporal</h2>{diarios.length > 0 && <BotonTabla abierta={tabla} onClick={() => setTabla((x) => !x)} />}</div>
         {!actual ? (
           <div className="py-3 text-sm text-tenue">
@@ -133,51 +151,56 @@ function General({ desde, hoy, perfil }: { desde: string; hoy: string; perfil: P
         )}
       </section>
 
-      <div className="grid grid-cols-2 gap-3">
-        <TileAdherencia titulo="Entrenos cumplidos" a={adherencia?.entrenos} />
-        <TileAdherencia titulo="Comidas cumplidas" a={adherencia?.comidas ?? undefined} vacio={adherencia && !adherencia.comidas ? 'Sin dieta' : undefined} />
-      </div>
-
-      <section className="tarjeta" aria-label="Medidas">
-        <div className="flex items-baseline gap-2"><h2 className="titulo text-xl">Medidas</h2>
-          {ultimaMed && previaMed && previaMed !== ultimaMed && <span className="ml-auto text-[13px] text-tenue">vs {fechaCorta(previaMed.fecha)}</span>}</div>
-        {!ultimaMed ? (
-          <p className="py-2 text-sm text-tenue">Aún no hay medidas. Mídete cada 2 a 4 semanas, a la misma hora.</p>
-        ) : (
-          <table className="num mt-1.5 w-full">
-            <thead><tr className="text-xs uppercase tracking-wide text-tenue"><th className="py-1.5 text-left">Medida</th><th className="text-right">Actual</th><th className="text-right">Cambio</th></tr></thead>
-            <tbody>
-              {MEDIDAS.filter((m) => ultimaMed.medidasCm?.[m.clave] != null).map((m) => {
-                const v = ultimaMed.medidasCm[m.clave]!; const antes = previaMed?.medidasCm?.[m.clave];
-                const d = antes != null && previaMed !== ultimaMed ? v - antes : null;
-                return (
-                  <tr key={m.clave} className="border-t border-borde">
-                    <td className="py-2 font-semibold">{m.nombre}</td><td className="text-right">{fmtMedida(v, perfil)}</td>
-                    <td className="text-right">{d != null ? <Delta valor={perfil.unidadMedida === 'in' ? d / 2.54 : d} sentido={sentidoCambio(m.clave, d, perfil.objetivo)} sufijo="" /> : '—'}</td>
-                  </tr>
-                );
-              })}
-              {ultimaMed.grasaPct != null && (
-                <tr className="border-t border-borde">
-                  <td className="py-2 font-semibold">% grasa</td><td className="text-right">{fmt(ultimaMed.grasaPct)} %</td>
-                  <td className="text-right">{previaMed?.grasaPct != null && previaMed !== ultimaMed ? <Delta valor={ultimaMed.grasaPct - previaMed.grasaPct} sentido={sentidoCambio('grasa', ultimaMed.grasaPct - previaMed.grasaPct, perfil.objetivo)} sufijo="" /> : '—'}</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        )}
+      <TileAdherencia titulo="Entrenos cumplidos" a={adherencia?.entrenos} />
+      <TileAdherencia titulo="Comidas cumplidas" a={adherencia?.comidas ?? undefined} vacio={adherencia && !adherencia.comidas ? 'Sin dieta' : undefined} />
+      <TileRecords records={records} nombre={(id) => catalogo.get(id)?.nombre} alVer={alVerFuerza} />
+      <section className="tarjeta !p-3.5" aria-label="Series esta semana">
+        <p className="text-[13px] text-tenue">Series esta semana</p>
+        <p className="num my-0.5 font-titulo text-[32px] font-bold leading-tight">{seriesSemana.actual}</p>
+        <p className="text-[13px] text-tenue">Semana pasada: <span className="num">{seriesSemana.anterior}</span></p>
       </section>
 
-      <CheckInSemanal perfil={perfil} />
-    </>
+      <div className="col-span-2 mt-1.5 flex items-baseline gap-2 px-1">
+        <h2 className="titulo text-xl">Medidas</h2>
+        {ultimaMed && previaMed && previaMed !== ultimaMed && <span className="ml-auto text-[13px] text-tenue">vs {fechaCorta(previaMed.fecha)}</span>}
+      </div>
+      {!medidas.length ? (
+        <section className="tarjeta col-span-2" aria-label="Medidas">
+          <p className="text-sm text-tenue">Aún no hay medidas. Mídete cada 2 a 4 semanas, a la misma hora.</p>
+        </section>
+      ) : medidas.map((m, i) => (
+        <section key={m.clave} className={`tarjeta !p-3.5 ${medidas.length % 2 === 1 && i === medidas.length - 1 ? 'col-span-2' : ''}`} aria-label={m.nombre}>
+          <p className="text-[13px] text-tenue">{m.nombre}</p>
+          <div className="mt-1 flex flex-wrap items-end gap-x-2 gap-y-1">
+            <p className="num font-titulo text-[28px] font-bold leading-none">{m.valor}<small className="text-[15px] text-tenue"> {m.unidad}</small></p>
+            {m.delta != null && <Delta valor={m.delta} sentido={m.sentido} sufijo="" />}
+          </div>
+        </section>
+      ))}
+
+      <div className="col-span-2 mt-1.5"><CheckInSemanal perfil={perfil} /></div>
+    </div>
   );
 }
 
-function fmtMedida(cm: number, perfil: Perfil) { return perfil.unidadMedida === 'in' ? `${fmt(cm / 2.54)} in` : `${fmt(cm)} cm`; }
+function TileRecords({ records, nombre, alVer }: { records: RecordPeriodo[]; nombre: (id: string) => string | undefined; alVer: () => void }) {
+  const ultimo = records[0];
+  return (
+    <button type="button" onClick={alVer} className="tarjeta relative overflow-hidden !p-3.5 text-left"
+      aria-label={`Récords en el periodo: ${records.length}${ultimo ? `, el último en ${nombre(ultimo.id) ?? 'un ejercicio'}` : ''}. Ver en Fuerza`}>
+      <span aria-hidden className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-oro/20 blur-2xl" />
+      <span className="relative flex items-center gap-1.5 text-[13px] text-tenue">
+        <span className="insignia-oro grid h-5 w-5 place-items-center rounded-full"><Trophy size={12} aria-hidden /></span> Récords
+      </span>
+      <span className="num relative my-0.5 block font-titulo text-[32px] font-bold leading-tight text-oro">{records.length}</span>
+      <span className="relative block truncate text-[13px] text-tenue">{ultimo ? `Último: ${nombre(ultimo.id) ?? 'ejercicio'}` : 'Supera tu mejor marca'}</span>
+    </button>
+  );
+}
 
 function TileAdherencia({ titulo, a, vacio }: { titulo: string; a?: { pct: number; hechos: number; esperados: number; porSemana: { pct: number }[] }; vacio?: string }) {
   return (
-    <section className="tarjeta !p-3" aria-label={titulo}>
+    <section className="tarjeta !p-3.5" aria-label={titulo}>
       <p className="text-[13px] text-tenue">{titulo}</p>
       {vacio ? <p className="mt-2 text-sm text-tenue">{vacio}</p> : a ? (
         <>
@@ -191,7 +214,7 @@ function TileAdherencia({ titulo, a, vacio }: { titulo: string; a?: { pct: numbe
 
 function Fuerza({ desde, hoy, perfil }: { desde: string; hoy: string; perfil: Perfil }) {
   const catalogo = useCatalogo();
-  const series = useLiveQuery(() => db.series.toArray(), []);
+  const series = useSeries();
   const [elegido, setElegido] = useState<string | null>(null);
   const [tabla, setTabla] = useState(false);
   const [semana, setSemana] = useState(inicioSemana(hoy));
@@ -207,14 +230,7 @@ function Fuerza({ desde, hoy, perfil }: { desde: string; hoy: string; perfil: Pe
   const puntos = fuerza.puntos.filter((p) => p.fecha >= desde);
   const ejes = ejesX(desde, hoy);
 
-  const prs = useMemo(() => {
-    const res: { id: string; fecha: string; peso: number; reps: number; unidad: string; valorKg: number; metrica: string }[] = [];
-    for (const id of ejercicios) {
-      const f = progresoFuerza((series ?? []).filter((s) => s.ejercicioId === id));
-      for (const p of f.puntos) if (p.esPR && p.fecha >= desde) res.push({ id, fecha: p.fecha, peso: p.peso, reps: p.reps, unidad: p.unidad, valorKg: p.valorKg, metrica: f.metrica });
-    }
-    return res.sort((a, b) => b.fecha.localeCompare(a.fecha)).slice(0, 5);
-  }, [ejercicios, series, desde]);
+  const prs = useMemo(() => recordsDelPeriodo(series ?? [], desde).slice(0, 5), [series, desde]);
 
   const volumen = useMemo(() => volumenSemanal(series ?? [], (id) => catalogo.get(id)?.grupos ?? [], semana), [series, catalogo, semana]);
   const filas = GRUPOS.filter((g) => g !== 'cuerpo_completo' && (volumen[g] ?? 0) + (perfil.rangosSeries[g]?.[0] ?? RANGOS_SERIES_DEFECTO[g][0]) > 0 && ((volumen[g] ?? 0) > 0 || catalogoUsaGrupo(catalogo, g)))
@@ -224,9 +240,10 @@ function Fuerza({ desde, hoy, perfil }: { desde: string; hoy: string; perfil: Pe
   if (!ejercicios.length) return <Vacio titulo="Aún no hay entrenos"><p>Registra tus series en Entreno y aquí verás tu fuerza, récords y series por grupo.</p></Vacio>;
   const ultimo = puntos[puntos.length - 1];
   const primero = puntos[0];
+  const prsEjercicio = puntos.filter((p) => p.esPR).length;
   return (
-    <>
-      <section className="tarjeta" aria-label="Fuerza por ejercicio">
+    <div className="grid grid-cols-2 gap-3">
+      <section className="tarjeta col-span-2" aria-label="Fuerza por ejercicio">
         <div className="flex items-baseline gap-2"><h2 className="titulo text-xl">{fuerza.metrica === '1rm' ? 'Máximo estimado (1RM)' : 'Mejor peso'}</h2><BotonTabla abierta={tabla} onClick={() => setTabla((x) => !x)} /></div>
         <div className="-mx-1 mt-2 flex gap-2 overflow-x-auto px-1 pb-1" role="radiogroup" aria-label="Ejercicio">
           {ejercicios.map((id) => (
@@ -245,7 +262,7 @@ function Fuerza({ desde, hoy, perfil }: { desde: string; hoy: string; perfil: Pe
               <table className="num mt-2 w-full text-sm">
                 <thead><tr className="text-left text-xs uppercase text-tenue"><th className="py-1.5">Fecha</th><th className="text-right">Mejor serie</th><th className="text-right">{fuerza.metrica === '1rm' ? '1RM est.' : 'Peso'}</th></tr></thead>
                 <tbody>{[...puntos].reverse().map((p) => (
-                  <tr key={p.sesionId} className="border-t border-borde"><td className="py-1.5">{fechaCorta(p.fecha)}{p.esPR && <Trophy size={13} className="ml-1 inline text-ok" aria-label="récord" />}</td><td className="text-right">{fmt(p.peso)} {p.unidad} × {p.reps}</td><td className="text-right">{fmt(deKg(p.valorKg, u))}</td></tr>
+                  <tr key={p.sesionId} className="border-t border-borde"><td className="py-1.5">{fechaCorta(p.fecha)}{p.esPR && <Trophy size={13} className="ml-1 inline text-oro" aria-label="récord" />}</td><td className="text-right">{fmt(p.peso)} {p.unidad} × {p.reps}</td><td className="text-right">{fmt(deKg(p.valorKg, u))}</td></tr>
                 ))}</tbody>
               </table>
             ) : (
@@ -260,13 +277,31 @@ function Fuerza({ desde, hoy, perfil }: { desde: string; hoy: string; perfil: Pe
         )}
       </section>
 
-      <section className="tarjeta" aria-label="Récords recientes">
+      {ultimo && (
+        <>
+          <section className="tarjeta !p-3.5" aria-label="Sesiones de este ejercicio">
+            <p className="text-[13px] text-tenue">Sesiones en el periodo</p>
+            <p className="num my-0.5 font-titulo text-[32px] font-bold leading-tight">{puntos.length}</p>
+            <p className="truncate text-[13px] text-tenue">{catalogo.get(actualId)?.nombre}</p>
+          </section>
+          <section className="tarjeta relative overflow-hidden !p-3.5" aria-label="Récords de este ejercicio">
+            <span aria-hidden className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-oro/20 blur-2xl" />
+            <p className="relative flex items-center gap-1.5 text-[13px] text-tenue">
+              <span className="insignia-oro grid h-5 w-5 place-items-center rounded-full"><Trophy size={12} aria-hidden /></span> Récords
+            </p>
+            <p className="num relative my-0.5 font-titulo text-[32px] font-bold leading-tight text-oro">{prsEjercicio}</p>
+            <p className="relative text-[13px] text-tenue">de este ejercicio</p>
+          </section>
+        </>
+      )}
+
+      <section className="tarjeta col-span-2" aria-label="Récords recientes">
         <h2 className="titulo text-xl">Récords recientes</h2>
         {!prs.length ? <p className="py-2 text-sm text-tenue">Aún no hay récords en este periodo. Se marcan cuando superas tu mejor marca anterior.</p> : (
           <ul>
             {prs.map((p, i) => (
               <li key={`${p.id}-${p.fecha}`} className={`flex items-center gap-2.5 py-2.5 ${i ? 'border-t border-borde' : ''}`}>
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[10px] bg-ok/15 text-ok"><Trophy size={18} aria-hidden /></span>
+                <span className="insignia-oro grid h-9 w-9 shrink-0 place-items-center rounded-xl"><Trophy size={18} aria-hidden /></span>
                 <p className="min-w-0 flex-1 font-semibold leading-tight">{catalogo.get(p.id)?.nombre}<small className="block font-normal text-tenue">{fmt(p.peso)} {p.unidad} × {p.reps} · {fechaCorta(p.fecha)}</small></p>
                 <p className="num text-right font-titulo text-xl font-bold leading-tight">{fmt(deKg(p.valorKg, u), 0)} {u}<small className="block font-sans text-xs font-medium text-tenue">{p.metrica === '1rm' ? '1RM est.' : 'mejor peso'}</small></p>
               </li>
@@ -275,7 +310,7 @@ function Fuerza({ desde, hoy, perfil }: { desde: string; hoy: string; perfil: Pe
         )}
       </section>
 
-      <section className="tarjeta" aria-label="Series por grupo">
+      <section className="tarjeta col-span-2" aria-label="Series por grupo">
         <div className="flex items-baseline gap-2">
           <h2 className="titulo text-xl">Series por grupo</h2>
           <div className="ml-auto flex gap-1" role="radiogroup" aria-label="Semana">
@@ -296,7 +331,7 @@ function Fuerza({ desde, hoy, perfil }: { desde: string; hoy: string; perfil: Pe
           Los rangos son generales; ajústalos en Perfil o con lo que diga tu coach.
         </p>
       </section>
-    </>
+    </div>
   );
 }
 

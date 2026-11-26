@@ -12,7 +12,7 @@ const ITEMS: { a: string; texto: string; Icono: typeof Dumbbell; tambien?: strin
 export function NavInferior() {
   const { pathname } = useLocation();
   return (
-    <nav aria-label="Secciones" className="fixed inset-x-0 bottom-0 z-30 border-t border-borde bg-nav pb-[env(safe-area-inset-bottom)]">
+    <nav aria-label="Secciones" className="vidrio fixed inset-x-0 bottom-0 z-30 pb-[env(safe-area-inset-bottom)] shadow-[inset_0_1px_0_var(--glass-edge),0_-8px_24px_rgba(0,0,0,.45)]">
       <ul className="mx-auto flex max-w-xl justify-around">
         {ITEMS.map(({ a, texto, Icono, tambien }) => (
           <li key={a}>

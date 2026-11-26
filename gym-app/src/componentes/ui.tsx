@@ -3,17 +3,17 @@ import { AlertTriangle, CheckCircle2, Info, XCircle } from 'lucide-react';
 
 type Tono = 'error' | 'aviso' | 'info' | 'ok';
 const TONOS: Record<Tono, { caja: string; Icono: typeof Info }> = {
-  error: { caja: 'border-peligro/60 bg-peligro/10', Icono: XCircle },
-  aviso: { caja: 'border-aviso/60 bg-aviso/10', Icono: AlertTriangle },
-  info: { caja: 'border-acento/50 bg-acento/10', Icono: Info },
-  ok: { caja: 'border-ok/50 bg-ok/10', Icono: CheckCircle2 },
+  error: { caja: 'bg-peligro/14', Icono: XCircle },
+  aviso: { caja: 'bg-aviso/12', Icono: AlertTriangle },
+  info: { caja: 'bg-acento/12', Icono: Info },
+  ok: { caja: 'bg-ok/12', Icono: CheckCircle2 },
 };
 const COLOR_ICONO: Record<Tono, string> = { error: 'text-peligro', aviso: 'text-aviso', info: 'text-acento', ok: 'text-ok' };
 
 export function Mensaje({ tono, titulo, children }: { tono: Tono; titulo: string; children?: ReactNode }) {
   const { caja, Icono } = TONOS[tono];
   return (
-    <div role={tono === 'error' ? 'alert' : 'status'} className={`rounded-2xl border p-3.5 ${caja}`}>
+    <div role={tono === 'error' ? 'alert' : 'status'} className={`rounded-[20px] p-3.5 shadow-[var(--shadow-1)] ${caja}`}>
       <div className="flex items-start gap-2.5">
         <Icono size={20} className={`mt-0.5 shrink-0 ${COLOR_ICONO[tono]}`} aria-hidden />
         <div className="min-w-0 flex-1">

@@ -3,6 +3,7 @@
 > **Lógica:** al construir una pantalla, revisa primero `pages/<pantalla>.md`. Si existe, sus reglas **reemplazan** a este archivo. Si no existe, sigue este archivo.
 
 - **Base:** generado con la skill *UI UX Pro Max* (`fitness gym tracker app dark`). Categoría: Fitness/Gym App. Estilo: Vibrant & Block-based + modo oscuro.
+- **Versión premium (26-nov-2026):** fondo negro OLED, vidrio solo en la barra inferior y el temporizador, tarjetas con sombra y luz suave en lugar de borde, Progreso en bento y dorado para récords.
 - **Colores:** tomados del logo (`../../assets/logo-evasof.jpg`).
 - **Tokens:** `tokens.css` (variables CSS) y `tokens.json` (W3C DTCG). Hay que mantenerlos sincronizados.
 - **Diales de diseño:**
@@ -20,13 +21,14 @@
 | Texto naranja | `#FF7A40` | `--color-primary-text` | Texto o íconos pequeños en naranja | 5.67:1 en fondo, 4.62:1 en tarjeta |
 | Secundario (azul EvaSof) | `#016BDA` | `--color-secondary` | Botones secundarios, chips seleccionados | texto blanco: 5.10:1 |
 | Acento (azul claro) | `#7FB9E6` | `--color-accent` | "La vez pasada", links, info | 6.98:1 en fondo |
-| Éxito | `#22C55E` | `--color-success` | Serie completada, PR, comida palomeada | texto `#0F172A`: 7.83:1 |
+| Éxito | `#22C55E` | `--color-success` | Serie completada, comida palomeada | texto `#0F172A`: 7.83:1 |
+| Dorado (récords) | `#E8B54A` | `--color-record` | Solo récords: insignias, puntos de PR en gráficas, conteos | 11.14:1 en fondo, 9.43:1 en tarjeta; texto `#0F172A` encima: 9.47:1 |
 | Destructivo | `#F43F5E` | `--color-destructive` | Borrar/eliminar (rosa-rojo, para no confundirse con el naranja) | texto `#0F172A`: 4.86:1 |
-| Fondo | `#1F2937` | `--color-background` | Fondo general (gris oscuro) | — |
-| Texto | `#F8FAFC` | `--color-foreground` | Texto principal | 14.03:1 |
-| Tarjeta | `#313742` | `--color-card` | Tarjetas, hojas inferiores | — |
-| Atenuado | `#37414F` / `#CBD5E1` | `--color-muted` / `--color-muted-foreground` | Campos inactivos, texto secundario | 6.96:1 |
-| Borde | `#4B5563` | `--color-border` | Bordes de tarjetas y campos | — |
+| Fondo | `#000000` | `--color-background` | Fondo general (negro OLED) | — |
+| Texto | `#F8FAFC` | `--color-foreground` | Texto principal | 20.07:1 |
+| Tarjeta | `#16181C` (degradado `#1A1C21`→`#141619`) | `--color-card` / `--card-gradient` | Tarjetas, hojas inferiores | 16.99:1 con texto |
+| Atenuado | `#24272D` / `#CBD5E1` | `--color-muted` / `--color-muted-foreground` | Campos, chips inactivos, texto secundario | 11.97:1 en tarjeta |
+| Borde | `#363A42` | `--color-border` | Solo divisores de listas y contornos de controles (no tarjetas) | — |
 | Foco | `#FF7A40` | `--color-ring` | Anillo de foco visible | — |
 | Superficie de marca (marino) | `#112E54` | `--color-brand-surface` | Encabezado o hero con el logo | texto blanco: 13.61:1 |
 | Gráficas | naranja · azul claro · verde · camuflaje `#8A9A5B` | `--chart-1..4` | Series en gráficas; siempre con etiqueta además del color | — |
@@ -44,12 +46,25 @@
 - **Números:** `font-variant-numeric: tabular-nums` en pesos, reps y temporizador, para que no "bailen" al cambiar.
 - **Fuente:** `https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap`. Se guarda en caché para que funcione sin internet.
 
+## Superficies y efectos
+
+| Pieza | Token / clase | Regla |
+|---|---|---|
+| Tarjeta | `.tarjeta` · `--shadow-1` | Sin borde. Superficie un poco más clara que el negro, luz de 1 px arriba y sombra suave. Radio 20 px. |
+| Elemento flotante | `--shadow-2` | Temporizador, avisos y la tarjeta de marca. |
+| Campo | `.campo` · `--shadow-hundido` | Sin borde visible: relleno atenuado con sombra interior. El borde transparente se usa solo para marcar errores. |
+| Tarjeta de marca | `.superficie-marca` · `--brand-gradient` | Degradado marino para el día de hoy (Entreno y Dieta). |
+| Vidrio | `.vidrio` / `.vidrio-fuerte` | **Solo** barra inferior (72 %) y temporizador (84 %), con `blur(22px) saturate(180%)`. Sin `backdrop-filter` o con "Reducir transparencia" se vuelve sólido. Texto `#CBD5E1` sobre la barra: ≥ 4.9:1 aun con blanco detrás. |
+| Insignia de récord | `.insignia-oro` · `--record-gradient` | Degradado dorado con trofeo oscuro. Solo para récords. |
+
+**Progreso (bento):** cuadrícula de 2 columnas con separación de 12 px. Arriba, una tarjeta grande (peso corporal o 1RM) que ocupa 2 columnas; debajo, mosaicos de 1 columna (adherencia, récords, series de la semana y cada medida). Un mosaico impar al final ocupa 2 columnas. El registro de series de Entreno **no** usa bento (es una lista densa).
+
 ## Espaciado, radios y toque
 
 | Token | Valor |
 |---|---|
 | `--space-xs/sm/md/lg/xl/2xl/3xl` | 4 / 8 / 16 / 24 / 32 / 48 / 64 px |
-| `--radius-sm/md/lg` | 8 / 12 / 16 px |
+| `--radius-sm/md/lg/xl` | 8 / 12 / 16 / 20 px (tarjetas: 20) |
 | `--touch-min` | **48 px**: botones y campos tocables, para usarse con una mano y sudado |
 
 ## Patrones de la app (no es landing page)
@@ -71,7 +86,7 @@
   - Teclado numérico (`inputmode="decimal"`) en pesos y medidas.
 - **Íconos:** SVG de una sola familia (Lucide). **Nada de emojis como íconos.**
 - **Movimiento:** transiciones de 150 a 250 ms. Se respeta `prefers-reduced-motion`.
-- **Gamificación ligera:** destacar PRs y rachas de adherencia en verde.
+- **Gamificación ligera:** los récords van en **dorado** (insignia y conteo); lo cumplido (series, comidas, adherencia) va en verde.
 
 ## Componentes base
 
@@ -103,17 +118,18 @@
 }
 
 .card {
-  background: var(--color-card);
+  background: var(--color-card) var(--card-gradient);
   color: var(--color-card-foreground);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1); /* sin borde */
+  border-radius: var(--radius-xl);
   padding: var(--space-md);
 }
 
 .input {
   background: var(--color-muted);
   color: var(--color-foreground);
-  border: 1px solid var(--color-border);
+  border: 1px solid transparent;          /* se colorea solo en errores */
+  box-shadow: var(--shadow-hundido);
   border-radius: var(--radius-sm);
   min-height: var(--touch-min);
   font-size: 16px; /* evita el zoom automático en iOS */
@@ -130,6 +146,9 @@
 - Botones de menos de 48 px.
 - Información que se distinga solo por el color, como en gráficas o estados.
 - Quitar el anillo de foco.
+- Bordes alrededor de tarjetas (se usa sombra).
+- Vidrio (desenfoque) fuera de la barra inferior y el temporizador.
+- Dorado para algo que no sea un récord.
 
 ## Checklist antes de entregar
 

@@ -16,7 +16,7 @@ App web instalable (PWA) para seguir rutina, dieta y progreso del gym.
 |---|---|
 | **Entreno** | Día que toca (rotación o día de la semana), registro de series por bloque (peso/reps; RIR, tempo y descanso opcionales), la vez pasada, sugerencia de progresión, biseries, temporizador de descanso con vibración, sustituir por alternativas, kg/lb por ejercicio, cardio y resumen con récords |
 | **Dieta** | Tipo de día automático según el entreno (o manual), comidas para palomear, agua, suplementos por tipo de día, macros y lista del súper |
-| **Progreso** | Peso con promedio de 7 días, adherencia, medidas, 1RM estimado por ejercicio, récords, series por grupo contra rangos, y check-in semanal exportable a PDF o imagen |
+| **Progreso** | Mosaicos tipo bento: peso con promedio de 7 días, adherencia, récords (en dorado), series de la semana, medidas, 1RM estimado por ejercicio, series por grupo contra rangos, y check-in semanal exportable a PDF o imagen |
 | **Planes** | *Con IA:* copiar el prompt, pegar la respuesta, validar con errores en español, vista previa, coincidencias con el catálogo y guardar (archiva el plan anterior). *A mano:* crear rutina o dieta desde cero o editar la actual (`src/pantallas/planes/`), con el mismo esquema de validación, borrador autoguardado y confirmación de ejercicios parecidos (al confirmar, el catálogo toma el nombre nuevo) |
 | **Perfil** | Unidades, meta, campos opcionales, descanso e incrementos, rangos de series, historial de planes, catálogo (renombrar y unir) y respaldo |
 

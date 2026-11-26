@@ -6,6 +6,6 @@ export const BRAND = {
   descripcion: 'Tu rutina, tu dieta y tu progreso del gym, aunque no haya señal.',
   logoFuente: 'assets/logo-evasof.jpg', // imagen original (se recorta para los íconos)
   logo: '/brand/logo.png',              // versión para la interfaz (la genera `npm run icons`)
-  colorTema: '#1F2937',
-  colorFondo: '#1F2937',
+  colorTema: '#000000',
+  colorFondo: '#000000',
 } as const;

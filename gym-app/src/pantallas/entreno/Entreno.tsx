@@ -56,7 +56,7 @@ function InicioEntreno({ rutina, perfil }: { rutina: RutinaGuardada; perfil: Per
       <div className="space-y-4 px-4">
         {deHoy.map((s) => <ResumenDeHoy key={s.id} sesion={s} rutina={rutina} perfil={perfil} />)}
 
-        <section className="overflow-hidden rounded-2xl border border-[#1E3A66] bg-gradient-to-br from-marino to-[#0A1B33] p-4">
+        <section className="superficie-marca overflow-hidden">
           <p className="text-sm text-tenue">{elegido && elegido !== sugerido.id ? 'Elegiste' : deHoy.length ? 'Siguiente' : 'Hoy toca'}</p>
           <h2 className="titulo mt-0.5 text-[30px] leading-none">{dia.nombre}</h2>
           <p className="mt-2 text-sm text-tenue">
@@ -150,7 +150,7 @@ function SesionEnCurso({ sesion, rutina, perfil }: { sesion: Sesion; rutina: Rut
       />
       <div className="space-y-3.5 px-4">
         {ajustes && <AjustesCampos perfil={perfil} />}
-        <section className="rounded-2xl border border-[#1E3A66] bg-gradient-to-br from-marino to-[#0A1B33] p-4">
+        <section className="superficie-marca">
           <h2 className="titulo text-[28px] leading-none">{dia.nombre}</h2>
           <div className="mt-3 flex flex-wrap gap-2">
             <span className="chip bg-ok/15 text-ok"><CheckCircle2 size={15} aria-hidden /> {completos} de {dia.ejercicios.length} ejercicios</span>
@@ -180,7 +180,7 @@ function SesionEnCurso({ sesion, rutina, perfil }: { sesion: Sesion; rutina: Rut
         <button className="btn w-full !text-base text-peligro" onClick={cancelar}>Cancelar entreno</button>
       </div>
       {aviso && (
-        <div role="status" className="fixed inset-x-3 bottom-[calc(84px+env(safe-area-inset-bottom))] z-40 mx-auto max-w-[552px] rounded-2xl bg-azul px-4 py-3 font-semibold text-sobre-azul shadow-lg">
+        <div role="status" className="fixed inset-x-3 bottom-[calc(84px+env(safe-area-inset-bottom))] z-40 mx-auto max-w-[552px] rounded-2xl bg-azul px-4 py-3 font-semibold text-sobre-azul shadow-[var(--shadow-2)]">
           Biserie: {aviso}
         </div>
       )}
@@ -219,8 +219,8 @@ function ResumenDeHoy({ sesion, rutina, perfil }: { sesion: Sesion; rutina: Ruti
       {r.prs.length > 0 && (
         <ul className="mt-2 space-y-1">
           {r.prs.map((p) => (
-            <li key={p.ejercicioId} className="flex items-center gap-2 font-semibold text-ok">
-              <Trophy size={16} aria-hidden /> Récord en {catalogo.get(p.ejercicioId)?.nombre ?? 'ejercicio'}: {fmt(p.peso)} {p.unidad} × {p.reps}
+            <li key={p.ejercicioId} className="flex items-center gap-2 font-semibold text-oro">
+              <span className="insignia-oro grid h-6 w-6 shrink-0 place-items-center rounded-full"><Trophy size={14} aria-hidden /></span> Récord en {catalogo.get(p.ejercicioId)?.nombre ?? 'ejercicio'}: {fmt(p.peso)} {p.unidad} × {p.reps}
               <span className="font-normal text-tenue">(1RM est. {fmt(deKg(p.unoRMKg, u))} {u})</span>
             </li>
           ))}

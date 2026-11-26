@@ -53,8 +53,8 @@ export function FilaSerie({ etiqueta, registro, phPeso, phReps, repsFijas, repsO
   const alSalir = () => { if (registro) onGuardar(valores(), registro.hecha); };
   const u = registro?.unidad ?? unidad;
 
-  const caja = `num h-12 w-full rounded-lg border text-center font-titulo text-[22px] font-bold placeholder:font-semibold placeholder:text-[#8592A6] ${
-    hecha ? 'border-ok/45 bg-ok/10' : 'border-borde bg-atenuado'
+  const caja = `num h-12 w-full rounded-lg border border-transparent text-center font-titulo text-[22px] font-bold shadow-[var(--shadow-hundido)] placeholder:font-semibold placeholder:text-[var(--chart-deemph)] ${
+    hecha ? 'bg-ok/12' : 'bg-atenuado'
   }`;
   return (
     <div className="py-1">

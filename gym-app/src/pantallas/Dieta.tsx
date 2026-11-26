@@ -79,7 +79,7 @@ function DietaDeHoy({ dieta, perfil }: { dieta: DietaGuardada; perfil: Perfil })
         }
       />
       <div className="space-y-3.5 px-4">
-        <section className="rounded-2xl border border-[#1E3A66] bg-gradient-to-br from-marino to-[#0A1B33] p-4">
+        <section className="superficie-marca">
           <div className="flex items-start gap-3">
             <div className="min-w-0 flex-1">
               <p className="text-sm text-tenue">Tipo de día · {eleccion.motivo}</p>

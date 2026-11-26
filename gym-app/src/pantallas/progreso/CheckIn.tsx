@@ -136,6 +136,7 @@ async function reunirDatos(semana: string, perfil: Perfil, respuestas: Record<Cl
 const TEMA_CLARO = {
   '--color-card': '#FFFFFF', '--color-foreground': '#0F172A', '--color-muted-foreground': '#475569', '--chart-grid': '#E2E8F0',
   '--chart-deemph': '#94A3B8', '--color-muted': '#F1F5F9', '--color-border': '#E2E8F0',
+  '--color-record': '#8A6116', // dorado oscuro: 5.5:1 sobre blanco
 } as React.CSSProperties;
 
 function Captura({ datos, formato, onListo }: { datos: DatosReporte; formato: 'pdf' | 'png'; onListo: (msg?: string) => void }) {
@@ -234,7 +235,7 @@ function Captura({ datos, formato, onListo }: { datos: DatosReporte; formato: 'p
             {datos.entrenos.lista.length ? datos.entrenos.lista.map((t) => <div key={t} style={{ fontSize: 14, margin: '3px 0' }}>✓ {t}</div>) : <div style={{ fontSize: 14, color: '#475569' }}>Sin entrenos registrados.</div>}
             {datos.prs.length > 0 && (<>
               <h3 style={{ fontFamily: '"Barlow Condensed"', fontWeight: 700, fontSize: 22, textTransform: 'uppercase', marginTop: 12 }}>Récords</h3>
-              {datos.prs.map((t) => <div key={t} style={{ fontSize: 14, margin: '3px 0' }}>★ {t}</div>)}
+              {datos.prs.map((t) => <div key={t} style={{ fontSize: 14, margin: '3px 0' }}><span style={{ color: '#8A6116' }}>★</span> {t}</div>)}
             </>)}
             {datos.medidas.length > 0 && (<>
               <h3 style={{ fontFamily: '"Barlow Condensed"', fontWeight: 700, fontSize: 22, textTransform: 'uppercase', marginTop: 12 }}>Medidas</h3>

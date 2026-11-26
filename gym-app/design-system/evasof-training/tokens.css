@@ -1,6 +1,8 @@
 /* EvaSof Training — Design Tokens
  * Colores de marca tomados del logo (assets/logo-evasof.jpg).
- * Contraste WCAG verificado sobre --color-background (#1F2937) y --color-card (#313742).
+ * Estilo: oscuro OLED (fondo negro) con vidrio en la barra inferior y el temporizador,
+ * tarjetas sin borde con sombra/luz suave y dorado para récords.
+ * Contraste WCAG verificado sobre --color-background (#000000) y --color-card (#16181C).
  * Mantener sincronizado con tokens.json.
  */
 
@@ -11,14 +13,18 @@
   --evasof-blue: #016BDA;        /* azul real del logo */
   --evasof-blue-light: #7FB9E6;  /* azul claro del borde del logo */
   --evasof-navy: #112E54;        /* azul marino (sombras/camiseta del logo) */
+  --evasof-navy-deep: #0A1B33;   /* marino profundo (fin del degradado de las tarjetas de marca) */
   --evasof-camo: #8A9A5B;        /* verde camuflaje aclarado (decorativo/gráficas) */
+  --evasof-gold: #E8B54A;        /* dorado de récords */
+  --evasof-gold-light: #F7D78C;  /* brillo del dorado (degradado) */
+  --evasof-gold-dark: #B9832A;   /* sombra del dorado (degradado) */
 }
 
 /* === SEMÁNTICOS === */
 :root {
   --color-primary: var(--evasof-orange);          /* botón principal, temporizador, activo */
   --color-on-primary: #0F172A;                    /* 5.06:1 AA */
-  --color-primary-text: var(--evasof-orange-light); /* 5.67:1 fondo, 4.62:1 tarjeta */
+  --color-primary-text: var(--evasof-orange-light); /* 8.11:1 fondo, 6.86:1 tarjeta */
 
   --color-secondary: var(--evasof-blue);          /* botones secundarios, selección */
   --color-on-secondary: #FFFFFF;                  /* 5.10:1 AA */
@@ -26,29 +32,33 @@
   --color-accent: var(--evasof-blue-light);       /* links, info, datos de la vez pasada */
   --color-on-accent: #0F172A;                     /* 8.49:1 AAA */
 
+  --color-record: var(--evasof-gold);             /* récords (PR): 11.14:1 fondo, 9.43:1 tarjeta */
+  --color-on-record: #0F172A;                     /* 9.47:1 AAA */
+
   --color-success: #22C55E;                       /* serie completada, PR, comida palomeada */
   --color-on-success: #0F172A;                    /* 7.83:1 AAA */
 
   --color-destructive: #F43F5E;                   /* borrar/eliminar (rosa-rojo, distinto del naranja) */
   --color-on-destructive: #0F172A;                /* 4.86:1 AA */
 
-  --color-background: #1F2937;
-  --color-foreground: #F8FAFC;                    /* 14.03:1 AAA */
-  --color-card: #313742;
-  --color-card-foreground: #F8FAFC;               /* 11.43:1 AAA */
-  --color-muted: #37414F;
-  --color-muted-foreground: #CBD5E1;              /* 6.96:1 AA */
-  --color-border: #4B5563;
+  --color-background: #000000;                    /* negro OLED */
+  --color-foreground: #F8FAFC;                    /* 20.07:1 AAA */
+  --color-card: #16181C;                          /* superficie elevada */
+  --color-card-foreground: #F8FAFC;               /* 16.99:1 AAA */
+  --color-muted: #24272D;                         /* campos, chips inactivos */
+  --color-muted-foreground: #CBD5E1;              /* 11.97:1 tarjeta, 10.08:1 campo */
+  --color-border: #363A42;                        /* solo divisores y contornos de controles */
   --color-ring: var(--evasof-orange-light);
   --color-brand-surface: var(--evasof-navy);      /* encabezados/hero con marca */
+  --brand-gradient: linear-gradient(135deg, var(--evasof-navy) 0%, var(--evasof-navy-deep) 100%);
 
   /* Gráficas (no depender solo del color: usar también etiquetas/forma) */
   --chart-1: var(--evasof-orange);
   --chart-2: var(--evasof-blue-light);
   --chart-3: #22C55E;
   --chart-4: var(--evasof-camo);
-  --chart-deemph: #8592A6;   /* puntos/sparklines de contexto (3.79:1 en tarjeta) */
-  --chart-grid: #414A58;     /* líneas de cuadrícula */
+  --chart-deemph: #8592A6;   /* puntos/sparklines de contexto (5.64:1 en tarjeta) */
+  --chart-grid: #2A2E35;     /* líneas de cuadrícula */
   --color-warning: #F59E0B;  /* aviso (siempre con ícono y texto) */
 
   --font-heading: "Barlow Condensed", sans-serif;
@@ -65,5 +75,23 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
+  --radius-xl: 20px;
   --touch-min: 48px;
+
+  /* Elevación (sin bordes). En negro las sombras casi no se ven, así que cada nivel
+   * suma una luz en el borde superior que da el volumen. */
+  --shadow-1: inset 0 1px 0 rgba(255, 255, 255, .06), 0 1px 2px rgba(0, 0, 0, .6), 0 10px 24px -12px rgba(0, 0, 0, .9);
+  --shadow-2: inset 0 1px 0 rgba(255, 255, 255, .09), 0 12px 32px rgba(0, 0, 0, .65), 0 2px 8px rgba(0, 0, 0, .5);
+  --card-gradient: linear-gradient(180deg, #1A1C21 0%, #141619 100%);
+  --shadow-hundido: inset 0 1px 2px rgba(0, 0, 0, .5), inset 0 0 0 1px rgba(255, 255, 255, .03);
+
+  /* Vidrio: solo barra inferior y temporizador. 4.9:1 con #CBD5E1 aun sobre blanco detrás. */
+  --glass-bg: rgba(22, 24, 28, .72);
+  --glass-bg-strong: rgba(22, 24, 28, .84);
+  --glass-fallback: #16181C;
+  --glass-blur: blur(22px) saturate(180%);
+  --glass-edge: rgba(255, 255, 255, .08);
+
+  /* Dorado de récords en degradado (insignias) */
+  --record-gradient: linear-gradient(135deg, var(--evasof-gold-light) 0%, var(--evasof-gold) 48%, var(--evasof-gold-dark) 100%);
 }

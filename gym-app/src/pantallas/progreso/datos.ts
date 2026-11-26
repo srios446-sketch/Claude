@@ -1,11 +1,39 @@
 // Consultas para Progreso: reúne de la base local lo que piden las gráficas.
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db, type DietaGuardada, type Metrica, type RegistroDieta } from '../../db/db';
-import { adherenciaComidas, adherenciaEntrenos, promedioMovil, type Adherencia } from '../../lib/progreso';
+import { db, type DietaGuardada, type Metrica, type RegistroDieta, type SerieRegistrada } from '../../db/db';
+import { adherenciaComidas, adherenciaEntrenos, progresoFuerza, promedioMovil, type Adherencia } from '../../lib/progreso';
+import type { UnidadPeso } from '../../lib/unidades';
 import { hoyISO, sumarDias } from '../../lib/fechas';
 
 export function useMetricas(): Metrica[] | undefined {
   return useLiveQuery(() => db.metricas.orderBy('fecha').toArray(), []);
+}
+
+export function useSeries(): SerieRegistrada[] | undefined {
+  return useLiveQuery(() => db.series.toArray(), []);
+}
+
+export interface RecordPeriodo { id: string; fecha: string; peso: number; reps: number; unidad: UnidadPeso; valorKg: number; metrica: '1rm' | 'peso' }
+
+/** Récords (mejor marca superada) desde una fecha, del más reciente al más antiguo. */
+export function recordsDelPeriodo(series: SerieRegistrada[], desde: string): RecordPeriodo[] {
+  const porEjercicio = new Map<string, SerieRegistrada[]>();
+  for (const s of series) {
+    const lista = porEjercicio.get(s.ejercicioId);
+    if (lista) lista.push(s); else porEjercicio.set(s.ejercicioId, [s]);
+  }
+  const res: RecordPeriodo[] = [];
+  for (const [id, lista] of porEjercicio) {
+    const f = progresoFuerza(lista);
+    for (const p of f.puntos) if (p.esPR && p.fecha >= desde) res.push({ id, fecha: p.fecha, peso: p.peso, reps: p.reps, unidad: p.unidad, valorKg: p.valorKg, metrica: f.metrica });
+  }
+  return res.sort((a, b) => b.fecha.localeCompare(a.fecha));
+}
+
+/** Series hechas (sin calentamiento) en la semana que empieza en `lunes`. */
+export function seriesDeLaSemana(series: SerieRegistrada[], lunes: string): number {
+  const fin = sumarDias(lunes, 7);
+  return series.filter((s) => s.hecha && s.tipo !== 'calentamiento' && s.fecha >= lunes && s.fecha < fin).length;
 }
 
 export interface ResumenPeso { diarios: { fecha: string; valor: number }[]; promedio: { fecha: string; valor: number }[] }
