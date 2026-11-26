@@ -148,7 +148,7 @@ function Cuerpo({ modo, rutina, dieta, catalogo, titulo }: {
         ))}
         <BotonAgregar onClick={() => cambiarDia((d) => { d.cardio.push(cardioNuevo()); })}><HeartPulse size={17} aria-hidden /> Agregar cardio</BotonAgregar>
 
-        <div className="sticky bottom-24 z-10 rounded-2xl bg-fondo/95 py-2 backdrop-blur">
+        <div className="sticky bottom-[calc(var(--nav-ocupa)+8px)] z-10 rounded-2xl bg-fondo/95 py-2 backdrop-blur">
           <button className="btn btn-marca w-full" disabled={guardando} onClick={validar}><Save size={20} aria-hidden /> {modo === 'nueva' ? 'Guardar rutina nueva' : 'Guardar cambios'}</button>
         </div>
       </div>

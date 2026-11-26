@@ -180,7 +180,7 @@ function SesionEnCurso({ sesion, rutina, perfil }: { sesion: Sesion; rutina: Rut
         <button className="btn w-full !text-base text-peligro" onClick={cancelar}>Cancelar entreno</button>
       </div>
       {aviso && (
-        <div role="status" className="fixed inset-x-3 bottom-[calc(84px+env(safe-area-inset-bottom))] z-40 mx-auto max-w-[552px] rounded-2xl bg-azul px-4 py-3 font-semibold text-sobre-azul shadow-[var(--shadow-2)]">
+        <div role="status" className="fixed inset-x-3 bottom-[calc(var(--nav-ocupa)+18px)] z-40 mx-auto max-w-[552px] rounded-2xl bg-azul px-4 py-3 font-semibold text-sobre-azul shadow-[var(--shadow-2)]">
           Biserie: {aviso}
         </div>
       )}

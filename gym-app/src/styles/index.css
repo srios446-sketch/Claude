@@ -32,6 +32,17 @@
   --font-titulo: "Barlow Condensed", Barlow, system-ui, sans-serif;
 }
 
+/* Medidas de la estructura (no son de marca) */
+:root {
+  --margen-sup: 8px;     /* espacio extra bajo la barra de estado */
+  --insignia-alto: 0px;  /* lo calcula NavInferior si algo ajeno flota abajo (insignia de Netlify) */
+  --nav-alto: 64px;
+  --nav-abajo: max(calc(env(safe-area-inset-bottom) - 6px), 12px, var(--insignia-alto));
+  --nav-ocupa: calc(var(--nav-abajo) + var(--nav-alto));
+}
+/* iOS 26 difumina ~26 pt bajo la barra de estado (Liquid Glass): el contenido empieza debajo. */
+html[data-ios] { --margen-sup: 30px; }
+
 @layer base {
   html { background: var(--color-background); color-scheme: dark; }
   body {

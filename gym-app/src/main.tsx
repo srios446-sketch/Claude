@@ -7,6 +7,9 @@ import App from './App';
 
 registerSW({ immediate: true });
 
+// Solo Safari de iPhone/iPad define navigator.standalone: ahí se deja libre la franja difuminada de arriba.
+if ('standalone' in navigator) document.documentElement.dataset.ios = '';
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>

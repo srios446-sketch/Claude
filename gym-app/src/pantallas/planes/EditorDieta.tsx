@@ -124,7 +124,7 @@ function Cuerpo({ modo, dieta, titulo }: { modo: 'nueva' | 'editar'; dieta: Diet
           <BotonAgregar onClick={() => b.cambiar((x) => { x.suplementos.push(suplementoNuevo()); })}><Plus size={18} aria-hidden /> Agregar suplemento</BotonAgregar>
         </section>
 
-        <div className="sticky bottom-24 z-10 rounded-2xl bg-fondo/95 py-2 backdrop-blur">
+        <div className="sticky bottom-[calc(var(--nav-ocupa)+8px)] z-10 rounded-2xl bg-fondo/95 py-2 backdrop-blur">
           <button className="btn btn-marca w-full" disabled={guardando} onClick={guardar}><Save size={20} aria-hidden /> {modo === 'nueva' ? 'Guardar dieta nueva' : 'Guardar cambios'}</button>
         </div>
       </div>

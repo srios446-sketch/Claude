@@ -11,7 +11,7 @@ export function BarraTemporizador() {
       role="timer"
       aria-live="off"
       aria-label={`Descanso: ${mmss(restante)}`}
-      className={`vidrio-fuerte fixed inset-x-3 bottom-[calc(76px+env(safe-area-inset-bottom))] z-40 mx-auto max-w-[552px] overflow-hidden rounded-[22px] text-tinta ${fin
+      className={`vidrio-fuerte fixed inset-x-3 bottom-[calc(var(--nav-ocupa)+10px)] z-40 mx-auto max-w-[552px] overflow-hidden rounded-[22px] text-tinta ${fin
         ? 'shadow-[inset_0_0_0_1px_rgba(34,197,94,.45),inset_0_1px_0_rgba(255,255,255,.1),0_12px_32px_rgba(0,0,0,.6),0_8px_28px_rgba(34,197,94,.22)]'
         : 'shadow-[inset_0_0_0_1px_rgba(255,122,64,.35),inset_0_1px_0_rgba(255,255,255,.1),0_12px_32px_rgba(0,0,0,.6),0_8px_28px_rgba(248,73,12,.22)]'}`}
     >

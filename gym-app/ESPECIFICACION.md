@@ -148,6 +148,7 @@ Por ahora el nombre, el logo y los colores (EvaSof Training) son **tentativos**.
 - Check-in en PDF.
 - Captura y edición manual de rutina y dieta (Planes → A mano, o "Editar" desde Entreno y Dieta).
 - Estética premium (26-nov-2026): fondo negro OLED, vidrio en la barra inferior y el temporizador, tarjetas con sombra en lugar de borde, Progreso en mosaicos (bento) y dorado para los récords.
+- Encabezado grande que se encoge al bajar y deja libre la franja que iOS 26 difumina; barra inferior flotante que se sube sola para no quedar tapada por la insignia de Netlify.
 
 **Por confirmar en un iPhone real:**
 - Que lleguen las notificaciones push con la app instalada en la pantalla de inicio (iOS 16.4 o más reciente).

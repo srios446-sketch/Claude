@@ -159,7 +159,7 @@ function ConIA() {
 
             <VistaPlan plan={plan} />
 
-            <div className="sticky bottom-24 z-10 space-y-2 rounded-2xl bg-fondo/95 py-2 backdrop-blur">
+            <div className="sticky bottom-[calc(var(--nav-ocupa)+8px)] z-10 space-y-2 rounded-2xl bg-fondo/95 py-2 backdrop-blur">
               <p className="text-center text-xs text-tenue">
                 {nuevas > 0 ? `${nuevas} ejercicios nuevos en tu catálogo. ` : ''}
                 Tu {plan.rutina ? 'rutina' : 'dieta'} actual se guarda en el historial.

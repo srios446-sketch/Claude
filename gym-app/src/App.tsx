@@ -46,7 +46,7 @@ export default function App() {
   return (
     <ProveedorTemporizador>
       <AlInicioAlNavegar />
-      <div className="mx-auto min-h-dvh max-w-xl pb-44">
+      <div className="mx-auto min-h-dvh max-w-xl pb-[calc(var(--nav-ocupa)+80px)]">
         <AvisoSesion />
         <Suspense fallback={null}>
         <Routes>

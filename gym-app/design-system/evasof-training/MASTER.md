@@ -54,8 +54,12 @@
 | Elemento flotante | `--shadow-2` | Temporizador, avisos y la tarjeta de marca. |
 | Campo | `.campo` · `--shadow-hundido` | Sin borde visible: relleno atenuado con sombra interior. El borde transparente se usa solo para marcar errores. |
 | Tarjeta de marca | `.superficie-marca` · `--brand-gradient` | Degradado marino para el día de hoy (Entreno y Dieta). |
-| Vidrio | `.vidrio` / `.vidrio-fuerte` | **Solo** barra inferior (72 %) y temporizador (84 %), con `blur(22px) saturate(180%)`. Sin `backdrop-filter` o con "Reducir transparencia" se vuelve sólido. Texto `#CBD5E1` sobre la barra: ≥ 4.9:1 aun con blanco detrás. |
+| Vidrio | `.vidrio` / `.vidrio-fuerte` | **Solo** barra inferior y barra compacta del encabezado (72 %) y temporizador (84 %), con `blur(22px) saturate(180%)`. Sin `backdrop-filter` o con "Reducir transparencia" se vuelve sólido. Texto `#CBD5E1` sobre la barra: ≥ 4.9:1 aun con blanco detrás. |
 | Insignia de récord | `.insignia-oro` · `--record-gradient` | Degradado dorado con trofeo oscuro. Solo para récords. |
+
+**Encabezado:** título grande (34 px, logo de 56 px) que, al bajar, se vuelve una barra compacta fija de vidrio (título de 20 px, logo de 44 px). En iPhone (`html[data-ios]`) todo empieza 30 px debajo de la barra de estado (`--margen-sup`), porque iOS 26 difumina esa franja.
+
+**Barra inferior:** flotante y redondeada (vidrio). Si algo ajeno a la app flota abajo, como la insignia "Powered by Netlify" del plan gratis, la barra se sube sola (`--insignia-alto`, medido en `src/lib/insignia.ts`). La insignia no se oculta. El temporizador, los avisos y las barras de guardar se colocan con `--nav-ocupa`.
 
 **Progreso (bento):** cuadrícula de 2 columnas con separación de 12 px. Arriba, una tarjeta grande (peso corporal o 1RM) que ocupa 2 columnas; debajo, mosaicos de 1 columna (adherencia, récords, series de la semana y cada medida). Un mosaico impar al final ocupa 2 columnas. El registro de series de Entreno **no** usa bento (es una lista densa).
 
@@ -147,7 +151,8 @@
 - Información que se distinga solo por el color, como en gráficas o estados.
 - Quitar el anillo de foco.
 - Bordes alrededor de tarjetas (se usa sombra).
-- Vidrio (desenfoque) fuera de la barra inferior y el temporizador.
+- Vidrio (desenfoque) fuera de la barra inferior, el temporizador y la barra compacta del encabezado.
+- Texto en los primeros 30 px bajo la barra de estado del iPhone (se ve borroso).
 - Dorado para algo que no sea un récord.
 
 ## Checklist antes de entregar
