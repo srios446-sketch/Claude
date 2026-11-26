@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Check, Droplets, FileUp, Minus, Pill, Plus, ShoppingCart } from 'lucide-react';
 import { Encabezado } from '../componentes/Encabezado';
+import { Resalte } from '../componentes/Resalte';
 import { TituloSeccion, Vacio } from '../componentes/ui';
 import { db, type DietaGuardada, type Perfil, type RegistroDieta } from '../db/db';
 import { useDietaActiva, usePerfil, useRutinaActiva } from '../db/hooks';
@@ -73,11 +74,13 @@ function DietaDeHoy({ dieta, perfil }: { dieta: DietaGuardada; perfil: Perfil })
         titulo="Dieta de hoy"
         subtitulo={fechaLarga(hoy)}
         accion={
-          <Link to="/dieta/super" className="grid h-11 w-11 place-items-center rounded-xl bg-tarjeta text-tenue" aria-label="Lista del súper">
+          <Link to="/dieta/super" data-guia="super" className="grid h-11 w-11 place-items-center rounded-xl bg-tarjeta text-tenue" aria-label="Lista del súper">
             <ShoppingCart size={20} aria-hidden />
           </Link>
         }
       />
+      <Resalte objetivo='[data-guia="super"]' clave="evasof.guia.super" titulo="Lista del súper"
+        texto="Recuerda que en este botón puedes ver la lista del súper para la semana." />
       <div className="space-y-3.5 px-4">
         <section className="superficie-marca">
           <div className="flex items-start gap-3">
