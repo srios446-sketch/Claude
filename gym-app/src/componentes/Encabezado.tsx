@@ -37,7 +37,7 @@ export function Encabezado({ titulo, subtitulo, accion }: { titulo: string; subt
         ref={barraRef}
         aria-hidden={!compacto}
         inert={!compacto}
-        className={`vidrio fixed inset-x-0 top-0 z-30 shadow-[inset_0_-1px_0_var(--glass-edge),0_8px_24px_rgba(0,0,0,.45)] transition-[opacity,transform] duration-200 ease-out ${
+        className={`vidrio fixed inset-x-0 top-0 z-30 shadow-[var(--shadow-barra)] transition-[opacity,transform] duration-200 ease-out ${
           compacto ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-1.5 opacity-0'
         }`}
       >

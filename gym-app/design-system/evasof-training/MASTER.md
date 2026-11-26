@@ -39,6 +39,29 @@
 - El azul `#016BDA` solo va como **fondo** con texto blanco. Sobre el fondo oscuro no se usa como texto (2.88:1); en su lugar se usa el azul claro `#7FB9E6`.
 - En los componentes no se escriben hex sueltos: solo variables.
 
+## Modo claro "Pomelo" (1.1.0)
+
+Se activa con `html[data-tema="claro"]` (tokens en `tokens.css`). El modo oscuro de arriba no cambia y sigue siendo el de por defecto.
+
+| Proporción | Color | Hex | Uso |
+|---|---|---|---|
+| 60 % | Pomelo Pink | `#F1C6D2` fondo · `#FCE9EE` tarjetas · `#F5D2DC` campos · `#DD8DA3` acentos | Superficies. El rosa del póster (`#DD8DA3`) es oscuro para fondo: los textos secundarios no pasarían contraste |
+| 30 % | Spruce Night | `#1C3430` | Todo el texto, botones secundarios, chips elegidos, tarjeta de marca (isla spruce con texto rosa claro), anillo de foco, línea de gráficas |
+| 10 % | Canary Volt | `#FFE01A` | **Solo rellenos** con texto spruce (10.06:1): botón principal, pestaña activa, pestaña General/Fuerza, avance del temporizador |
+
+**Reglas del modo claro**
+- El amarillo **nunca** va como texto ni como línea delgada sobre rosa o blanco (1.2:1).
+- Récords: la insignia conserva el degradado dorado; como texto o punto de gráfica se usa `#734F00` (6.05:1 en tarjeta).
+- Éxito `#0A5527`, error `#A61E14` (ladrillo, distinto del rosa), aviso `#8F3A00`, enlaces `#0A4A9E`: todos ≥ 4.8:1 en el fondo.
+- Contorno de casillas: `--color-border-strong` `#A0707F` (3.37:1).
+- Sombras con tinte spruce (no negro) y luz blanca arriba; vidrio rosado `rgba(253,240,244,.82)` (barra y encabezado) y `.9` (temporizador).
+- iPhone: la hora y la batería siempre son blancas (`black-translucent` se lee al abrir la app), así que en claro llevan una franja spruce detrás (`--franja-estado`).
+- Los componentes no llevan colores de capa sueltos: usan `--color-overlay`, `--nav-activo-*`, `--shadow-flotante`, `--shadow-barra`, `--glow-marca`, `--timer-*`, `--mascara-*`, `--guia-*`.
+
+**Cambio de tema** (`src/lib/tema.ts`): Claro / Oscuro / Automático en Perfil → Apariencia. Se guarda por dispositivo (`evasof.tema`) y un script en `index.html` lo aplica antes del primer pintado (sin parpadeo). Quien ya usaba la app se queda en Oscuro hasta que elija; una cuenta nueva arranca en Automático.
+
+**Novedades** (`src/componentes/Novedades.tsx`): "Conoce la nueva imagen" en 2 pasos, una vez por dispositivo tras actualizar, solo a quien ya tenía historial y nunca con un entreno abierto o un descanso corriendo. El paso 2 elige el tema con vistas previas pintadas con los tokens reales (`data-tema` en cada mini pantalla). Se puede volver a ver desde Perfil.
+
 ## Tipografía
 
 - **Títulos:** Barlow Condensed (600/700). Es angosta y deportiva; también va en números grandes (peso, reps, temporizador).

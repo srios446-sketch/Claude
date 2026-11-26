@@ -49,7 +49,7 @@ export function CheckInSemanal({ perfil }: { perfil: Perfil }) {
         {PREGUNTAS.map((p) => (
           <label key={p.k} className="block">
             <span className="flex items-baseline justify-between text-sm font-semibold">{p.t} <b className="font-titulo text-xl">{v[p.k]}</b></span>
-            <input type="range" min={1} max={10} step={1} value={v[p.k]} className="mt-1 w-full accent-[var(--color-primary)]"
+            <input type="range" min={1} max={10} step={1} value={v[p.k]} className="mt-1 w-full accent-[var(--color-control)]"
               onChange={(e) => setV((x) => ({ ...x, [p.k]: Number(e.target.value) }))}
               onPointerUp={(e) => guardar({ [p.k]: Number((e.target as HTMLInputElement).value) })}
               onKeyUp={(e) => guardar({ [p.k]: Number((e.target as HTMLInputElement).value) })}

@@ -1,6 +1,6 @@
 import { useRef, useState, type ReactNode } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { Download, Merge, Pencil, RotateCcw, Trash2, Upload } from 'lucide-react';
+import { Download, Merge, Pencil, RotateCcw, Sparkles, Trash2, Upload } from 'lucide-react';
 import { Encabezado } from '../componentes/Encabezado';
 import { Mensaje } from '../componentes/ui';
 import { BRAND } from '../config/brand';
@@ -14,6 +14,8 @@ import { Cuenta } from './perfil/Cuenta';
 import { Admin } from './perfil/Admin';
 import { Avisos } from './perfil/Avisos';
 import { GRUPOS, NOMBRE_GRUPO, type Grupo } from '../lib/plan';
+import { cambiarTema, usePrefTema } from '../lib/tema';
+import { verNovedades } from '../componentes/Novedades';
 
 function Seccion({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
@@ -32,6 +34,18 @@ function Opciones<T extends string>({ valor, opciones, onCambio, etiqueta }: { v
           className={`chip min-h-10 !px-4 ${valor === v ? 'bg-azul text-sobre-azul' : 'bg-atenuado text-tenue'}`}>{t}</button>
       ))}
     </div>
+  );
+}
+
+function Apariencia() {
+  const tema = usePrefTema();
+  return (
+    <Seccion titulo="Apariencia">
+      <div><span className="etiqueta">Tema</span>
+        <Opciones etiqueta="Tema" valor={tema} onCambio={(v) => cambiarTema(v)} opciones={[['claro', 'Claro'], ['oscuro', 'Oscuro'], ['auto', 'Automático']]} /></div>
+      <p className="text-sm text-tenue">Automático cambia entre claro y oscuro según tu iPhone.</p>
+      <button className="btn btn-suave w-full !text-base" onClick={verNovedades}><Sparkles size={18} aria-hidden /> Ver novedades otra vez</button>
+    </Seccion>
   );
 }
 
@@ -72,6 +86,8 @@ export function Perfil() {
           <div><span className="etiqueta">Medidas</span>
             <Opciones etiqueta="Unidad de medidas" valor={perfil.unidadMedida} onCambio={(v) => p({ unidadMedida: v })} opciones={[['cm', 'Centímetros'], ['in', 'Pulgadas']]} /></div>
         </Seccion>
+
+        <Apariencia />
 
         <Seccion titulo="Entreno">
           <div><span className="etiqueta">Qué registrar además de peso y reps</span>
@@ -120,7 +136,7 @@ export function Perfil() {
             }
           }}><Trash2 size={18} aria-hidden /> Borrar todos los datos</button>
         </Seccion>
-        <p className="pb-2 text-center text-xs text-tenue">{BRAND.nombre} · versión 1.0</p>
+        <p className="pb-2 text-center text-xs text-tenue">{BRAND.nombre} · versión {__APP_VERSION__}</p>
       </div>
     </>
   );

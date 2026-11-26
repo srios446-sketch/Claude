@@ -56,7 +56,7 @@ export function Avisos({ perfil }: { perfil: Perfil }) {
                 <button className="flex w-full items-center gap-3 py-1.5 text-left" role="switch" aria-checked={perfil.avisos[k]} onClick={() => alternar(k)}>
                   <span className="min-w-0 flex-1"><span className="block font-semibold">{t}</span><span className="block text-xs text-tenue">{d}</span></span>
                   <span className={`relative h-7 w-12 shrink-0 rounded-full transition ${perfil.avisos[k] ? 'bg-ok' : 'bg-atenuado'}`} aria-hidden>
-                    <span className={`absolute top-0.5 h-6 w-6 rounded-full bg-white transition-all ${perfil.avisos[k] ? 'left-[22px]' : 'left-0.5'}`} />
+                    <span className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,.35)] transition-all ${perfil.avisos[k] ? 'left-[22px]' : 'left-0.5'}`} />
                   </span>
                 </button>
               </li>

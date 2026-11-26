@@ -27,6 +27,8 @@
   --color-borde: var(--color-border);
   --color-marino: var(--color-brand-surface);
   --color-oro: var(--color-record);
+  --color-borde-fuerte: var(--color-border-strong);
+  --color-capa: var(--color-overlay);
   --color-sobre-oro: var(--color-on-record);
   --font-sans: Barlow, system-ui, sans-serif;
   --font-titulo: "Barlow Condensed", Barlow, system-ui, sans-serif;
@@ -44,7 +46,9 @@
 html[data-ios] { --margen-sup: 30px; }
 
 @layer base {
-  html { background: var(--color-background); color-scheme: dark; }
+  html { background: var(--color-background); }
+  /* iPhone: la hora y la batería siempre son blancas (black-translucent); en modo claro llevan una franja spruce detrás. */
+  html[data-ios] body::before { content: ''; position: fixed; inset: 0 0 auto 0; height: env(safe-area-inset-top); background: var(--franja-estado); z-index: 80; pointer-events: none; }
   body {
     background: var(--color-background);
     color: var(--color-foreground);
@@ -76,11 +80,11 @@ html[data-ios] { --margen-sup: 30px; }
     .vidrio, .vidrio-fuerte { background: var(--glass-fallback); -webkit-backdrop-filter: none; backdrop-filter: none; }
   }
   /* Guía (Resalte): máscara esmerilada y anillo que resalta el botón */
-  .mascara-esmerilada { background: rgba(0, 0, 0, .5); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); }
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .mascara-esmerilada { background: rgba(0, 0, 0, .82); } }
-  @media (prefers-reduced-transparency: reduce) { .mascara-esmerilada { background: rgba(0, 0, 0, .82); -webkit-backdrop-filter: none; backdrop-filter: none; } }
-  .anillo-guia { box-shadow: 0 0 0 3px var(--color-primary), 0 0 28px 4px rgba(248, 73, 12, .55); animation: pulso-guia 1.8s ease-in-out infinite; }
-  @keyframes pulso-guia { 50% { box-shadow: 0 0 0 3px var(--color-primary), 0 0 40px 10px rgba(248, 73, 12, .35); } }
+  .mascara-esmerilada { background: var(--mascara-bg); -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%); }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .mascara-esmerilada { background: var(--mascara-solida); } }
+  @media (prefers-reduced-transparency: reduce) { .mascara-esmerilada { background: var(--mascara-solida); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+  .anillo-guia { box-shadow: 0 0 0 3px var(--guia-anillo), 0 0 28px 4px var(--guia-brillo); animation: pulso-guia 1.8s ease-in-out infinite; }
+  @keyframes pulso-guia { 50% { box-shadow: 0 0 0 3px var(--guia-anillo), 0 0 40px 10px var(--guia-brillo-2); } }
   @keyframes aparecer { from { opacity: 0; } }
   /* Insignia dorada de récord */
   .insignia-oro { background: var(--color-record); background-image: var(--record-gradient); color: var(--color-on-record); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 4px 14px rgba(232, 181, 74, .22); }
@@ -89,7 +93,7 @@ html[data-ios] { --margen-sup: 30px; }
   .btn:disabled { opacity: .5; pointer-events: none; }
   .btn-marca { background: var(--color-primary); color: var(--color-on-primary); }
   .btn-azul { background: var(--color-secondary); color: var(--color-on-secondary); }
-  .btn-fantasma { background: transparent; color: var(--color-primary-text); border: 2px solid var(--color-primary); }
+  .btn-fantasma { background: transparent; color: var(--color-primary-text); border: 2px solid var(--color-primary-border); }
   .btn-suave { background: var(--color-muted); color: var(--color-foreground); }
   /* Campos hundidos: sombra interior en lugar de borde (el borde transparente queda para marcar errores). */
   .campo { width: 100%; min-height: var(--touch-min); background: var(--color-muted); border: 1px solid transparent; box-shadow: var(--shadow-hundido); border-radius: var(--radius-sm); padding: 0 12px; color: var(--color-foreground); }

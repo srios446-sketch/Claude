@@ -73,7 +73,7 @@ export function Resalte({ objetivo, clave, titulo, texto }: { objetivo: string; 
         <p id={`${id}-t`} className="titulo text-xl">{titulo}</p>
         <p id={`${id}-d`} className="mt-1 text-[15px] text-tenue">{texto}</p>
         <label className="mt-3 flex min-h-11 items-center gap-2.5 text-sm font-semibold">
-          <input type="checkbox" className="h-5 w-5 accent-[var(--color-primary)]" checked={noMostrar} onChange={(e) => setNoMostrar(e.target.checked)} />
+          <input type="checkbox" className="h-5 w-5 accent-[var(--color-control)]" checked={noMostrar} onChange={(e) => setNoMostrar(e.target.checked)} />
           No volver a mostrar
         </label>
         <button className="btn btn-marca mt-1 w-full" onClick={cerrar}>Entendido</button>

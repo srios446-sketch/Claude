@@ -17,7 +17,7 @@ export function NavInferior() {
   useEffect(() => vigilarInsignia(), []);
   return (
     <nav aria-label="Secciones" className="fixed inset-x-3 bottom-[var(--nav-abajo)] z-30 mx-auto max-w-[552px]">
-      <ul className="vidrio flex h-[var(--nav-alto)] items-center justify-around rounded-[30px] px-1.5 shadow-[inset_0_1px_0_var(--glass-edge),0_12px_32px_rgba(0,0,0,.6)]">
+      <ul className="vidrio flex h-[var(--nav-alto)] items-center justify-around rounded-[30px] px-1.5 shadow-[var(--shadow-flotante)]">
         {ITEMS.map(({ a, texto, Icono, tambien }) => (
           <li key={a}>
             <NavLink
@@ -25,7 +25,7 @@ export function NavInferior() {
               end={a === '/'}
               className={({ isActive }) =>
                 `flex h-[52px] w-[66px] flex-col items-center justify-center gap-0.5 rounded-[24px] text-xs font-semibold transition-colors duration-200 ${
-                  isActive || (tambien && pathname.startsWith(tambien)) ? 'bg-white/10 text-marca-texto' : 'text-tenue'
+                  isActive || (tambien && pathname.startsWith(tambien)) ? 'bg-[var(--nav-activo-bg)] text-[var(--nav-activo-texto)]' : 'text-tenue'
                 }`
               }
             >

@@ -10,6 +10,7 @@ import { iniciarAvisos } from './nube/avisos';
 import { useNube } from './nube/useNube';
 import { Bienvenida } from './pantallas/Bienvenida';
 import { AvisoSesion } from './componentes/AvisoSesion';
+import { Novedades } from './componentes/Novedades';
 import { Entreno } from './pantallas/entreno/Entreno';
 import { Dieta } from './pantallas/Dieta';
 
@@ -67,6 +68,7 @@ export default function App() {
         </Suspense>
         <BarraTemporizador />
         <NavInferior />
+        <Novedades />
       </div>
     </ProveedorTemporizador>
   );

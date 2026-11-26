@@ -34,7 +34,7 @@ export function Progreso() {
         <div className="flex rounded-2xl bg-tarjeta p-1 shadow-[var(--shadow-1)]" role="tablist" aria-label="Vista">
           {(['general', 'fuerza'] as const).map((t) => (
             <button key={t} role="tab" aria-selected={tab === t} onClick={() => setTab(t)}
-              className={`titulo min-h-11 flex-1 rounded-xl text-base transition-colors ${tab === t ? 'bg-marca text-sobre-marca shadow-[0_4px_14px_rgba(248,73,12,.3)]' : 'text-tenue'}`}>{t === 'general' ? 'General' : 'Fuerza'}</button>
+              className={`titulo min-h-11 flex-1 rounded-xl text-base transition-colors ${tab === t ? 'bg-marca text-sobre-marca shadow-[var(--glow-marca)]' : 'text-tenue'}`}>{t === 'general' ? 'General' : 'Fuerza'}</button>
           ))}
         </div>
         <div className="flex gap-2" role="radiogroup" aria-label="Periodo">
@@ -135,7 +135,7 @@ function General({ desde, hoy, perfil, alVerFuerza }: { desde: string; hoy: stri
               <>
                 <p className="mb-0.5 mt-1 flex gap-3.5 text-[13px] text-tenue">
                   <span className="inline-flex items-center gap-1.5"><i className="inline-block h-[7px] w-[7px] rounded-full bg-[var(--chart-deemph)]" />Pesaje diario</span>
-                  <span className="inline-flex items-center gap-1.5"><i className="inline-block h-0.5 w-4 rounded bg-marca" />Promedio 7 días</span>
+                  <span className="inline-flex items-center gap-1.5"><i className="inline-block h-0.5 w-4 rounded bg-[var(--chart-1)]" />Promedio 7 días</span>
                 </p>
                 <GraficaLinea
                   aria="Peso corporal diario y promedio de 7 días"

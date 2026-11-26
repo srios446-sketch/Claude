@@ -18,7 +18,7 @@ App web instalable (PWA) para seguir rutina, dieta y progreso del gym.
 | **Dieta** | Tipo de día automático según el entreno (o manual), comidas para palomear, agua, suplementos por tipo de día, macros y lista del súper |
 | **Progreso** | Mosaicos tipo bento: peso con promedio de 7 días, adherencia, récords (en dorado), series de la semana, medidas, 1RM estimado por ejercicio, series por grupo contra rangos, y check-in semanal exportable a PDF o imagen |
 | **Planes** | *Con IA:* copiar el prompt, pegar la respuesta, validar con errores en español, vista previa, coincidencias con el catálogo y guardar (archiva el plan anterior). *A mano:* crear rutina o dieta desde cero o editar la actual (`src/pantallas/planes/`), con el mismo esquema de validación, borrador autoguardado y confirmación de ejercicios parecidos (al confirmar, el catálogo toma el nombre nuevo) |
-| **Perfil** | Unidades, meta, campos opcionales, descanso e incrementos, rangos de series, historial de planes, catálogo (renombrar y unir) y respaldo |
+| **Perfil** | Apariencia (Claro / Oscuro / Automático y "Ver novedades otra vez"), unidades, meta, campos opcionales, descanso e incrementos, rangos de series, historial de planes, catálogo (renombrar y unir) y respaldo |
 
 ## Nube (Supabase)
 
@@ -70,7 +70,8 @@ EVASOF_RUTINA=/ruta/a/rutina.json npm test
 
 1. Nombre y ruta del logo: `src/config/brand.ts`.
 2. Logo: reemplaza la imagen de `logoFuente` y corre `npm run icons`, que regenera los íconos de la PWA y el logo de la interfaz.
-3. Colores: `design-system/evasof-training/tokens.css`. Las pantallas solo usan variables, nunca colores sueltos.
+3. Colores: `design-system/evasof-training/tokens.css` (bloque oscuro en `:root` y bloque claro en `[data-tema="claro"]`). Las pantallas solo usan variables, nunca colores sueltos.
+4. Novedades tras una actualización: cambia `ID` y el contenido en `src/componentes/Novedades.tsx`.
 
 ## Publicar (Netlify)
 

@@ -51,7 +51,7 @@ export function ListaSuper() {
             return (
               <li key={k} className="border-b border-borde last:border-b-0">
                 <button className="flex min-h-12 w-full items-center gap-3 py-2 text-left" onClick={() => alternar(k)} aria-pressed={!!marcados[k]}>
-                  <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-md border-2 ${marcados[k] ? 'border-ok bg-ok text-sobre-ok' : 'border-borde'}`}>{marcados[k] && <Check size={16} strokeWidth={3} aria-hidden />}</span>
+                  <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-md border-2 ${marcados[k] ? 'border-ok bg-ok text-sobre-ok' : 'border-borde-fuerte'}`}>{marcados[k] && <Check size={16} strokeWidth={3} aria-hidden />}</span>
                   <span className={`flex-1 ${marcados[k] ? 'text-tenue line-through' : ''}`}>{r.nombre}</span>
                   <span className="num font-semibold">{textoCantidad(r.cantidad, r.unidad)}</span>
                 </button>

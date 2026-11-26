@@ -137,7 +137,7 @@ function DietaDeHoy({ dieta, perfil }: { dieta: DietaGuardada; perfil: Perfil })
                   {c.notas && <p className="mt-1 text-xs text-tenue">{c.notas}</p>}
                 </div>
                 <button onClick={() => alternarComida(c.orden)} aria-pressed={hecha} aria-label={hecha ? `${c.nombre} cumplida. Tocar para desmarcar` : `Marcar ${c.nombre} como cumplida`}
-                  className={`grid h-12 w-12 shrink-0 place-items-center rounded-lg border-2 ${hecha ? 'border-ok bg-ok text-sobre-ok' : 'border-borde text-tenue'}`}>
+                  className={`grid h-12 w-12 shrink-0 place-items-center rounded-lg border-2 ${hecha ? 'border-ok bg-ok text-sobre-ok' : 'border-borde-fuerte text-tenue'}`}>
                   <Check size={22} strokeWidth={3} aria-hidden />
                 </button>
               </div>
@@ -166,7 +166,7 @@ function DietaDeHoy({ dieta, perfil }: { dieta: DietaGuardada; perfil: Perfil })
                 return (
                   <li key={s.nombre}>
                     <button className="flex w-full items-center gap-2.5 py-1 text-left" onClick={() => alternarSuple(s.nombre)} aria-pressed={tomado}>
-                      <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-lg border-2 ${tomado ? 'border-ok bg-ok text-sobre-ok' : 'border-borde text-tenue'}`}>
+                      <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-lg border-2 ${tomado ? 'border-ok bg-ok text-sobre-ok' : 'border-borde-fuerte text-tenue'}`}>
                         <Check size={18} strokeWidth={3} aria-hidden />
                       </span>
                       <span className="min-w-0 leading-tight">

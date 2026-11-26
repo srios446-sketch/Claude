@@ -20,8 +20,11 @@
   --evasof-gold-dark: #B9832A;   /* sombra del dorado (degradado) */
 }
 
-/* === SEMÁNTICOS === */
-:root {
+/* === SEMÁNTICOS: MODO OSCURO (por defecto) ===
+ * También se declaran en [data-tema="oscuro"] para poder mostrar una vista previa oscura dentro del modo claro. */
+:root,
+[data-tema="oscuro"] {
+  color-scheme: dark;
   --color-primary: var(--evasof-orange);          /* botón principal, temporizador, activo */
   --color-on-primary: #0F172A;                    /* 5.06:1 AA */
   --color-primary-text: var(--evasof-orange-light); /* 8.11:1 fondo, 6.86:1 tarjeta */
@@ -94,4 +97,137 @@
 
   /* Dorado de récords en degradado (insignias) */
   --record-gradient: linear-gradient(135deg, var(--evasof-gold-light) 0%, var(--evasof-gold) 48%, var(--evasof-gold-dark) 100%);
+
+  /* Capas y efectos que cambian con el tema (los componentes no llevan rgba sueltos) */
+  --color-border-strong: var(--color-border);     /* contorno de casillas sin marcar */
+  --color-overlay: rgba(255, 255, 255, .1);       /* botones sobre vidrio */
+  --color-control: var(--color-primary);          /* casillas y deslizadores nativos */
+  --color-primary-border: var(--color-primary);   /* borde del botón fantasma */
+  --nav-activo-bg: rgba(255, 255, 255, .1);
+  --nav-activo-texto: var(--color-primary-text);
+  --shadow-flotante: inset 0 1px 0 var(--glass-edge), 0 12px 32px rgba(0, 0, 0, .6);
+  --shadow-barra: inset 0 -1px 0 var(--glass-edge), 0 8px 24px rgba(0, 0, 0, .45);
+  --glow-marca: 0 4px 14px rgba(248, 73, 12, .3);
+  --timer-relleno: rgba(248, 73, 12, .2);
+  --timer-linea: var(--color-primary);
+  --timer-borde: rgba(255, 122, 64, .35);
+  --timer-brillo: rgba(248, 73, 12, .22);
+  --timer-fin-relleno: rgba(34, 197, 94, .2);
+  --timer-fin-borde: rgba(34, 197, 94, .45);
+  --timer-fin-brillo: rgba(34, 197, 94, .22);
+  --mascara-bg: rgba(0, 0, 0, .5);
+  --mascara-solida: rgba(0, 0, 0, .82);
+  --guia-anillo: var(--color-primary);
+  --guia-brillo: rgba(248, 73, 12, .55);
+  --guia-brillo-2: rgba(248, 73, 12, .35);
+  --franja-estado: transparent;                   /* fondo detrás de la hora/batería del iPhone */
+}
+
+/* === SEMÁNTICOS: MODO CLARO "POMELO" ===
+ * 60 % Pomelo Pink (fondos), 30 % Spruce Night (texto, tarjeta de marca, botones secundarios),
+ * 10 % Canary Volt #FFE01A (solo rellenos: botón principal, pestaña activa, temporizador).
+ * El amarillo NUNCA va como texto sobre rosa (1.2:1). Récords: dorado oscuro para texto.
+ * Contraste WCAG verificado (fondo #F1C6D2, tarjeta #FCE9EE): ver MASTER.md. */
+[data-tema="claro"] {
+  color-scheme: light;
+
+  --pomelo-50: #FDF0F4;   /* base del vidrio, degradado de tarjeta */
+  --pomelo-100: #FCE9EE;  /* tarjeta */
+  --pomelo-150: #F5D2DC;  /* campos, chips inactivos */
+  --pomelo-200: #F1C6D2;  /* fondo de la página ("Pomelo Mist") */
+  --pomelo-300: #F0A9BC;  /* rosa para texto sobre spruce */
+  --pomelo-400: #D99AAD;  /* divisores */
+  --pomelo-500: #DD8DA3;  /* Pomelo Pink (del póster): acentos */
+  --pomelo-edge: #A0707F; /* contorno de casillas: 3.37:1 en tarjeta */
+  --pomelo-gray: #5E4E55; /* placeholders, puntos de contexto */
+  --spruce-950: #10211E;
+  --spruce-900: #1C3430;  /* Spruce Night */
+  --spruce-700: #3D514D;  /* texto secundario */
+  --spruce-200: #C3D0CC;  /* texto secundario sobre spruce */
+  --volt-400: #FFE01A;    /* Canary Volt */
+  --gold-ink: #734F00;    /* récords como texto: 6.05:1 en tarjeta */
+
+  --color-background: var(--pomelo-200);          /* texto 8.68:1 */
+  --color-foreground: var(--spruce-900);
+  --color-card: var(--pomelo-100);                /* texto 10.89:1 */
+  --color-card-foreground: var(--spruce-900);
+  --color-muted: var(--pomelo-150);               /* texto 9.56:1 */
+  --color-muted-foreground: var(--spruce-700);    /* 5.54:1 fondo, 6.94:1 tarjeta */
+  --color-border: var(--pomelo-400);
+
+  --color-primary: var(--volt-400);               /* solo relleno */
+  --color-on-primary: var(--spruce-900);          /* 10.06:1 */
+  --color-primary-text: var(--spruce-900);
+  --color-secondary: var(--spruce-900);
+  --color-on-secondary: var(--pomelo-100);        /* 11.39:1 */
+  --color-accent: #0A4A9E;                        /* azul EvaSof oscurecido: 5.53:1 fondo */
+  --color-on-accent: #FFFFFF;
+
+  --color-success: #0A5527;                       /* 5.87:1 fondo */
+  --color-on-success: #FFFFFF;
+  --color-destructive: #A61E14;                   /* rojo ladrillo, distinto del rosa: 4.88:1 */
+  --color-on-destructive: #FFFFFF;
+  --color-warning: #8F3A00;                       /* 4.96:1, siempre con ícono */
+  --color-record: var(--gold-ink);
+  --color-on-record: var(--spruce-900);
+
+  --color-ring: var(--spruce-900);
+  --color-brand-surface: var(--spruce-900);
+  --brand-gradient: linear-gradient(135deg, var(--spruce-900) 0%, var(--spruce-950) 100%);
+  --card-gradient: linear-gradient(180deg, var(--pomelo-50) 0%, #FAE3EA 100%);
+
+  --chart-1: var(--spruce-900);
+  --chart-2: #0A4A9E;
+  --chart-3: #2A8A50;
+  --chart-4: #5C6B2E;
+  --chart-deemph: var(--pomelo-gray);             /* 6.39:1 en tarjeta */
+  --chart-grid: #EDC5D1;
+
+  --shadow-1: inset 0 1px 0 rgba(255, 255, 255, .7), 0 1px 2px rgba(28, 52, 48, .08), 0 10px 24px -12px rgba(28, 52, 48, .28);
+  --shadow-2: inset 0 1px 0 rgba(255, 255, 255, .6), 0 12px 32px rgba(28, 52, 48, .18), 0 2px 8px rgba(28, 52, 48, .1);
+  --shadow-hundido: inset 0 1px 2px rgba(28, 52, 48, .14), inset 0 0 0 1px rgba(28, 52, 48, .05);
+
+  --glass-bg: rgba(253, 240, 244, .82);           /* texto secundario ≥ 5:1 aun con negro detrás */
+  --glass-bg-strong: rgba(253, 240, 244, .9);
+  --glass-fallback: var(--pomelo-100);
+  --glass-blur: blur(22px) saturate(160%);
+  --glass-edge: rgba(255, 255, 255, .7);
+
+  --record-gradient: linear-gradient(135deg, #F7D78C 0%, #E8B54A 48%, #B9832A 100%);
+
+  --color-border-strong: var(--pomelo-edge);
+  --color-overlay: rgba(28, 52, 48, .08);
+  --color-control: var(--spruce-900);
+  --color-primary-border: var(--spruce-900);
+  --nav-activo-bg: var(--volt-400);
+  --nav-activo-texto: var(--spruce-900);
+  --shadow-flotante: inset 0 1px 0 var(--glass-edge), 0 12px 32px rgba(28, 52, 48, .2), 0 2px 8px rgba(28, 52, 48, .08);
+  --shadow-barra: inset 0 -1px 0 rgba(28, 52, 48, .08), 0 8px 24px rgba(28, 52, 48, .14);
+  --glow-marca: 0 4px 14px rgba(196, 160, 0, .35);
+  --timer-relleno: rgba(255, 224, 26, .5);
+  --timer-linea: var(--spruce-900);
+  --timer-borde: rgba(28, 52, 48, .22);
+  --timer-brillo: rgba(255, 224, 26, .35);
+  --timer-fin-relleno: rgba(10, 85, 39, .14);
+  --timer-fin-borde: rgba(10, 85, 39, .45);
+  --timer-fin-brillo: rgba(10, 85, 39, .18);
+  --mascara-bg: rgba(28, 52, 48, .38);
+  --mascara-solida: rgba(28, 52, 48, .8);
+  --guia-anillo: var(--spruce-900);
+  --guia-brillo: rgba(255, 224, 26, .9);
+  --guia-brillo-2: rgba(255, 224, 26, .6);
+  --franja-estado: var(--spruce-900);             /* la hora/batería del iPhone siguen blancas */
+}
+
+/* Tarjeta de marca en modo claro: isla spruce con texto claro (como la marina del modo oscuro). */
+[data-tema="claro"] .superficie-marca {
+  --color-foreground: var(--pomelo-100);          /* 11.39:1 */
+  --color-muted-foreground: var(--spruce-200);    /* 8.35:1 */
+  --color-accent: var(--pomelo-300);              /* 7.01:1 */
+  --color-secondary: var(--pomelo-500);           /* chip elegido, texto spruce 5.31:1 */
+  --color-on-secondary: var(--spruce-900);
+  --color-success: #7BE3A4;
+  --color-muted: #2E4A45;
+  --color-ring: var(--volt-400);
+  color: var(--color-foreground);
 }

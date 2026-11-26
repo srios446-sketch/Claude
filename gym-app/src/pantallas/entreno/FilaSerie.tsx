@@ -80,7 +80,7 @@ export function FilaSerie({ etiqueta, registro, phPeso, phReps, repsFijas, repsO
           onClick={alternar}
           aria-pressed={hecha}
           aria-label={hecha ? `Serie ${etiqueta} hecha. Tocar para desmarcar` : `Marcar serie ${etiqueta} como hecha`}
-          className={`grid h-12 w-12 shrink-0 place-items-center rounded-lg border-2 transition ${hecha ? 'border-ok bg-ok text-sobre-ok' : 'border-borde text-tenue'}`}
+          className={`grid h-12 w-12 shrink-0 place-items-center rounded-lg border-2 transition ${hecha ? 'border-ok bg-ok text-sobre-ok' : 'border-borde-fuerte text-tenue'}`}
         >
           <Check size={22} strokeWidth={3} aria-hidden />
         </button>

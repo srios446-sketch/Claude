@@ -46,7 +46,7 @@ export function TarjetaCardio({ plan, indice, sesion, registro }: { plan: Cardio
           <p className="text-sm text-tenue">Meta: {meta}{plan.fc_objetivo ? ` · FC ${plan.fc_objetivo}` : ''}{plan.notas ? ` · ${plan.notas}` : ''}</p>
         </div>
         <button onClick={() => guardar(!hecho)} aria-pressed={hecho} aria-label={hecho ? 'Cardio hecho. Tocar para desmarcar' : 'Marcar cardio como hecho'}
-          className={`grid h-12 w-12 shrink-0 place-items-center rounded-lg border-2 ${hecho ? 'border-ok bg-ok text-sobre-ok' : 'border-borde text-tenue'}`}>
+          className={`grid h-12 w-12 shrink-0 place-items-center rounded-lg border-2 ${hecho ? 'border-ok bg-ok text-sobre-ok' : 'border-borde-fuerte text-tenue'}`}>
           <Check size={22} strokeWidth={3} aria-hidden />
         </button>
       </div>

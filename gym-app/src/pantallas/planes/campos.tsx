@@ -88,7 +88,7 @@ export function Acciones({ nombre, onSubir, onBajar, onDuplicar, onBorrar }: {
 
 export function BotonAgregar({ children, onClick }: { children: ReactNode; onClick: () => void }) {
   return (
-    <button type="button" onClick={onClick} className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-borde text-sm font-semibold text-acento">
+    <button type="button" onClick={onClick} className="flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-borde-fuerte text-sm font-semibold text-acento">
       {children}
     </button>
   );

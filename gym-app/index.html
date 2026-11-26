@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#000000" />
+    <script>
+      // Tema antes del primer pintado (sin parpadeo). Debe coincidir con src/lib/tema.ts.
+      (function () {
+        try {
+          var p = localStorage.getItem('evasof.tema');
+          if (p !== 'claro' && p !== 'oscuro' && p !== 'auto') p = 'oscuro';
+          var t = p === 'auto' ? (matchMedia('(prefers-color-scheme: light)').matches ? 'claro' : 'oscuro') : p;
+          var d = document.documentElement;
+          d.setAttribute('data-tema', t);
+          d.setAttribute('data-tema-pref', p);
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', t === 'claro' ? '#F1C6D2' : '#000000');
+        } catch (e) {}
+      })();
+    </script>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="icon" type="image/png" href="/icons/favicon-32.png" />
